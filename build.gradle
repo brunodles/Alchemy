@@ -1,3 +1,5 @@
+boolean allowKotlin = false
+
 buildscript {
     ext.kotlin_version = '1.2.41'
 
@@ -5,7 +7,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        if (allowKotlin)
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -16,7 +19,8 @@ plugins {
 group 'com.brunodles'
 version '1.0.0'
 
-apply plugin: 'kotlin'
+if (allowKotlin)
+    apply plugin: 'kotlin'
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
@@ -26,15 +30,20 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    if (allowKotlin)
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    compileOnly 'org.jetbrains:annotations:13.0'
     compile 'org.jsoup:jsoup:1.11.3'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'junit:junit:4.12'
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+if (allowKotlin) {
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
 }
