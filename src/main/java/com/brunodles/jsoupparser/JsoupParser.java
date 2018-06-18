@@ -1,3 +1,5 @@
+package com.brunodles.jsoupparser;
+
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -47,6 +49,10 @@ public class JsoupParser {
         public Object invoke(Object o, Method method, Object[] objects) {
             if (resultCache.containsKey(method))
                 return resultCache.get(method);
+            if ("hashcode".equals(method.getName()))
+                return this.hashCode();
+            if ("toString".equals(method.getName()))
+                return "Proxy for " + interfaceClass.getName();
             Object result = null;
             try {
                 CssSelector cssSelector = method.getAnnotation(CssSelector.class);

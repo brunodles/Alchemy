@@ -1,4 +1,6 @@
-import org.jetbrains.annotations.NonNls;
+package com.brunodles.jsoupparser;
+
+import com.brunodles.jsoupparser.transformers.NonTransformer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
