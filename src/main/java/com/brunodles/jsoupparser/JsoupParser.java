@@ -57,8 +57,8 @@ public class JsoupParser {
             try {
                 CssSelector cssSelector = method.getAnnotation(CssSelector.class);
                 Element element = document.selectFirst(cssSelector.selector());
-                Class<? extends ElementParser> parserClass = cssSelector.parser();
-                ElementParser<?> parser = parserClass.newInstance();
+                Class<? extends ElementCollector> parserClass = cssSelector.parser();
+                ElementCollector<?> parser = parserClass.newInstance();
                 Transformer transformer = cssSelector.transformer().newInstance();
                 result = transformer.parse(parser.parse(jsoupParser, element, method));
                 resultCache.put(method, result);

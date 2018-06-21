@@ -7,7 +7,7 @@ import org.jsoup.nodes.Element;
 import java.lang.reflect.Method;
 
 @FunctionalInterface
-public interface ElementParser<T> {
+public interface ElementCollector<T> {
     
     @Nullable
     T parse(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method);

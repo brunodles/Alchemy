@@ -1,6 +1,6 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.colectors.TextElementParser;
+import com.brunodles.jsoupparser.collectors.TextElementCollector;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -38,11 +38,11 @@ public class JsoupParserTest {
 
     public interface SimpleModel {
         @CssSelector(selector = "#123",
-                parser = TextElementParser.class)
+                parser = TextElementCollector.class)
         String span123();
 
         @CssSelector(selector = "head title",
-                parser = TextElementParser.class)
+                parser = TextElementCollector.class)
         String title();
     }
 }

@@ -1,6 +1,6 @@
-package com.brunodles.jsoupparser.colectors;
+package com.brunodles.jsoupparser.collectors;
 
-import com.brunodles.jsoupparser.ElementParser;
+import com.brunodles.jsoupparser.ElementCollector;
 import com.brunodles.jsoupparser.JsoupParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ import org.jsoup.nodes.Element;
 import java.lang.annotation.*;
 import java.lang.reflect.Method;
 
-public class AttrElementParser implements ElementParser<String> {
+public class AttrElementCollector implements ElementCollector<String> {
 
     @Nullable
     @Override
