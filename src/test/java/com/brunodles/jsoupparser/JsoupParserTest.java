@@ -1,5 +1,6 @@
 package com.brunodles.jsoupparser;
 
+import com.brunodles.jsoupparser.collectors.NestedCollector;
 import com.brunodles.jsoupparser.collectors.TextElementCollector;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import java.io.IOException;
 
 import static com.brunodles.test.ResourceLoader.readResourceText;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(Enclosed.class)
 public class JsoupParserTest {
@@ -21,7 +23,7 @@ public class JsoupParserTest {
         private SimpleModel simpleModel;
 
         @Before
-        public void temp() throws IOException {
+        public void parseHtmlToSimpleModel() throws IOException {
             simpleModel = jsoupParser.parseHtml(readResourceText("simple.html"), SimpleModel.class);
         }
 
@@ -36,6 +38,31 @@ public class JsoupParserTest {
         }
     }
 
+    public static class WhenParseNestedContent {
+
+        private NestedRootModel rootModel;
+
+        @Before
+        public void parseHtmlToNestedRootModel() throws IOException {
+            rootModel = jsoupParser.parseHtml(readResourceText("nested_root.html"), NestedRootModel.class);
+        }
+
+        @Test
+        public void shouldBeAbleToGetChild() {
+            NestedChildModel child = rootModel.child();
+
+            assertNotNull(child);
+        }
+
+        @Test
+        public void shouldBeAbleToGetChildsContent() {
+            NestedChildModel child = rootModel.child();
+
+            String result = child.span123();
+            assertEquals("look at this", result);
+        }
+    }
+
     public interface SimpleModel {
         @CssSelector(selector = "#123",
                 parser = TextElementCollector.class)
@@ -44,5 +71,22 @@ public class JsoupParserTest {
         @CssSelector(selector = "head title",
                 parser = TextElementCollector.class)
         String title();
+    }
+
+    public interface NestedRootModel {
+
+        @CssSelector(selector = ".root",
+        parser = NestedCollector.class)
+        NestedChildModel child();
+    }
+
+    public interface NestedChildModel {
+        @CssSelector(selector = "span.123",
+                parser = TextElementCollector.class)
+        String span123();
+
+        @CssSelector(selector = "div.456",
+                parser = TextElementCollector.class)
+        String div456();
     }
 }
