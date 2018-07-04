@@ -11,10 +11,10 @@ buildscript {
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-
-plugins {
-    id 'java'
-}
+//
+//plugins {
+//    id 'java'
+//}
 
 group 'com.brunodles'
 version '1.0.0'
