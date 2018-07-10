@@ -23,9 +23,6 @@ public class JsoupParserTest {
 
     public static class WhenParseSimpleHtml {
 
-        @Rule
-        public ExpectedException expectedException = ExpectedException.none();
-
         private SimpleModel simpleModel;
 
         @Before
@@ -91,6 +88,43 @@ public class JsoupParserTest {
         @Test
         public void shouldReturnMessageForToString() {
             assertEquals("Proxy for \"com.brunodles.jsoupparser.doubles.SimpleModel\".", simpleModel.toString());
+        }
+    }
+
+    public static class WhenParseNestedContent {
+
+        private NestedRootModel rootModel;
+
+        @Before
+        public void parseHtmlToNestedRootModel() throws IOException {
+            rootModel = jsoupParser.parseHtml(readResourceText("nested_root.html"), NestedRootModel.class);
+        }
+
+        @Test
+        public void shouldBeAbleToGetChild() {
+            NestedRootModel.NestedChildModel child = rootModel.child();
+
+            assertNotNull(child);
+        }
+
+        @Test
+        public void shouldBeAbleToGetChildsContent() {
+            NestedRootModel.NestedChildModel child = rootModel.child();
+
+            String result = child.span123();
+            assertEquals("look at this", result);
+        }
+    }
+
+    public static class WhenHaveError {
+
+        @Rule
+        public ExpectedException expectedException = ExpectedException.none();
+        private SimpleModel simpleModel;
+
+        @Before
+        public void parseHtmlToSimpleModel() throws IOException {
+            simpleModel = jsoupParser.parseHtml(readResourceText("simple.html"), SimpleModel.class);
         }
 
         @Test
@@ -168,31 +202,7 @@ public class JsoupParserTest {
 
             String result = simpleModel.transformerWithError();
         }
-    }
 
-    public static class WhenParseNestedContent {
-
-        private NestedRootModel rootModel;
-
-        @Before
-        public void parseHtmlToNestedRootModel() throws IOException {
-            rootModel = jsoupParser.parseHtml(readResourceText("nested_root.html"), NestedRootModel.class);
-        }
-
-        @Test
-        public void shouldBeAbleToGetChild() {
-            NestedRootModel.NestedChildModel child = rootModel.child();
-
-            assertNotNull(child);
-        }
-
-        @Test
-        public void shouldBeAbleToGetChildsContent() {
-            NestedRootModel.NestedChildModel child = rootModel.child();
-
-            String result = child.span123();
-            assertEquals("look at this", result);
-        }
     }
 
 }
