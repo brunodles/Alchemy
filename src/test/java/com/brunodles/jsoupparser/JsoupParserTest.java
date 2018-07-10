@@ -44,6 +44,16 @@ public class JsoupParserTest {
         }
 
         @Test
+        public void shouldBeAbleToReadAttr() {
+            assertEquals("magic", simpleModel.magic());
+        }
+
+        @Test
+        public void shouldBeAbleToReadDataField() {
+            assertEquals("chain", simpleModel.dataKey());
+        }
+
+        @Test
         public void shouldReturnTheSameValueForMultipleCalls() {
             assertEquals(simpleModel.title(), simpleModel.title());
         }
