@@ -15,6 +15,7 @@ public class LambdaMatcher<T> extends BaseMatcher<T> {
         this.description = description;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean matches(Object argument) {
         return matcher.apply((T) argument);

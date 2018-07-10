@@ -4,7 +4,7 @@ import com.brunodles.jsoupparser.Transformer;
 
 public class TransformToLong implements Transformer<String, Long> {
     @Override
-    public Long parse(String value) {
+    public Long transform(String value) {
         return Long.valueOf(value);
     }
 }

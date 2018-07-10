@@ -12,7 +12,7 @@ public class TextElementCollector implements ElementCollector<String> {
 
     @Nullable
     @Override
-    public String parse(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method) {
+    public String collect(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method) {
         return value.text();
     }
 }

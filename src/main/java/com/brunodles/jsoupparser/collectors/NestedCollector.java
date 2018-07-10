@@ -12,7 +12,7 @@ public class NestedCollector implements ElementCollector<Object> {
 
     @Nullable
     @Override
-    public Object parse(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method) {
+    public Object collect(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method) {
         return jsoupParser.parseElement(value, method.getReturnType());
     }
 }

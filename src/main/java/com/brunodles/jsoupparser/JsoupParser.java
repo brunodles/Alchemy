@@ -1,5 +1,6 @@
 package com.brunodles.jsoupparser;
 
+import com.brunodles.jsoupparser.exceptions.*;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,24 +50,71 @@ public class JsoupParser {
         public Object invoke(Object o, Method method, Object[] objects) {
             if (resultCache.containsKey(method))
                 return resultCache.get(method);
-            if ("hashcode".equals(method.getName()))
+
+            final String methodName = method.getName();
+
+            if (method.getReturnType() == Void.TYPE)
+                throw new InvalidResultException(methodName);
+
+            if ("hashcode".equalsIgnoreCase(methodName))
                 return this.hashCode();
-            if ("toString".equals(method.getName()))
-                return "Proxy for " + interfaceClass.getName();
-            Object result = null;
+            if ("toString".equalsIgnoreCase(methodName))
+                return "Proxy for \"" + interfaceClass.getName() + "\".";
+            if ("equals".equalsIgnoreCase(methodName))
+                return proxyEquals(this, objects[0]);
+
+            CssSelector cssSelector = method.getAnnotation(CssSelector.class);
+            if (cssSelector == null)
+                throw new MissingSelectorException(methodName);
+            final String selector = cssSelector.selector();
+
+            final Element element = document.selectFirst(selector);
+            if (element == null)
+                throw new InvalidSelectorException(methodName, selector);
+
+            final ElementCollector<?> collector;
+            final Class<? extends ElementCollector> collectorClass = cssSelector.parser();
             try {
-                CssSelector cssSelector = method.getAnnotation(CssSelector.class);
-                Element element = document.selectFirst(cssSelector.selector());
-                Class<? extends ElementCollector> parserClass = cssSelector.parser();
-                ElementCollector<?> parser = parserClass.newInstance();
-                Transformer transformer = cssSelector.transformer().newInstance();
-                result = transformer.parse(parser.parse(jsoupParser, element, method));
+                collector = collectorClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new InvalidCollectorException(methodName, collectorClass, e);
+            }
+
+            final Transformer transformer;
+            final Class<? extends Transformer> transformerClass = cssSelector.transformer();
+            try {
+                transformer = transformerClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new InvalidTransformerException(methodName, transformerClass, e);
+            }
+
+            Object elementValue = null;
+            try {
+                elementValue = collector.collect(jsoupParser, element, method);
+            } catch (Exception e) {
+                throw new CollectorException(methodName, collectorClass, e);
+            }
+
+            final Object result;
+            try {
+                result = transformer.transform(elementValue);
                 resultCache.put(method, result);
             } catch (Exception e) {
-                String message = String.format("Failed to parse \"%s\" of \"%s\"", method.getName(), interfaceClass.getCanonicalName());
-                throw new RuntimeException(message, e);
+                throw new TransformerException(methodName, transformerClass, e);
             }
             return result;
+        }
+
+        private Object proxyEquals(ProxyHandler proxyHandler, Object other) {
+            if (other == null)
+                return false;
+
+            try {
+                InvocationHandler handler = Proxy.getInvocationHandler(other);
+                return proxyHandler.equals(handler);
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
         }
     }
 }

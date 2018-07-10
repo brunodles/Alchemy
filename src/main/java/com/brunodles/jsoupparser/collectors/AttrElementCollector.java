@@ -13,7 +13,7 @@ public class AttrElementCollector implements ElementCollector<String> {
 
     @Nullable
     @Override
-    public String parse(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method) {
+    public String collect(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method) {
         Settings annotation = method.getAnnotation(Settings.class);
         return value.attr(annotation.attrName());
     }
