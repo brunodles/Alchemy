@@ -1,49 +1,36 @@
-boolean allowKotlin = false
-
 buildscript {
-    ext.kotlin_version = '1.2.41'
-
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
-        if (allowKotlin)
-            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-//
-//plugins {
-//    id 'java'
-//}
+
+repositories {
+    jcenter()
+}
 
 group 'com.brunodles'
 version '1.0.0'
 
-if (allowKotlin)
-    apply plugin: 'kotlin'
 apply plugin: 'java'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
+jacoco {
+    toolVersion = "0.8.1"
+}
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+    }
 }
 
 dependencies {
-    if (allowKotlin)
-        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
     compileOnly 'org.jetbrains:annotations:13.0'
     compile 'org.jsoup:jsoup:1.11.3'
 
     testCompile 'junit:junit:4.12'
-}
-
-if (allowKotlin) {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
 }
