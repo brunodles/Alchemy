@@ -14,8 +14,7 @@ import org.mockito.junit.MockitoRule;
 import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
 public class TextElementCollectorTest {
@@ -23,7 +22,7 @@ public class TextElementCollectorTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
     @Mock
-    public JsoupParser jsoupParser;
+    JsoupParser jsoupParser;
     @Mock
     Element element;
     @Mock
@@ -32,16 +31,36 @@ public class TextElementCollectorTest {
     private TextElementCollector collector = new TextElementCollector();
 
     @After
-    public void tearDown() {
+    public void shouldCallOnlyElementText() {
         verifyZeroInteractions(jsoupParser, method);
+        verify(element, only()).text();
     }
 
     @Test
-    public void givenWhenThen() {
+    public void whenElementReturnsString_shouldReturnSame() {
         when(element.text()).thenReturn("Wow");
 
         String result = collector.collect(jsoupParser, element, method);
 
         assertEquals("Wow", result);
+    }
+
+    @Test
+    public void whenElementReturnsNull_shouldReturnNull() {
+        when(element.text()).thenReturn(null);
+
+        String result = collector.collect(jsoupParser, element, method);
+
+        assertEquals(null, result);
+    }
+
+    @Test(expected = UnkownException.class)
+    public void whenElementThrowsException_shouldReThrow() {
+        when(element.text()).thenThrow(UnkownException.class);
+
+        collector.collect(jsoupParser, element, method);
+    }
+
+    private static class UnkownException extends RuntimeException {
     }
 }
