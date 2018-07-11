@@ -14,8 +14,10 @@ public class AttrElementCollector implements ElementCollector<String> {
     @Nullable
     @Override
     public String collect(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method) {
-        Settings annotation = method.getAnnotation(Settings.class);
-        return value.attr(annotation.attrName());
+        Settings settings = method.getAnnotation(Settings.class);
+        if (settings == null)
+            throw new SettingsNotFoundException(method.getName());
+        return value.attr(settings.attrName());
     }
 
     @Target(ElementType.METHOD)
@@ -25,5 +27,11 @@ public class AttrElementCollector implements ElementCollector<String> {
 
         @NotNull
         String attrName();
+    }
+
+    public static class SettingsNotFoundException extends RuntimeException {
+        SettingsNotFoundException(String methodName) {
+            super("Failed to collect attr for \"" + methodName + "\", missing Settings annotation.");
+        }
     }
 }
