@@ -1,6 +1,7 @@
 package com.brunodles.jsoupparser.collectors;
 
 import com.brunodles.jsoupparser.JsoupParser;
+import com.brunodles.jsoupparser.doubles.UnknownException;
 import org.jsoup.nodes.Element;
 import org.junit.After;
 import org.junit.Rule;
@@ -54,13 +55,10 @@ public class TextElementCollectorTest {
         assertEquals(null, result);
     }
 
-    @Test(expected = UnkownException.class)
+    @Test(expected = UnknownException.class)
     public void whenElementThrowsException_shouldReThrow() {
-        when(element.text()).thenThrow(UnkownException.class);
+        when(element.text()).thenThrow(UnknownException.class);
 
         collector.collect(jsoupParser, element, method);
-    }
-
-    private static class UnkownException extends RuntimeException {
     }
 }
