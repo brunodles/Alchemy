@@ -2,12 +2,15 @@ package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.exceptions.*;
 import org.jetbrains.annotations.NotNull;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 class MethodInvokeHandler {
 
@@ -42,9 +45,13 @@ class MethodInvokeHandler {
 
         final Elements elements = getElements(selector);
 
-        final Object elementValue = getElementsValue(elements, annotation);
+        final List<Object> values = getElementsValues(elements, annotation);
 
-        return getResult(annotation, elementValue);
+        Class<?> returnType = method.getReturnType();
+        if (Collection.class.isAssignableFrom(returnType))
+            return getResults(annotation, values, (Class<? extends Collection>) returnType);
+
+        return getResult(annotation, values.get(0));
     }
 
     private void checkReturnType() {
@@ -80,20 +87,18 @@ class MethodInvokeHandler {
         return elements;
     }
 
-    private Object getElementsValue(Elements elements, CssSelector cssSelector) {
+    private List<Object> getElementsValues(Elements elements, CssSelector cssSelector) {
         final Class<? extends ElementCollector> collectorClass = cssSelector.parser();
         final ElementCollector<?> collector = getElementCollector(methodName, collectorClass);
 
-        Class<?> returnType = method.getReturnType();
-        if (returnType.isAssignableFrom(Collections.class))
-            throw new RuntimeException("We can't handle collections yet.");
-        Object elementValue;
+        List<Object> result = new LinkedList<>();
         try {
-            elementValue = collector.collect(proxyHandler.jsoupParser, elements.first(), method);
+            for (Element element : elements)
+                result.add(collector.collect(proxyHandler.jsoupParser, element, method));
         } catch (Exception e) {
             throw new CollectorException(methodName, collectorClass, e);
         }
-        return elementValue;
+        return result;
     }
 
     private ElementCollector<?> getElementCollector(String methodName, Class<? extends ElementCollector> collectorClass) {
@@ -106,14 +111,25 @@ class MethodInvokeHandler {
         return collector;
     }
 
+    private Object getResults(CssSelector annotation, List<Object> values, Class<? extends Collection> returnType) {
+        try {
+            Collection result = returnType.newInstance();
+            for (Object value : values)
+                result.add(getResult(annotation, value));
+            return result;
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    private Object getResult(CssSelector cssSelector, Object elementValue) {
+    private Object getResult(CssSelector cssSelector, Object value) {
         final Class<? extends Transformer> transformerClass = cssSelector.transformer();
         final Transformer transformer = getTransformer(methodName, transformerClass);
 
         final Object result;
         try {
-            result = transformer.transform(elementValue);
+            result = transformer.transform(value);
         } catch (Exception e) {
             throw new TransformerException(methodName, transformerClass, e);
         }
