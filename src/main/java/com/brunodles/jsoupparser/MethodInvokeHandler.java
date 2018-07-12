@@ -2,11 +2,12 @@ package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.exceptions.*;
 import org.jetbrains.annotations.NotNull;
-import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Collections;
 
 class MethodInvokeHandler {
 
@@ -34,14 +35,14 @@ class MethodInvokeHandler {
         if (METHOD_TO_STRING.equalsIgnoreCase(methodName))
             return "Proxy for \"" + proxyHandler.interfaceClass.getName() + "\".";
         if (METHOD_EQUALS.equalsIgnoreCase(methodName))
-            return proxyEquals(proxyHandler, objects[0]);
+            return proxyEquals(objects[0]);
 
         final CssSelector annotation = getAnnotation();
         final String selector = annotation.selector();
 
-        final Element element = getElement(selector, proxyHandler.document);
+        final Elements elements = getElements(selector);
 
-        final Object elementValue = getElementValue(element, annotation);
+        final Object elementValue = getElementsValue(elements, annotation);
 
         return getResult(annotation, elementValue);
     }
@@ -51,7 +52,7 @@ class MethodInvokeHandler {
             throw new InvalidResultException(methodName);
     }
 
-    private Object proxyEquals(ProxyHandler proxyHandler, Object other) {
+    private Object proxyEquals(Object other) {
         if (other == null)
             return false;
 
@@ -72,20 +73,23 @@ class MethodInvokeHandler {
     }
 
     @NotNull
-    private Element getElement(String selector, Element document) {
-        final Element element = document.selectFirst(selector);
-        if (element == null)
+    private Elements getElements(String selector) {
+        final Elements elements = proxyHandler.document.select(selector);
+        if (elements == null || elements.isEmpty())
             throw new InvalidSelectorException(methodName, selector);
-        return element;
+        return elements;
     }
 
-    private Object getElementValue(Element element, CssSelector cssSelector) {
+    private Object getElementsValue(Elements elements, CssSelector cssSelector) {
         final Class<? extends ElementCollector> collectorClass = cssSelector.parser();
         final ElementCollector<?> collector = getElementCollector(methodName, collectorClass);
 
+        Class<?> returnType = method.getReturnType();
+        if (returnType.isAssignableFrom(Collections.class))
+            throw new RuntimeException("We can't handle collections yet.");
         Object elementValue;
         try {
-            elementValue = collector.collect(proxyHandler.jsoupParser, element, method);
+            elementValue = collector.collect(proxyHandler.jsoupParser, elements.first(), method);
         } catch (Exception e) {
             throw new CollectorException(methodName, collectorClass, e);
         }
