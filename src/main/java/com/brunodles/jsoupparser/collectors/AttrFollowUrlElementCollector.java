@@ -6,18 +6,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.nodes.Element;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 public class AttrFollowUrlElementCollector implements ElementCollector<Object> {
+
+    private final AttrElementCollector attrElementCollector = new AttrElementCollector();
+
     @Nullable
     @Override
     public Object collect(@NotNull JsoupParser jsoupParser, @NotNull Element value, @NotNull Method method) {
-        AttrElementCollector.Settings settings = method.getAnnotation(AttrElementCollector.Settings.class);
-        try {
-            return jsoupParser.parseUrl(value.attr(settings.attrName()), method.getReturnType());
-        } catch (IOException e) {
+        final String url = attrElementCollector.collect(jsoupParser, value, method);
+        if (url == null)
             return null;
-        }
+        return jsoupParser.parseUrl(url, method.getReturnType());
     }
 }
