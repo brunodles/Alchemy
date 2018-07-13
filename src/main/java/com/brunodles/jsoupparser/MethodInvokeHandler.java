@@ -5,9 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -92,7 +90,7 @@ class MethodInvokeHandler {
                 result.add(getResult(annotation, value));
             return result;
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new ResultException(methodName, returnType.getSimpleName(), e);
         }
     }
 

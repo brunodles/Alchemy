@@ -11,6 +11,6 @@ import com.brunodles.jsoupparser.ElementCollector;
 public class InvalidCollectorException extends RuntimeException {
 
     public InvalidCollectorException(String methodName, Class<? extends ElementCollector> parserClass, Throwable cause) {
-        super("Failed to get \"" + methodName + "\". Can't create a instance of \"" + parserClass.getSimpleName() + "\".", cause);
+        super("Failed to get \"" + methodName + "\". Can't create an instance of \"" + parserClass.getSimpleName() + "\".", cause);
     }
 }

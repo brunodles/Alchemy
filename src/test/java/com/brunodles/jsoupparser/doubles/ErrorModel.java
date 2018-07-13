@@ -31,4 +31,10 @@ public interface ErrorModel {
 
     @CssSelector(selector = "#123", parser = TextElementCollector.class, transformer = TransformerWithError.class)
     String transformerWithError();
+
+    @CssSelector(selector = "span", parser = TextElementCollector.class)
+    CollectionWithPrivateConstructor collectionWithPrivateConstructor();
+
+    @CssSelector(selector = "span", parser = TextElementCollector.class)
+    CollectionWithConstructorParameters collectionWithConstructorParameters();
 }
