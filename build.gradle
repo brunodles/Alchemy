@@ -34,6 +34,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.19.0'
+    testCompile "com.github.tomakehurst:wiremock:2.18.0"
     testCompileOnly 'org.jetbrains:annotations:13.0'
 
 }
