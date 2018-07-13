@@ -12,7 +12,10 @@ import org.junit.rules.ExpectedException;
 import java.io.IOException;
 
 import static com.brunodles.test.ResourceLoader.readResourceText;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
 
 public class WhenHaveError {
 
@@ -37,8 +40,11 @@ public class WhenHaveError {
 
     @Test
     public void withInvalidSelector_shouldThrowInvalidSelectorException() {
-        expectedException.expect(InvalidSelectorException.class);
-        expectedException.expectMessage("Failed to get \"invalidSelector\". Can't find the selector \"h1.classNotFound\".");
+        expectedException.expect(CollectorException.class);
+        expectedException.expectCause(allOf(
+                any(InvalidSelectorException.class),
+                hasMessage(containsString("Failed to get \"invalidSelector\". Can't find the selector \"h1.classNotFound\"."))
+        ));
 
         String result = simpleModel.invalidSelector();
     }

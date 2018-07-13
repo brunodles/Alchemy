@@ -14,40 +14,26 @@ import java.util.List;
 
 class MethodInvokeHandler {
 
-    private static final String METHOD_HASHCODE = "hashcode";
-    private static final String METHOD_TO_STRING = "toString";
-    private static final String METHOD_EQUALS = "equals";
-
     private final ProxyHandler proxyHandler;
     private final Method method;
     private final String methodName;
-    private final Object[] objects;
+    private final Object[] parameters;
 
-    MethodInvokeHandler(ProxyHandler proxyHandler, Method method, Object[] objects) {
+    MethodInvokeHandler(ProxyHandler proxyHandler, Method method, Object[] parameters) {
         this.proxyHandler = proxyHandler;
         this.method = method;
-        this.objects = objects;
+        this.parameters = parameters;
         this.methodName = method.getName();
     }
 
     public Object invoke() {
         checkReturnType();
 
-        if (METHOD_HASHCODE.equalsIgnoreCase(methodName))
-            return this.hashCode();
-        if (METHOD_TO_STRING.equalsIgnoreCase(methodName))
-            return "Proxy for \"" + proxyHandler.interfaceClass.getName() + "\".";
-        if (METHOD_EQUALS.equalsIgnoreCase(methodName))
-            return proxyEquals(objects[0]);
-
         final CssSelector annotation = getAnnotation();
-        final String selector = annotation.selector();
 
-        final Elements elements = getElements(selector);
+        final List<Object> values = getElementsValues(annotation);
 
-        final List<Object> values = getElementsValues(elements, annotation);
-
-        Class<?> returnType = method.getReturnType();
+        final Class<?> returnType = method.getReturnType();
         if (Collection.class.isAssignableFrom(returnType))
             return getResults(annotation, values, (Class<? extends Collection>) returnType);
 
@@ -57,18 +43,6 @@ class MethodInvokeHandler {
     private void checkReturnType() {
         if (method.getReturnType() == Void.TYPE)
             throw new InvalidResultException(methodName);
-    }
-
-    private Object proxyEquals(Object other) {
-        if (other == null)
-            return false;
-
-        try {
-            InvocationHandler handler = Proxy.getInvocationHandler(other);
-            return proxyHandler.equals(handler);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
     }
 
     @NotNull
@@ -87,13 +61,13 @@ class MethodInvokeHandler {
         return elements;
     }
 
-    private List<Object> getElementsValues(Elements elements, CssSelector cssSelector) {
+    private List<Object> getElementsValues(CssSelector cssSelector) {
         final Class<? extends ElementCollector> collectorClass = cssSelector.parser();
         final ElementCollector<?> collector = getElementCollector(methodName, collectorClass);
 
         List<Object> result = new LinkedList<>();
         try {
-            for (Element element : elements)
+            for (Element element : getElements(cssSelector.selector()))
                 result.add(collector.collect(proxyHandler.jsoupParser, element, method));
         } catch (Exception e) {
             throw new CollectorException(methodName, collectorClass, e);
