@@ -61,7 +61,7 @@ class MethodInvokeHandler {
 
     private List<Object> getElementsValues(CssSelector cssSelector) {
         final Class<? extends ElementCollector> collectorClass = cssSelector.parser();
-        final ElementCollector<?> collector = getElementCollector(methodName, collectorClass);
+        final ElementCollector<?> collector = getElementCollector(collectorClass);
 
         List<Object> result = new LinkedList<>();
         try {
@@ -73,7 +73,7 @@ class MethodInvokeHandler {
         return result;
     }
 
-    private ElementCollector<?> getElementCollector(String methodName, Class<? extends ElementCollector> collectorClass) {
+    private ElementCollector<?> getElementCollector(Class<? extends ElementCollector> collectorClass) {
         final ElementCollector<?> collector;
         try {
             collector = collectorClass.newInstance();
@@ -97,7 +97,7 @@ class MethodInvokeHandler {
     @SuppressWarnings("unchecked")
     private Object getResult(CssSelector cssSelector, Object value) {
         final Class<? extends Transformer> transformerClass = cssSelector.transformer();
-        final Transformer transformer = getTransformer(methodName, transformerClass);
+        final Transformer transformer = getTransformer(transformerClass);
 
         final Object result;
         try {
@@ -108,7 +108,7 @@ class MethodInvokeHandler {
         return result;
     }
 
-    private Transformer getTransformer(String methodName, Class<? extends Transformer> transformerClass) {
+    private Transformer getTransformer(Class<? extends Transformer> transformerClass) {
         final Transformer transformer;
         try {
             transformer = transformerClass.newInstance();
