@@ -2,7 +2,6 @@ package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.doubles.CollectionsModel;
-import com.sun.org.apache.regexp.internal.RE;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
