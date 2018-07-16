@@ -20,25 +20,9 @@ This flow is not fully working.
 The idea is to let it chain through all layers and also restart the work.
 For the future we will only have Transformers.
 
-Layer              | Input   | Output
--------------------|---------|--------
-Selector           | String  | Element
-Collector          | Element | String
-Transformer        | String  | Type
-Nested Transformer | String  | Element
-
-
-### Selector
-Get's a css selector string and transform it into a Element
-
-### Collector
-Get's a Element to collect it's value from `content` or `attribute`.
-
-### Transformer
-Get's a Element Value and transform it into something else.
-
-### Nested Transformer
-Get's a Element Value and transform it into an Element.
-This allows to re-start the process.
-Also allows to transform it into a custom type.
-
+Layer              | Input   | Output  | Description
+-------------------|---------|---------|-------------
+Selector           | String  | Element | Get's a css selector string and transform it into a Element
+Collector          | Element | String  | Get's a Element to collect it's value from `content` or `attribute`.
+Transformer        | String  | Type    | Get's a Element Value and transform it into something else.
+Nested Transformer | String  | Element | Get's a Element Value and transform it into an Element or custom type, may restart the process.
