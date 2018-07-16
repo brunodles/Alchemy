@@ -15,7 +15,7 @@ public @interface CssSelector {
     String selector();
 
     @Nullable
-    Class<? extends ElementCollector> parser();
+    Class<? extends ElementCollector> collector();
 
     @Nullable
     Class<? extends Transformer> transformer() default NonTransformer.class;

@@ -11,21 +11,21 @@ import java.util.LinkedList;
 
 public interface CollectionsModel {
 
-    @CssSelector(selector = "ol#jvm_languages li", parser = TextElementCollector.class)
+    @CssSelector(selector = "ol#jvm_languages li", collector = TextElementCollector.class)
     ArrayList<String> jvmLanguagesArrayList();
 
-    @CssSelector(selector = "ol#jvm_languages li", parser = TextElementCollector.class)
+    @CssSelector(selector = "ol#jvm_languages li", collector = TextElementCollector.class)
     HashSet<String> jvmLanguagesHashSet();
 
-    @CssSelector(selector = "#games tr:has(td)", parser = NestedCollector.class)
+    @CssSelector(selector = "#games tr:has(td)", collector = NestedCollector.class)
     LinkedList<Games> gamesArrayList();
 
     interface Games {
 
-        @CssSelector(selector = "td:first-child", parser = TextElementCollector.class)
+        @CssSelector(selector = "td:first-child", collector = TextElementCollector.class)
         String name();
 
-        @CssSelector(selector = "td:nth-child(2)", parser = TextElementCollector.class, transformer = TransformToFloat.class)
+        @CssSelector(selector = "td:nth-child(2)", collector = TextElementCollector.class, transformer = TransformToFloat.class)
         Float price();
     }
 }

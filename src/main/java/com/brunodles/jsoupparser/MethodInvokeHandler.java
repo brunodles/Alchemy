@@ -60,7 +60,7 @@ class MethodInvokeHandler {
     }
 
     private List<Object> getElementsValues(CssSelector cssSelector) {
-        final Class<? extends ElementCollector> collectorClass = cssSelector.parser();
+        final Class<? extends ElementCollector> collectorClass = cssSelector.collector();
         final ElementCollector<?> collector = getElementCollector(collectorClass);
 
         List<Object> result = new LinkedList<>();

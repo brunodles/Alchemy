@@ -26,32 +26,32 @@
 //interface SampleModel {
 //
 //    @CssSelector(selector = "[itemprop=name] span",
-//            parser = TextElementCollector::class)
+//            collector = TextElementCollector::class)
 //    fun name(): String
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=image]",
-//            parser = AttrElementCollector::class)
+//            collector = AttrElementCollector::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun imageUrl(): String
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=aggregateRating] [itemprop=ratingValue]",
-//            parser = AttrElementCollector::class,
+//            collector = AttrElementCollector::class,
 //            transformer = TransformToFloat::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun rating(): Float
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=aggregateRating] [itemprop=reviewCount]",
-//            parser = AttrElementCollector::class,
+//            collector = AttrElementCollector::class,
 //            transformer = TransformToLong::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun reviewCount(): Long
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=aggregateRating]",
-//            parser = NestedCollector::class)
+//            collector = NestedCollector::class)
 //    fun aggregateRating(): AggregateRating
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=url]",
-//            parser = AttrFollowUrlElementCollector::class)
+//            collector = AttrFollowUrlElementCollector::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun navigation(): NavigateModel
 //}
@@ -59,41 +59,41 @@
 //interface NavigateModel {
 //
 //    @CssSelector(selector = "[itemprop=name] span",
-//            parser = TextElementCollector::class)
+//            collector = TextElementCollector::class)
 //    fun name(): String
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=image]",
-//            parser = AttrElementCollector::class)
+//            collector = AttrElementCollector::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun imageUrl(): String
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=aggregateRating] [itemprop=ratingValue]",
-//            parser = AttrElementCollector::class,
+//            collector = AttrElementCollector::class,
 //            transformer = TransformToFloat::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun rating(): Float
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=aggregateRating] [itemprop=reviewCount]",
-//            parser = AttrElementCollector::class,
+//            collector = AttrElementCollector::class,
 //            transformer = TransformToLong::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun reviewCount(): Long
 //
 //    @CssSelector(selector = "[itemscope] [itemprop=aggregateRating]",
-//            parser = NestedCollector::class)
+//            collector = NestedCollector::class)
 //    fun aggregateRating(): AggregateRating
 //}
 //
 //interface AggregateRating {
 //
 //    @CssSelector(selector = "[itemprop=ratingValue]",
-//            parser = AttrElementCollector::class,
+//            collector = AttrElementCollector::class,
 //            transformer = TransformToFloat::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun rating(): Float
 //
 //    @CssSelector(selector = "[itemprop=reviewCount]",
-//            parser = AttrElementCollector::class,
+//            collector = AttrElementCollector::class,
 //            transformer = TransformToLong::class)
 //    @AttrElementCollector.Settings(attrName = "content")
 //    fun reviewCount(): Long
