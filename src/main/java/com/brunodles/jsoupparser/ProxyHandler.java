@@ -1,5 +1,6 @@
 package com.brunodles.jsoupparser;
 
+import com.brunodles.jsoupparser.annotations.Selector;
 import org.jsoup.nodes.Element;
 
 import java.lang.reflect.InvocationHandler;
@@ -38,11 +39,11 @@ class ProxyHandler implements InvocationHandler {
             return proxyEquals(parameters[0]);
 
         final Object result;
-        if (method.getAnnotation(CssSelector.class) != null)
-            result = new BigAnnotationInvokeHandler(this, method, parameters)
+        if (method.getAnnotation(Selector.class) != null)
+            result = new SmallAnnotationInvokeHandler(this, method, parameters)
                     .invoke();
         else
-            result = new SmallAnnotationInvokeHandler(this, method, parameters)
+            result = new BigAnnotationInvokeHandler(this, method, parameters)
                     .invoke();
         resultCache.put(method, result);
         return result;
