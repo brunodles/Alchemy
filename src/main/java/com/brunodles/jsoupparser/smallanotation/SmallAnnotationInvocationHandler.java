@@ -60,6 +60,15 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 result = newResult;
                 continue;
             }
+            if (annotation instanceof FollowTransformer && result != null && !result.isEmpty()) {
+                ArrayList<Object> newResult = new ArrayList<>(result.size());
+                for (int i = 0; i < result.size(); i++) {
+                    String url = (String) result.get(i);
+                    newResult.add(invocation.proxyHandler.jsoupParser.parseUrl(url, invocation.getMethodRealReturnType()));
+                }
+                result = newResult;
+                continue;
+            }
         }
         if (invocation.isMethodReturnTypeCollection()) {
             try {

@@ -33,7 +33,7 @@ public class SmallAnnotation {
 
     @Test
     public void shouldParseSimple() {
-        Simple2 simpleModel = jsoupParser.parseUrl("simple.html", Simple2.class);
+        SimpleModel simpleModel = jsoupParser.parseUrl("simple.html", SimpleModel.class);
         assertEquals("wow", simpleModel.span123());
         assertEquals("shouldBeAbleToReadContentFromTitle", "Jsoup Parser", simpleModel.title());
         assertEquals("shouldBeAbleToReadAttr", "magic", simpleModel.magic());
@@ -44,8 +44,8 @@ public class SmallAnnotation {
 
     @Test
     public void shouldParseNestedItem() {
-        Nested rootModel = jsoupParser.parseUrl("nested_root.html", Nested.class);
-        Nested.NestedChildModel child = rootModel.child();
+        NestedRootModel rootModel = jsoupParser.parseUrl("nested_root.html", NestedRootModel.class);
+        NestedRootModel.NestedChildModel child = rootModel.child();
 
         assertEquals("look at this", child.span123());
     }
@@ -70,7 +70,16 @@ public class SmallAnnotation {
         }
     }
 
-    public interface Simple2 {
+    @Test
+    public void shouldFollowUrl() {
+        FollowModel follow = jsoupParser.parseUrl("follow.html", FollowModel.class);
+        SimpleModel simple = follow.simple();
+        assertEquals("Jsoup Parser", simple.title());
+
+        assertEquals(4, follow.collections().gamesArrayList().size());
+    }
+
+    public interface SimpleModel {
 
         @Selector("#123")
         @TextCollector
@@ -94,7 +103,7 @@ public class SmallAnnotation {
         Float floatValue();
     }
 
-    public interface Nested {
+    public interface NestedRootModel {
 
         @Selector(".root")
         @NestedCollector
@@ -136,6 +145,20 @@ public class SmallAnnotation {
             @TypeTransformer(TransformToFloat.class)
             Float price();
         }
+    }
+
+    public interface FollowModel {
+
+        @Selector(".something a#simple")
+        @AttrCollector("href")
+        @FollowTransformer
+        SmallAnnotation.SimpleModel simple();
+
+        @Selector(".something a#collections")
+        @AttrCollector("href")
+        @FollowTransformer
+        CollectionsModel collections();
+
     }
 
 }
