@@ -37,8 +37,13 @@ class ProxyHandler implements InvocationHandler {
         if (METHOD_EQUALS.equalsIgnoreCase(methodName))
             return proxyEquals(parameters[0]);
 
-        final Object result = new MethodInvokeHandler(this, method, parameters)
-                .invoke();
+        final Object result;
+        if (method.getAnnotation(CssSelector.class) != null)
+            result = new MethodInvokeHandler(this, method, parameters)
+                    .invoke();
+        else
+            result = new MethodInvokeHandler2(this, method, parameters)
+                    .invoke();
         resultCache.put(method, result);
         return result;
     }

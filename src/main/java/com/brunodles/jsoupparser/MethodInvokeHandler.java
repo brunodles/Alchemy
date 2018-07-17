@@ -28,7 +28,6 @@ class MethodInvokeHandler {
         checkReturnType();
 
         final CssSelector annotation = getAnnotation();
-
         final List<Object> values = getElementsValues(annotation);
 
         final Class<?> returnType = method.getReturnType();
@@ -37,6 +36,7 @@ class MethodInvokeHandler {
 
         return getResult(annotation, values.get(0));
     }
+
 
     private void checkReturnType() {
         if (method.getReturnType() == Void.TYPE)
