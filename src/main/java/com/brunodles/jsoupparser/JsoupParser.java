@@ -1,7 +1,7 @@
 package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.exceptions.ResolverException;
-import com.brunodles.jsoupparser.methodinvocation.BigInvocationHandler;
+import com.brunodles.jsoupparser.bigannotation.BigInvocationHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

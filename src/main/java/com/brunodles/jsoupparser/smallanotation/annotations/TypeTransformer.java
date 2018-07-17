@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.annotations;
+package com.brunodles.jsoupparser.smallanotation.annotations;
 
 import com.brunodles.jsoupparser.Transformer;
 

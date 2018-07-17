@@ -1,8 +1,8 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.annotations.*;
-import com.brunodles.jsoupparser.methodinvocation.SmallAnnotationInvocationHandler;
-import com.brunodles.jsoupparser.transformers.TransformToFloat;
+import com.brunodles.jsoupparser.smallanotation.annotations.*;
+import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler;
+import com.brunodles.jsoupparser.bigannotation.transformers.TransformToFloat;
 import com.brunodles.test.ResourceUriResolver;
 import org.junit.Test;
 import org.junit.runner.RunWith;

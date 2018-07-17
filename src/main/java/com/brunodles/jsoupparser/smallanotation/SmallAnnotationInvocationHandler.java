@@ -1,9 +1,9 @@
-package com.brunodles.jsoupparser.methodinvocation;
+package com.brunodles.jsoupparser.smallanotation;
 
 import com.brunodles.jsoupparser.MethodInvocation;
 import com.brunodles.jsoupparser.MethodInvocationHandler;
 import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.annotations.*;
+import com.brunodles.jsoupparser.smallanotation.annotations.*;
 import com.brunodles.jsoupparser.exceptions.InvalidSelectorException;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

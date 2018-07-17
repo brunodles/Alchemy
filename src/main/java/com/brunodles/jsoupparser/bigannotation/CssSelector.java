@@ -1,6 +1,8 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.bigannotation;
 
-import com.brunodles.jsoupparser.transformers.NonTransformer;
+import com.brunodles.jsoupparser.ElementCollector;
+import com.brunodles.jsoupparser.Transformer;
+import com.brunodles.jsoupparser.bigannotation.transformers.NonTransformer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

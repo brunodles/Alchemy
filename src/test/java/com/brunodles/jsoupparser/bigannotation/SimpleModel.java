@@ -1,8 +1,7 @@
 package com.brunodles.jsoupparser.bigannotation;
 
-import com.brunodles.jsoupparser.CssSelector;
-import com.brunodles.jsoupparser.collectors.AttrElementCollector;
-import com.brunodles.jsoupparser.collectors.TextElementCollector;
+import com.brunodles.jsoupparser.bigannotation.collectors.AttrElementCollector;
+import com.brunodles.jsoupparser.bigannotation.collectors.TextElementCollector;
 
 public interface SimpleModel {
     @CssSelector(selector = "#123",

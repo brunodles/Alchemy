@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.collectors;
+package com.brunodles.jsoupparser.bigannotation.collectors;
 
 import com.brunodles.jsoupparser.ElementCollector;
 import com.brunodles.jsoupparser.JsoupParser;

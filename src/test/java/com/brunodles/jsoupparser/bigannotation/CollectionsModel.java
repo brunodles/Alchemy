@@ -1,9 +1,8 @@
 package com.brunodles.jsoupparser.bigannotation;
 
-import com.brunodles.jsoupparser.CssSelector;
-import com.brunodles.jsoupparser.collectors.NestedCollector;
-import com.brunodles.jsoupparser.collectors.TextElementCollector;
-import com.brunodles.jsoupparser.transformers.TransformToFloat;
+import com.brunodles.jsoupparser.bigannotation.collectors.NestedCollector;
+import com.brunodles.jsoupparser.bigannotation.collectors.TextElementCollector;
+import com.brunodles.jsoupparser.bigannotation.transformers.TransformToFloat;
 
 import java.util.ArrayList;
 import java.util.HashSet;

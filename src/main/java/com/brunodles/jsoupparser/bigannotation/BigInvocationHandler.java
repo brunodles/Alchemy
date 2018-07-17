@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.methodinvocation;
+package com.brunodles.jsoupparser.bigannotation;
 
 import com.brunodles.jsoupparser.*;
 import com.brunodles.jsoupparser.exceptions.*;

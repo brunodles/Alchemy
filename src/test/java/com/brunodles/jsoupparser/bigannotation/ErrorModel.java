@@ -1,7 +1,6 @@
 package com.brunodles.jsoupparser.bigannotation;
 
-import com.brunodles.jsoupparser.CssSelector;
-import com.brunodles.jsoupparser.collectors.TextElementCollector;
+import com.brunodles.jsoupparser.bigannotation.collectors.TextElementCollector;
 import com.brunodles.jsoupparser.doubles.*;
 
 public interface ErrorModel {

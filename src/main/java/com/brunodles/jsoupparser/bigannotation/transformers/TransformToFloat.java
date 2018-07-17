@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.transformers;
+package com.brunodles.jsoupparser.bigannotation.transformers;
 
 import com.brunodles.jsoupparser.Transformer;
 
