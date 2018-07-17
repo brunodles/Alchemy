@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.doubles;
+package com.brunodles.jsoupparser.bigannotation;
 
 import com.brunodles.jsoupparser.CssSelector;
 import com.brunodles.jsoupparser.collectors.NestedCollector;

@@ -1,7 +1,6 @@
-package com.brunodles.jsoupparser.JsoupParserTest;
+package com.brunodles.jsoupparser.bigannotation;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.doubles.NestedRootModel;
 import org.junit.Before;
 import org.junit.Test;
 

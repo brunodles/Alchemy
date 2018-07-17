@@ -1,8 +1,6 @@
-package com.brunodles.jsoupparser.JsoupParserTest;
+package com.brunodles.jsoupparser.bigannotation;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.doubles.FollowModel;
-import com.brunodles.jsoupparser.doubles.SimpleModel;
 import com.brunodles.test.ResourceUriResolver;
 import org.junit.Before;
 import org.junit.BeforeClass;

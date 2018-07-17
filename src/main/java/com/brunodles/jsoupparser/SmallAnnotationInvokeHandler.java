@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class MethodInvokeHandler2 {
+class SmallAnnotationInvokeHandler {
     private final ProxyHandler proxyHandler;
     private final Method method;
     private final Object[] parameters;
     private final String methodName;
 
-    MethodInvokeHandler2(ProxyHandler proxyHandler, Method method, Object[] parameters) {
+    SmallAnnotationInvokeHandler(ProxyHandler proxyHandler, Method method, Object[] parameters) {
         this.proxyHandler = proxyHandler;
         this.method = method;
         this.parameters = parameters;

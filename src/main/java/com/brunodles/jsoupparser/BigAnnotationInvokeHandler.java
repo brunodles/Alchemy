@@ -10,14 +10,14 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-class MethodInvokeHandler {
+class BigAnnotationInvokeHandler {
 
     private final ProxyHandler proxyHandler;
     private final Method method;
     private final String methodName;
     private final Object[] parameters;
 
-    MethodInvokeHandler(ProxyHandler proxyHandler, Method method, Object[] parameters) {
+    BigAnnotationInvokeHandler(ProxyHandler proxyHandler, Method method, Object[] parameters) {
         this.proxyHandler = proxyHandler;
         this.method = method;
         this.parameters = parameters;

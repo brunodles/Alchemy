@@ -1,7 +1,6 @@
-package com.brunodles.jsoupparser.JsoupParserTest;
+package com.brunodles.jsoupparser.bigannotation;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.doubles.ErrorModel;
 import com.brunodles.jsoupparser.exceptions.*;
 import org.junit.Before;
 import org.junit.Rule;

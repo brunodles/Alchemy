@@ -39,10 +39,10 @@ class ProxyHandler implements InvocationHandler {
 
         final Object result;
         if (method.getAnnotation(CssSelector.class) != null)
-            result = new MethodInvokeHandler(this, method, parameters)
+            result = new BigAnnotationInvokeHandler(this, method, parameters)
                     .invoke();
         else
-            result = new MethodInvokeHandler2(this, method, parameters)
+            result = new SmallAnnotationInvokeHandler(this, method, parameters)
                     .invoke();
         resultCache.put(method, result);
         return result;

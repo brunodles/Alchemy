@@ -1,7 +1,6 @@
-package com.brunodles.jsoupparser.JsoupParserTest;
+package com.brunodles.jsoupparser.bigannotation;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.doubles.SimpleModel;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,6 +76,6 @@ public class WhenParseSimpleHtml {
 
     @Test
     public void shouldReturnMessageForToString() {
-        assertEquals("Proxy for \"com.brunodles.jsoupparser.doubles.SimpleModel\".", simpleModel.toString());
+        assertEquals("Proxy for \"com.brunodles.jsoupparser.bigannotation.SimpleModel\".", simpleModel.toString());
     }
 }
