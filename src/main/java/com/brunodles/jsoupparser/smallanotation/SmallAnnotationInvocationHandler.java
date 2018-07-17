@@ -3,13 +3,15 @@ package com.brunodles.jsoupparser.smallanotation;
 import com.brunodles.jsoupparser.MethodInvocation;
 import com.brunodles.jsoupparser.MethodInvocationHandler;
 import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.smallanotation.annotations.*;
 import com.brunodles.jsoupparser.exceptions.InvalidSelectorException;
+import com.brunodles.jsoupparser.exceptions.ResultException;
+import com.brunodles.jsoupparser.smallanotation.annotations.*;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class SmallAnnotationInvocationHandler implements MethodInvocationHandler {
@@ -59,8 +61,16 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 continue;
             }
         }
-        if (invocation.isMethodReturnTypeCollection())
-            return result;
+        if (invocation.isMethodReturnTypeCollection()) {
+            try {
+                Collection collectionResult = (Collection) invocation.getMethodRawReturnType().newInstance();
+                for (Object object : result)
+                    collectionResult.add(object);
+                return collectionResult;
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new ResultException(invocation.methodName, invocation.getMethodRawReturnType().getSimpleName(), e);
+            }
+        }
         return result.get(0);
     }
 }
