@@ -20,6 +20,7 @@ public class MethodInvocation {
 
     /**
      * Get method annotations
+     *
      * @return an array
      */
     public Annotation[] getMethodAnnotations() {
@@ -55,5 +56,9 @@ public class MethodInvocation {
      */
     public boolean isMethodReturnTypeCollection() {
         return Collection.class.isAssignableFrom(getMethodRawReturnType());
+    }
+
+    public <T extends Annotation> T getMethodAnnotation(Class<T> annotation) {
+        return method.getAnnotation(annotation);
     }
 }

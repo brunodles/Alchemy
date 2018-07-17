@@ -73,10 +73,19 @@ public class SmallAnnotation {
     @Test
     public void shouldFollowUrl() {
         FollowModel follow = jsoupParser.parseUrl("follow.html", FollowModel.class);
+
         SimpleModel simple = follow.simple();
         assertEquals("Jsoup Parser", simple.title());
 
         assertEquals(4, follow.collections().gamesArrayList().size());
+    }
+
+    @Test
+    public void shouldAcceptStringOnComplex() {
+        FollowModel follow = jsoupParser.parseUrl("follow.html", FollowModel.class);
+
+        assertEquals("Jsoup Parser", follow.mappingSimple().title());
+        assertEquals("wow", follow.mappingSimpleSpan123());
     }
 
     public interface SimpleModel {
@@ -158,6 +167,19 @@ public class SmallAnnotation {
         @AttrCollector("href")
         @FollowTransformer
         CollectionsModel collections();
+
+        @Mapping({"Selector(.something a#simple)",
+                "AttrCollector(href)",
+                "FollowTransformer"})
+        SmallAnnotation.SimpleModel mappingSimple();
+
+        // this one would be great
+        @Mapping({"Selector(.something a#simple)",
+                "AttrCollector(href)",
+                "FollowTransformer",
+                "Selector(#123)",
+                "TextCollector"})
+        SmallAnnotation.SimpleModel mappingSimpleSpan123();
 
     }
 
