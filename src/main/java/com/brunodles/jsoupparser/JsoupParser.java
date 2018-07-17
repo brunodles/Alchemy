@@ -1,25 +1,31 @@
 package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.exceptions.ResolverException;
+import com.brunodles.jsoupparser.methodinvocation.BigInvocationHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import java.io.IOException;
 import java.lang.reflect.Proxy;
 
 @SuppressWarnings("unchecked")
 public class JsoupParser {
 
+    final MethodInvocationHandler invocationHandler;
     private final UriResolver uriResolver;
 
     public JsoupParser() {
-        uriResolver = null;
+        this(null);
     }
 
     public JsoupParser(UriResolver uriResolver) {
+        this(uriResolver, new BigInvocationHandler.Factory());
+    }
+
+    public JsoupParser(UriResolver uriResolver, MethodInvocationHandler invocationHandler) {
         this.uriResolver = uriResolver;
+        this.invocationHandler = invocationHandler;
     }
 
     @NotNull

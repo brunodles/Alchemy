@@ -1,6 +1,7 @@
 package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.annotations.*;
+import com.brunodles.jsoupparser.methodinvocation.SmallAnnotationInvocationHandler;
 import com.brunodles.jsoupparser.transformers.TransformToFloat;
 import com.brunodles.test.ResourceUriResolver;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class SmallAnnotation {
 
-    private final JsoupParser jsoupParser = new JsoupParser(new ResourceUriResolver());
+    private final JsoupParser jsoupParser = new JsoupParser(new ResourceUriResolver(), new SmallAnnotationInvocationHandler());
 
     @Test
     public void shouldParseSimple() {
@@ -26,7 +27,7 @@ public class SmallAnnotation {
     }
 
     @Test
-    public void shouldParseNestedItems() {
+    public void shouldParseNestedItem() {
         Nested rootModel = jsoupParser.parseUrl("nested_root.html", Nested.class);
         Nested.NestedChildModel child = rootModel.child();
 

@@ -1,5 +1,6 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.methodinvocation;
 
+import com.brunodles.jsoupparser.*;
 import com.brunodles.jsoupparser.exceptions.*;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.nodes.Element;
@@ -10,14 +11,14 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-class BigAnnotationInvokeHandler {
+public class BigInvocationHandler {
 
     private final ProxyHandler proxyHandler;
     private final Method method;
     private final String methodName;
     private final Object[] parameters;
 
-    BigAnnotationInvokeHandler(ProxyHandler proxyHandler, Method method, Object[] parameters) {
+    BigInvocationHandler(ProxyHandler proxyHandler, Method method, Object[] parameters) {
         this.proxyHandler = proxyHandler;
         this.method = method;
         this.parameters = parameters;
@@ -116,5 +117,14 @@ class BigAnnotationInvokeHandler {
             throw new InvalidTransformerException(methodName, transformerClass, e);
         }
         return transformer;
+    }
+
+    public static final class Factory implements MethodInvocationHandler {
+
+        @Override
+        public Object invoke(MethodInvocation invocation) {
+            return new BigInvocationHandler(invocation.proxyHandler, invocation.method, invocation.parameters)
+                    .invoke();
+        }
     }
 }
