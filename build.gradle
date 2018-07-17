@@ -11,7 +11,7 @@ repositories {
 }
 
 group 'com.brunodles'
-version '1.0.0'
+version '0.0.0'
 
 apply plugin: 'java'
 apply plugin: 'jacoco'
