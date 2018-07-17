@@ -7,7 +7,6 @@ import com.brunodles.jsoupparser.exceptions.InvalidSelectorException;
 import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.smallanotation.annotations.*;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -56,32 +55,34 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
             }
             annotations = annotationList.toArray(new Annotation[annotationList.size()]);
         }
-        Elements elements = null;
-        List<Object> result = null;
+        List result = null;
         for (Annotation annotation : annotations) {
             if (annotation instanceof Selector) {
                 String selector = ((Selector) annotation).value();
-                elements = invocation.proxyHandler.document.select(selector);
-                if (elements == null || elements.isEmpty())
+                result = invocation.proxyHandler.document.select(selector);
+                if (result == null || result.isEmpty())
                     throw new InvalidSelectorException(invocation.methodName, selector);
                 continue;
             }
-            if (annotation instanceof TextCollector && elements != null) {
-                result = new ArrayList<>(elements.size());
-                for (Element element : elements)
-                    result.add(element.text());
+            if (annotation instanceof TextCollector && result != null) {
+                List newResult = new ArrayList<>(result.size());
+                for (Object o : result)
+                    newResult.add(((Element) o).text());
+                result = newResult;
                 continue;
             }
-            if (annotation instanceof AttrCollector && elements != null) {
-                result = new ArrayList<>(elements.size());
-                for (Element element : elements)
-                    result.add(element.attr(((AttrCollector) annotation).value()));
+            if (annotation instanceof AttrCollector && result != null) {
+                List newResult = new ArrayList<>(result.size());
+                for (Object o : result)
+                    newResult.add(((Element) o).attr(((AttrCollector) annotation).value()));
+                result = newResult;
                 continue;
             }
-            if (annotation instanceof NestedCollector && elements != null) {
-                result = new ArrayList<>(elements.size());
-                for (Element element : elements)
-                    result.add(invocation.proxyHandler.jsoupParser.parseElement(element, invocation.getMethodRealReturnType()));
+            if (annotation instanceof NestedCollector && result != null) {
+                List newResult = new ArrayList<>(result.size());
+                for (Object o : result)
+                    newResult.add(invocation.proxyHandler.jsoupParser.parseElement(((Element) o), invocation.getMethodRealReturnType()));
+                result = newResult;
                 continue;
             }
             if (annotation instanceof TypeTransformer && result != null && !result.isEmpty()) {
@@ -101,7 +102,8 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 ArrayList<Object> newResult = new ArrayList<>(result.size());
                 for (int i = 0; i < result.size(); i++) {
                     String url = (String) result.get(i);
-                    newResult.add(invocation.proxyHandler.jsoupParser.parseUrl(url, invocation.getMethodRealReturnType()));
+                    Class<?> methodRealReturnType = invocation.getMethodRealReturnType();
+                    newResult.add(invocation.proxyHandler.jsoupParser.parseUrl(url, methodRealReturnType));
                 }
                 result = newResult;
                 continue;
