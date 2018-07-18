@@ -3,6 +3,7 @@ package com.brunodles.jsoupparser;
 import com.brunodles.jsoupparser.bigannotation.transformers.TransformToFloat;
 import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler;
 import com.brunodles.jsoupparser.smallanotation.annotations.*;
+import com.brunodles.jsoupparser.smallanotation.selector.Selector;
 import com.brunodles.test.ResourceUriResolver;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -80,13 +81,13 @@ public class SmallAnnotation {
         assertEquals(4, follow.collections().gamesArrayList().size());
     }
 
-    @Test
-    public void shouldAcceptStringOnComplex() {
-        FollowModel follow = jsoupParser.parseUrl("follow.html", FollowModel.class);
-
-        assertEquals("Jsoup Parser", follow.mappingSimple().title());
-//        assertEquals("wow", follow.mappingSimpleSpan123());
-    }
+//    @Test
+//    public void shouldAcceptStringOnMapping() {
+//        FollowModel follow = jsoupParser.parseUrl("follow.html", FollowModel.class);
+//
+////        assertEquals("Jsoup Parser", follow.mappingSimple().title());
+////        assertEquals("wow", follow.mappingSimpleSpan123());
+//    }
 
     public interface SimpleModel {
 
@@ -168,10 +169,10 @@ public class SmallAnnotation {
         @FollowTransformer
         CollectionsModel collections();
 
-        @Mapping({"Selector(.something a#simple)",
-                "AttrCollector(href)",
-                "FollowTransformer"})
-        SmallAnnotation.SimpleModel mappingSimple();
+//        @Mapping({"Selector(.something a#simple)",
+//                "AttrCollector(href)",
+//                "FollowTransformer"})
+//        SmallAnnotation.SimpleModel mappingSimple();
 
         // this one would be great
 //        @Mapping({"Selector(.something a#simple)",

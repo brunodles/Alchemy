@@ -3,7 +3,6 @@ package com.brunodles.jsoupparser.smallanotation;
 import com.brunodles.jsoupparser.MethodInvocation;
 import com.brunodles.jsoupparser.MethodInvocationHandler;
 import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.exceptions.InvalidSelectorException;
 import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.smallanotation.annotations.*;
 import org.jsoup.nodes.Element;
@@ -15,6 +14,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class SmallAnnotationInvocationHandler implements MethodInvocationHandler {
 
@@ -57,11 +57,21 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
         }
         List result = null;
         for (Annotation annotation : annotations) {
-            if (annotation instanceof Selector) {
-                String selector = ((Selector) annotation).value();
-                result = invocation.proxyHandler.document.select(selector);
-                if (result == null || result.isEmpty())
-                    throw new InvalidSelectorException(invocation.methodName, selector);
+            Class<? extends Transformer> transformerClass = null;
+            for (Map.Entry<Class<? extends Annotation>, Class<? extends Transformer>> entry : invocation.proxyHandler.jsoupParser.transformerMap.entrySet()) {
+                if (entry.getKey().isInstance(annotation)) {
+                    transformerClass = entry.getValue();
+                    break;
+                }
+            }
+            if (transformerClass != null) {
+                try {
+                    result = (List) transformerClass
+                            .newInstance()
+                            .transform(new AnnotationInvocation(invocation, annotation, result));
+                } catch (InstantiationException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
                 continue;
             }
             if (annotation instanceof TextCollector && result != null) {
