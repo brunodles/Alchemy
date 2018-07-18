@@ -14,6 +14,7 @@ public class JsoupParser {
 
     final MethodInvocationHandler invocationHandler;
     private final UriResolver uriResolver;
+    private ClassLoader classLoader;
 
     public JsoupParser() {
         this(null);
@@ -26,6 +27,11 @@ public class JsoupParser {
     public JsoupParser(UriResolver uriResolver, MethodInvocationHandler invocationHandler) {
         this.uriResolver = uriResolver;
         this.invocationHandler = invocationHandler;
+        classLoader = this.getClass().getClassLoader();
+    }
+
+    public void setClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
     }
 
     @NotNull
@@ -46,7 +52,7 @@ public class JsoupParser {
 
     public <T> T parseElement(@NotNull Element element, @NotNull Class<T> interfaceClass) {
         return (T) Proxy.newProxyInstance(
-                this.getClass().getClassLoader(),
+                classLoader,
                 new Class[]{interfaceClass},
                 new ProxyHandler(this, element, interfaceClass));
     }
