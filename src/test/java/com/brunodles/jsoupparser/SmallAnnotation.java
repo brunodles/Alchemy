@@ -4,7 +4,7 @@ import com.brunodles.jsoupparser.bigannotation.transformers.TransformToFloat;
 import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler;
 import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
 import com.brunodles.jsoupparser.smallanotation.annotations.FollowTransformer;
-import com.brunodles.jsoupparser.smallanotation.annotations.NestedCollector;
+import com.brunodles.jsoupparser.smallanotation.nested.Nested;
 import com.brunodles.jsoupparser.smallanotation.withtype.WithType;
 import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
 import com.brunodles.jsoupparser.smallanotation.selector.Selector;
@@ -120,7 +120,7 @@ public class SmallAnnotation {
     public interface NestedRootModel {
 
         @Selector(".root")
-        @NestedCollector
+        @Nested
         NestedChildModel child();
 
         interface NestedChildModel {
@@ -145,7 +145,7 @@ public class SmallAnnotation {
         HashSet<String> jvmLanguagesHashSet();
 
         @Selector("#games tr:has(td)")
-        @NestedCollector
+        @Nested
         LinkedList<Games> gamesArrayList();
 
         interface Games {
