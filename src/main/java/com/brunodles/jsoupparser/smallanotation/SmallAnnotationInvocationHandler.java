@@ -88,13 +88,6 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 }
                 continue;
             }
-            if (annotation instanceof TextCollector && result != null) {
-                List newResult = new ArrayList<>(result.size());
-                for (Object o : result)
-                    newResult.add(((Element) o).text());
-                result = newResult;
-                continue;
-            }
             if (annotation instanceof AttrCollector && result != null) {
                 List newResult = new ArrayList<>(result.size());
                 for (Object o : result)
