@@ -11,7 +11,7 @@ public class MethodInvocation {
     public final Object[] parameters;
     public final String methodName;
 
-    MethodInvocation(ProxyHandler proxyHandler, Method method, Object[] parameters) {
+    protected MethodInvocation(ProxyHandler proxyHandler, Method method, Object[] parameters) {
         this.proxyHandler = proxyHandler;
         this.method = method;
         this.parameters = parameters;
