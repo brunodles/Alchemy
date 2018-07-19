@@ -11,6 +11,8 @@ import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
 import com.brunodles.jsoupparser.smallanotation.collectors.TextCollectorTransformer;
 import com.brunodles.jsoupparser.smallanotation.selector.Selector;
 import com.brunodles.jsoupparser.smallanotation.selector.SelectorTransformer;
+import com.brunodles.jsoupparser.smallanotation.withtype.WithType;
+import com.brunodles.jsoupparser.smallanotation.withtype.WihTypeTransformer;
 import org.jsoup.nodes.Element;
 
 import java.lang.annotation.Annotation;
@@ -28,6 +30,7 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
         transfomers.put(Selector.class, SelectorTransformer.class);
         transfomers.put(TextCollector.class, TextCollectorTransformer.class);
         transfomers.put(AttrCollector.class, AttrCollectorTransformer.class);
+        transfomers.put(WithType.class, WihTypeTransformer.class);
         transformerMap = Collections.unmodifiableMap(transfomers);
     }
 
@@ -61,19 +64,6 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 List newResult = new ArrayList<>(result.size());
                 for (Object o : result)
                     newResult.add(invocation.proxyHandler.jsoupParser.parseElement(((Element) o), invocation.getMethodRealReturnType()));
-                result = newResult;
-                continue;
-            }
-            if (annotation instanceof TypeTransformer && result != null && !result.isEmpty()) {
-                Transformer transformer = null;
-                try {
-                    transformer = ((TypeTransformer) annotation).value().newInstance();
-                } catch (InstantiationException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
-                ArrayList<Object> newResult = new ArrayList<>(result.size());
-                for (Object o : result)
-                    newResult.add(transformer.transform(o));
                 result = newResult;
                 continue;
             }

@@ -5,7 +5,7 @@ import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler
 import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
 import com.brunodles.jsoupparser.smallanotation.annotations.FollowTransformer;
 import com.brunodles.jsoupparser.smallanotation.annotations.NestedCollector;
-import com.brunodles.jsoupparser.smallanotation.annotations.TypeTransformer;
+import com.brunodles.jsoupparser.smallanotation.withtype.WithType;
 import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
 import com.brunodles.jsoupparser.smallanotation.selector.Selector;
 import com.brunodles.test.ResourceUriResolver;
@@ -113,7 +113,7 @@ public class SmallAnnotation {
 
         @Selector("#float")
         @AttrCollector("data-value")
-        @TypeTransformer(TransformToFloat.class)
+        @WithType(TransformToFloat.class)
         Float floatValue();
     }
 
@@ -156,7 +156,7 @@ public class SmallAnnotation {
 
             @Selector("td:nth-child(2)")
             @TextCollector
-            @TypeTransformer(TransformToFloat.class)
+            @WithType(TransformToFloat.class)
             Float price();
         }
     }
