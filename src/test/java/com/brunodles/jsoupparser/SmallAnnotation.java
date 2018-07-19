@@ -3,7 +3,7 @@ package com.brunodles.jsoupparser;
 import com.brunodles.jsoupparser.bigannotation.transformers.TransformToFloat;
 import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler;
 import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
-import com.brunodles.jsoupparser.smallanotation.annotations.FollowTransformer;
+import com.brunodles.jsoupparser.smallanotation.navigate.Navigate;
 import com.brunodles.jsoupparser.smallanotation.nested.Nested;
 import com.brunodles.jsoupparser.smallanotation.withtype.WithType;
 import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
@@ -165,23 +165,23 @@ public class SmallAnnotation {
 
         @Selector(".something a#simple")
         @AttrCollector("href")
-        @FollowTransformer
+        @Navigate
         SmallAnnotation.SimpleModel simple();
 
         @Selector(".something a#collections")
         @AttrCollector("href")
-        @FollowTransformer
+        @Navigate
         CollectionsModel collections();
 
 //        @Mapping({"Selector(.something a#simple)",
 //                "AttrCollector(href)",
-//                "FollowTransformer"})
+//                "Navigate"})
 //        SmallAnnotation.SimpleModel mappingSimple();
 
         // this one would be great
 //        @Mapping({"Selector(.something a#simple)",
 //                "AttrCollector(href)",
-//                "FollowTransformer",
+//                "Navigate",
 //                "Selector(#123)",
 //                "TextCollector"})
 //        String mappingSimpleSpan123();

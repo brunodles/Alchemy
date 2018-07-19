@@ -9,6 +9,8 @@ import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
 import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollectorTransformer;
 import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
 import com.brunodles.jsoupparser.smallanotation.collectors.TextCollectorTransformer;
+import com.brunodles.jsoupparser.smallanotation.navigate.Navigate;
+import com.brunodles.jsoupparser.smallanotation.navigate.NavigateTransformer;
 import com.brunodles.jsoupparser.smallanotation.nested.Nested;
 import com.brunodles.jsoupparser.smallanotation.nested.NestedTransformer;
 import com.brunodles.jsoupparser.smallanotation.selector.Selector;
@@ -33,6 +35,7 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
         transfomers.put(AttrCollector.class, AttrCollectorTransformer.class);
         transfomers.put(WithType.class, WihTypeTransformer.class);
         transfomers.put(Nested.class, NestedTransformer.class);
+        transfomers.put(Navigate.class, NavigateTransformer.class);
         transformerMap = Collections.unmodifiableMap(transfomers);
     }
 
@@ -60,16 +63,6 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 } catch (InstantiationException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
-                continue;
-            }
-            if (annotation instanceof FollowTransformer && result != null && !result.isEmpty()) {
-                ArrayList<Object> newResult = new ArrayList<>(result.size());
-                for (int i = 0; i < result.size(); i++) {
-                    String url = (String) result.get(i);
-                    Class<?> methodRealReturnType = invocation.getMethodRealReturnType();
-                    newResult.add(invocation.proxyHandler.jsoupParser.parseUrl(url, methodRealReturnType));
-                }
-                result = newResult;
                 continue;
             }
         }
