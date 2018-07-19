@@ -5,18 +5,32 @@ import com.brunodles.jsoupparser.MethodInvocationHandler;
 import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.smallanotation.annotations.*;
+import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
+import com.brunodles.jsoupparser.smallanotation.collectors.TextCollectorTransformer;
+import com.brunodles.jsoupparser.smallanotation.selector.Selector;
+import com.brunodles.jsoupparser.smallanotation.selector.SelectorTransformer;
 import org.jsoup.nodes.Element;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SmallAnnotationInvocationHandler implements MethodInvocationHandler {
+
+    public final Map<Class<? extends Annotation>, Class<? extends Transformer>> transformerMap;
+
+    public SmallAnnotationInvocationHandler() {
+        Map<Class<? extends Annotation>, Class<? extends Transformer>> transfomers = new HashMap<>();
+        transfomers.put(Selector.class, SelectorTransformer.class);
+        transfomers.put(TextCollector.class, TextCollectorTransformer.class);
+        transformerMap = Collections.unmodifiableMap(transfomers);
+    }
+
+    public SmallAnnotationInvocationHandler(Map<Class<? extends Annotation>, Class<? extends Transformer>> transformerMap) {
+        this.transformerMap = Collections.unmodifiableMap(transformerMap);
+    }
 
     @Override
     public Object invoke(MethodInvocation invocation) {
@@ -58,7 +72,7 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
         List result = null;
         for (Annotation annotation : annotations) {
             Class<? extends Transformer> transformerClass = null;
-            for (Map.Entry<Class<? extends Annotation>, Class<? extends Transformer>> entry : invocation.proxyHandler.jsoupParser.transformerMap.entrySet()) {
+            for (Map.Entry<Class<? extends Annotation>, Class<? extends Transformer>> entry : transformerMap.entrySet()) {
                 if (entry.getKey().isInstance(annotation)) {
                     transformerClass = entry.getValue();
                     break;

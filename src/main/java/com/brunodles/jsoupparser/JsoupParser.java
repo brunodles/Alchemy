@@ -18,7 +18,6 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class JsoupParser {
 
-    public final Map<Class<? extends Annotation>, Class<? extends Transformer>> transformerMap;
     final MethodInvocationHandler invocationHandler;
     private final UriResolver uriResolver;
     private ClassLoader classLoader;
@@ -35,9 +34,6 @@ public class JsoupParser {
         this.uriResolver = uriResolver;
         this.invocationHandler = invocationHandler;
         classLoader = this.getClass().getClassLoader();
-        Map<Class<? extends Annotation>, Class<? extends Transformer>> transfomers = new HashMap<>();
-        transfomers.put(Selector.class, SelectorTransformer.class);
-        transformerMap = Collections.unmodifiableMap(transfomers);
     }
 
     public void setClassLoader(ClassLoader classLoader) {
