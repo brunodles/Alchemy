@@ -2,7 +2,11 @@ package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.bigannotation.transformers.TransformToFloat;
 import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler;
-import com.brunodles.jsoupparser.smallanotation.annotations.*;
+import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
+import com.brunodles.jsoupparser.smallanotation.annotations.FollowTransformer;
+import com.brunodles.jsoupparser.smallanotation.annotations.NestedCollector;
+import com.brunodles.jsoupparser.smallanotation.annotations.TypeTransformer;
+import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
 import com.brunodles.jsoupparser.smallanotation.selector.Selector;
 import com.brunodles.test.ResourceUriResolver;
 import org.junit.Test;

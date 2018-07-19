@@ -5,6 +5,8 @@ import com.brunodles.jsoupparser.MethodInvocationHandler;
 import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.smallanotation.annotations.*;
+import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
+import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollectorTransformer;
 import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
 import com.brunodles.jsoupparser.smallanotation.collectors.TextCollectorTransformer;
 import com.brunodles.jsoupparser.smallanotation.selector.Selector;
@@ -25,6 +27,7 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
         Map<Class<? extends Annotation>, Class<? extends Transformer>> transfomers = new HashMap<>();
         transfomers.put(Selector.class, SelectorTransformer.class);
         transfomers.put(TextCollector.class, TextCollectorTransformer.class);
+        transfomers.put(AttrCollector.class, AttrCollectorTransformer.class);
         transformerMap = Collections.unmodifiableMap(transfomers);
     }
 
@@ -86,13 +89,6 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 } catch (InstantiationException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
-                continue;
-            }
-            if (annotation instanceof AttrCollector && result != null) {
-                List newResult = new ArrayList<>(result.size());
-                for (Object o : result)
-                    newResult.add(((Element) o).attr(((AttrCollector) annotation).value()));
-                result = newResult;
                 continue;
             }
             if (annotation instanceof NestedCollector && result != null) {
