@@ -37,41 +37,7 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
 
     @Override
     public Object invoke(MethodInvocation invocation) {
-        Mapping mappingAnnotation = invocation.getMethodAnnotation(Mapping.class);
-        Annotation[] annotations;
-        if (mappingAnnotation == null) {
-            annotations = invocation.getMethodAnnotations();
-        } else {
-            String[] strings = mappingAnnotation.value();
-            ArrayList<Annotation> annotationList = new ArrayList<>();
-            for (String string : strings) {
-                final String annotationName;
-                final String annotationValue;
-                if (string.contains("(")) {
-                    int openBrackets = string.indexOf("(");
-                    int closeBrackets = string.lastIndexOf(")");
-                    annotationName = string.substring(0, openBrackets);
-                    annotationValue = string.substring(openBrackets + 1, closeBrackets);
-                } else {
-                    annotationName = string;
-                    annotationValue = null;
-                }
-                Class<? extends Annotation> annotationClass;
-                try {
-                    annotationClass = (Class<? extends Annotation>) Class.forName("com.brunodles.jsoupparser.smallanotation.annotations." + annotationName);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                Annotation annotation = (Annotation) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{annotationClass}, new InvocationHandler() {
-                    @Override
-                    public Object invoke(Object proxy, Method method, Object[] args) {
-                        return annotationValue;
-                    }
-                });
-                annotationList.add(annotation);
-            }
-            annotations = annotationList.toArray(new Annotation[annotationList.size()]);
-        }
+        Annotation[] annotations = getAnnotations(invocation);
         List result = null;
         for (Annotation annotation : annotations) {
             Class<? extends Transformer> transformerClass = null;
@@ -133,5 +99,44 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
             }
         }
         return result.get(0);
+    }
+
+    private Annotation[] getAnnotations(MethodInvocation invocation) {
+        Mapping mappingAnnotation = invocation.getMethodAnnotation(Mapping.class);
+        Annotation[] annotations;
+        if (mappingAnnotation == null) {
+            annotations = invocation.getMethodAnnotations();
+        } else {
+            String[] strings = mappingAnnotation.value();
+            ArrayList<Annotation> annotationList = new ArrayList<>();
+            for (String string : strings) {
+                final String annotationName;
+                final String annotationValue;
+                if (string.contains("(")) {
+                    int openBrackets = string.indexOf("(");
+                    int closeBrackets = string.lastIndexOf(")");
+                    annotationName = string.substring(0, openBrackets);
+                    annotationValue = string.substring(openBrackets + 1, closeBrackets);
+                } else {
+                    annotationName = string;
+                    annotationValue = null;
+                }
+                Class<? extends Annotation> annotationClass;
+                try {
+                    annotationClass = (Class<? extends Annotation>) Class.forName("com.brunodles.jsoupparser.smallanotation.annotations." + annotationName);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                Annotation annotation = (Annotation) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{annotationClass}, new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) {
+                        return annotationValue;
+                    }
+                });
+                annotationList.add(annotation);
+            }
+            annotations = annotationList.toArray(new Annotation[annotationList.size()]);
+        }
+        return annotations;
     }
 }
