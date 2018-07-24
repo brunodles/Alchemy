@@ -12,7 +12,7 @@ public class ResourceLoader {
         return inputStreamToString(inputStream);
     }
 
-    private static String inputStreamToString(InputStream is) throws IOException {
+    public static String inputStreamToString(InputStream is) throws IOException {
         final int PKG_SIZE = 1024;
         byte[] data = new byte[PKG_SIZE];
         StringBuilder buffer = new StringBuilder(PKG_SIZE * 10);
