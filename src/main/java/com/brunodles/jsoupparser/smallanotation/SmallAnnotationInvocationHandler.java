@@ -3,6 +3,8 @@ package com.brunodles.jsoupparser.smallanotation;
 import com.brunodles.jsoupparser.MethodInvocation;
 import com.brunodles.jsoupparser.MethodInvocationHandler;
 import com.brunodles.jsoupparser.Transformer;
+import com.brunodles.jsoupparser.exceptions.InvalidResultException;
+import com.brunodles.jsoupparser.exceptions.MissingSelectorException;
 import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.smallanotation.annotations.Mapping;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +31,10 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
     @Override
     public Object invoke(MethodInvocation invocation) {
         Annotation[] annotations = getAnnotations(invocation);
+        if (annotations.length == 0)
+            throw new MissingSelectorException(invocation.methodName);
+        if (invocation.getMethodRealReturnType() == Void.TYPE)
+            throw new InvalidResultException(invocation.methodName);
         List result = null;
         for (Annotation annotation : annotations) {
             Class<? extends Transformer> transformerClass = null;
@@ -75,7 +81,9 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 throw new ResultException(invocation.methodName, invocation.getMethodRawReturnType().getSimpleName(), e);
             }
         }
-        return result.get(0);
+        if (result.size() > 0)
+            return result.get(0);
+        return null;
     }
 
     private Annotation[] getAnnotations(MethodInvocation invocation) {
