@@ -1,7 +1,7 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.bigannotation.BigInvocationHandler;
 import com.brunodles.jsoupparser.exceptions.ResolverException;
+import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +21,7 @@ public class JsoupParser {
     }
 
     public JsoupParser(UriResolver uriResolver) {
-        this(uriResolver, new BigInvocationHandler.Factory());
+        this(uriResolver, new SmallAnnotationInvocationHandler());
     }
 
     public JsoupParser(UriResolver uriResolver, MethodInvocationHandler invocationHandler) {
