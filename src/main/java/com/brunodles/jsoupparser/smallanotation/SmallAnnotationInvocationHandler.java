@@ -4,43 +4,26 @@ import com.brunodles.jsoupparser.MethodInvocation;
 import com.brunodles.jsoupparser.MethodInvocationHandler;
 import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.exceptions.ResultException;
-import com.brunodles.jsoupparser.smallanotation.annotations.*;
-import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
-import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollectorTransformer;
-import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
-import com.brunodles.jsoupparser.smallanotation.collectors.TextCollectorTransformer;
-import com.brunodles.jsoupparser.smallanotation.navigate.Navigate;
-import com.brunodles.jsoupparser.smallanotation.navigate.NavigateTransformer;
-import com.brunodles.jsoupparser.smallanotation.nested.Nested;
-import com.brunodles.jsoupparser.smallanotation.nested.NestedTransformer;
-import com.brunodles.jsoupparser.smallanotation.selector.Selector;
-import com.brunodles.jsoupparser.smallanotation.selector.SelectorTransformer;
-import com.brunodles.jsoupparser.smallanotation.withtype.WithType;
-import com.brunodles.jsoupparser.smallanotation.withtype.WihTypeTransformer;
+import com.brunodles.jsoupparser.smallanotation.annotations.Mapping;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.*;
+import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class SmallAnnotationInvocationHandler implements MethodInvocationHandler {
 
     public final Map<Class<? extends Annotation>, Class<? extends Transformer>> transformerMap;
 
     public SmallAnnotationInvocationHandler() {
-        Map<Class<? extends Annotation>, Class<? extends Transformer>> transfomers = new HashMap<>();
-        transfomers.put(Selector.class, SelectorTransformer.class);
-        transfomers.put(TextCollector.class, TextCollectorTransformer.class);
-        transfomers.put(AttrCollector.class, AttrCollectorTransformer.class);
-        transfomers.put(WithType.class, WihTypeTransformer.class);
-        transfomers.put(Nested.class, NestedTransformer.class);
-        transfomers.put(Navigate.class, NavigateTransformer.class);
-        transformerMap = Collections.unmodifiableMap(transfomers);
+        this(new TransformersBuilder());
     }
 
-    public SmallAnnotationInvocationHandler(Map<Class<? extends Annotation>, Class<? extends Transformer>> transformerMap) {
-        this.transformerMap = Collections.unmodifiableMap(transformerMap);
+    public SmallAnnotationInvocationHandler(@NotNull TransformersBuilder transformersBuilder) {
+        this.transformerMap = transformersBuilder.build();
     }
 
     @Override
@@ -57,15 +40,31 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
             }
             if (transformerClass != null) {
                 try {
-                    result = (List) transformerClass
-                            .newInstance()
-                            .transform(new AnnotationInvocation(invocation, annotation, result));
+                    Transformer transformer = transformerClass.newInstance();
+                    if (shouldUseWrapper(transformerClass))
+                        transformer = new WrapperTransformer(transformer);
+                    result = (List) transformer.transform(new AnnotationInvocation(invocation, annotation, result));
                 } catch (InstantiationException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
-                continue;
             }
         }
+        return getResult(invocation, result);
+    }
+
+    private boolean shouldUseWrapper(Class<? extends Transformer> transformerClass) {
+        try {
+            Type[] genericInterfaces = transformerClass.getGenericInterfaces(); // List of interfaces for our transformer, expected: Transformer
+            ParameterizedType type = (ParameterizedType) genericInterfaces[0]; // first generics should be: AnnotationInvocation
+            Type[] actualTypeArguments = type.getActualTypeArguments(); // List of Generics of AnnotationInvocation
+            Class<?> inputClass = (Class<?>) actualTypeArguments[1]; // second generics is the input
+            return !Collection.class.isAssignableFrom(inputClass); // is it a Collection?
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private Object getResult(MethodInvocation invocation, List result) {
         if (invocation.isMethodReturnTypeCollection()) {
             try {
                 Collection collectionResult = (Collection) invocation.getMethodRawReturnType().newInstance();
