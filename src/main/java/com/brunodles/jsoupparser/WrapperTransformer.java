@@ -1,6 +1,4 @@
-package com.brunodles.jsoupparser.smallanotation;
-
-import com.brunodles.jsoupparser.Transformer;
+package com.brunodles.jsoupparser;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;

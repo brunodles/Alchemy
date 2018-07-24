@@ -1,12 +1,11 @@
-package com.brunodles.jsoupparser.smallanotation;
+package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollectorTransformer;
-import com.brunodles.jsoupparser.smallanotation.collectors.TextCollectorTransformer;
-import com.brunodles.jsoupparser.smallanotation.navigate.NavigateTransformer;
-import com.brunodles.jsoupparser.smallanotation.nested.NestedTransformer;
-import com.brunodles.jsoupparser.smallanotation.selector.SelectorTransformer;
-import com.brunodles.jsoupparser.smallanotation.withtype.WithTypeTransformer;
+import com.brunodles.jsoupparser.collectors.AttrCollectorTransformer;
+import com.brunodles.jsoupparser.collectors.TextCollectorTransformer;
+import com.brunodles.jsoupparser.navigate.NavigateTransformer;
+import com.brunodles.jsoupparser.nested.NestedTransformer;
+import com.brunodles.jsoupparser.selector.SelectorTransformer;
+import com.brunodles.jsoupparser.withtype.WithTypeTransformer;
 
 import java.lang.annotation.Annotation;
 import java.util.Collections;

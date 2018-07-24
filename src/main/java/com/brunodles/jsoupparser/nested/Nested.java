@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.smallanotation.nested;
+package com.brunodles.jsoupparser.nested;
 
 import java.lang.annotation.*;
 

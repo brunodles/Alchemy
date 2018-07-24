@@ -1,8 +1,8 @@
-package com.brunodles.jsoupparser.smallanotation.nested;
+package com.brunodles.jsoupparser.nested;
 
 import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.smallanotation.AnnotationInvocation;
-import com.brunodles.jsoupparser.smallanotation.TransformerFor;
+import com.brunodles.jsoupparser.AnnotationInvocation;
+import com.brunodles.jsoupparser.TransformerFor;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;

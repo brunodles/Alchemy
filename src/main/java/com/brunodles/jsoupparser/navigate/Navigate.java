@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.smallanotation.navigate;
+package com.brunodles.jsoupparser.navigate;
 
 import java.lang.annotation.*;
 

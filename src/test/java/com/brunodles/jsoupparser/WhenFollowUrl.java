@@ -1,8 +1,8 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
-import com.brunodles.jsoupparser.smallanotation.navigate.Navigate;
-import com.brunodles.jsoupparser.smallanotation.selector.Selector;
+import com.brunodles.jsoupparser.collectors.AttrCollector;
+import com.brunodles.jsoupparser.navigate.Navigate;
+import com.brunodles.jsoupparser.selector.Selector;
 import com.brunodles.test.ResourceUriResolver;
 import org.junit.Before;
 import org.junit.BeforeClass;

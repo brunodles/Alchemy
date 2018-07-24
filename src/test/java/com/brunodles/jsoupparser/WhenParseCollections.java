@@ -1,10 +1,10 @@
 package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.transformers.TransformToFloat;
-import com.brunodles.jsoupparser.smallanotation.collectors.TextCollector;
-import com.brunodles.jsoupparser.smallanotation.nested.Nested;
-import com.brunodles.jsoupparser.smallanotation.selector.Selector;
-import com.brunodles.jsoupparser.smallanotation.withtype.WithType;
+import com.brunodles.jsoupparser.collectors.TextCollector;
+import com.brunodles.jsoupparser.nested.Nested;
+import com.brunodles.jsoupparser.selector.Selector;
+import com.brunodles.jsoupparser.withtype.WithType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

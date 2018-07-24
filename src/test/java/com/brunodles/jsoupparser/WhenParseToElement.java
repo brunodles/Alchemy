@@ -1,7 +1,6 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler;
-import com.brunodles.jsoupparser.smallanotation.selector.Selector;
+import com.brunodles.jsoupparser.selector.Selector;
 import com.brunodles.test.ResourceUriResolver;
 import org.jsoup.nodes.Element;
 import org.junit.Test;

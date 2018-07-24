@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.smallanotation.annotations;
+package com.brunodles.jsoupparser.annotations;
 
 import java.lang.annotation.*;
 

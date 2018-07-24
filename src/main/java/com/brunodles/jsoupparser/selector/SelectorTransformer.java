@@ -1,9 +1,9 @@
-package com.brunodles.jsoupparser.smallanotation.selector;
+package com.brunodles.jsoupparser.selector;
 
 import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.exceptions.InvalidSelectorException;
-import com.brunodles.jsoupparser.smallanotation.AnnotationInvocation;
-import com.brunodles.jsoupparser.smallanotation.TransformerFor;
+import com.brunodles.jsoupparser.AnnotationInvocation;
+import com.brunodles.jsoupparser.TransformerFor;
 import org.jsoup.select.Elements;
 
 @TransformerFor(Selector.class)

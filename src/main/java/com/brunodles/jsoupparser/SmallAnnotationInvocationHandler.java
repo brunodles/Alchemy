@@ -1,12 +1,9 @@
-package com.brunodles.jsoupparser.smallanotation;
+package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.MethodInvocation;
-import com.brunodles.jsoupparser.MethodInvocationHandler;
-import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.exceptions.InvalidResultException;
 import com.brunodles.jsoupparser.exceptions.MissingSelectorException;
 import com.brunodles.jsoupparser.exceptions.ResultException;
-import com.brunodles.jsoupparser.smallanotation.annotations.Mapping;
+import com.brunodles.jsoupparser.annotations.Mapping;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -108,7 +105,7 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
                 }
                 Class<? extends Annotation> annotationClass;
                 try {
-                    annotationClass = (Class<? extends Annotation>) Class.forName("com.brunodles.jsoupparser.smallanotation.annotations." + annotationName);
+                    annotationClass = (Class<? extends Annotation>) Class.forName("com.brunodles.jsoupparser.annotations." + annotationName);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }

@@ -1,10 +1,9 @@
-package com.brunodles.jsoupparser.smallanotation.selector;
+package com.brunodles.jsoupparser.collectors;
 
 import java.lang.annotation.*;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Selector {
-    String value();
+public @interface TextCollector {
 }

@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.smallanotation.withtype;
+package com.brunodles.jsoupparser.withtype;
 
 import com.brunodles.jsoupparser.Transformer;
 
