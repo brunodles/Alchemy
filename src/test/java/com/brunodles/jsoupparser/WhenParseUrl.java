@@ -1,6 +1,5 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.bigannotation.SimpleModel;
 import com.brunodles.jsoupparser.doubles.UnknownException;
 import com.brunodles.jsoupparser.exceptions.ResolverException;
 import org.junit.Before;
@@ -13,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import javax.xml.bind.Element;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.any;
@@ -41,7 +41,7 @@ public class WhenParseUrl {
     public void shouldCallUriResolver() throws IOException {
         when(uriResolver.htmlGet(anyString())).thenReturn("");
 
-        SimpleModel simpleModel = jsoupParser.parseUrl("res:whatIsThis", SimpleModel.class);
+        Element simpleModel = jsoupParser.parseUrl("res:whatIsThis", Element.class);
 
         verify(uriResolver, only()).htmlGet(eq("res:whatIsThis"));
     }
@@ -52,6 +52,6 @@ public class WhenParseUrl {
         expectedException.expect(ResolverException.class);
         expectedException.expectCause(any(UnknownException.class));
 
-        jsoupParser.parseUrl("any", SimpleModel.class);
+        jsoupParser.parseUrl("any", Element.class);
     }
 }

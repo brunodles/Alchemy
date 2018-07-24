@@ -1,6 +1,6 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.bigannotation.transformers.TransformToFloat;
+import com.brunodles.jsoupparser.transformers.TransformToFloat;
 import com.brunodles.jsoupparser.smallanotation.SmallAnnotationInvocationHandler;
 import com.brunodles.jsoupparser.smallanotation.collectors.AttrCollector;
 import com.brunodles.jsoupparser.smallanotation.navigate.Navigate;
@@ -83,6 +83,13 @@ public class SmallAnnotation {
         assertEquals("Jsoup Parser", simple.title());
 
         assertEquals(4, follow.collections().gamesArrayList().size());
+    }
+
+    @Test
+    public void shouldBlah() {
+        SimpleModel simpleModel = jsoupParser.parseUrl("simple.html", SimpleModel.class);
+
+        assertEquals("magic",simpleModel.magic());
     }
 
 //    @Test
@@ -172,20 +179,6 @@ public class SmallAnnotation {
         @AttrCollector("href")
         @Navigate
         CollectionsModel collections();
-
-//        @Mapping({"Selector(.something a#simple)",
-//                "AttrCollector(href)",
-//                "Navigate"})
-//        SmallAnnotation.SimpleModel mappingSimple();
-
-        // this one would be great
-//        @Mapping({"Selector(.something a#simple)",
-//                "AttrCollector(href)",
-//                "Navigate",
-//                "Selector(#123)",
-//                "TextCollector"})
-//        String mappingSimpleSpan123();
-
     }
 
 }
