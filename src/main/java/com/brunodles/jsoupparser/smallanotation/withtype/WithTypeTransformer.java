@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TransformerFor(WithType.class)
-public class WihTypeTransformer<INPUT, OUTPUT> implements Transformer<AnnotationInvocation<WithType, List<INPUT>>, List<OUTPUT>> {
+public class WithTypeTransformer<INPUT, OUTPUT> implements Transformer<AnnotationInvocation<WithType, List<INPUT>>, List<OUTPUT>> {
 
     @Override
     public List<OUTPUT> transform(AnnotationInvocation<WithType, List<INPUT>> value) {
         Transformer<INPUT, OUTPUT> transformer = null;
         try {
-            transformer = value.annotation.value().newInstance();
+            Class<? extends Transformer> transformerClass = value.annotation.value();
+            transformer = transformerClass.newInstance();
         } catch (InstantiationException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {

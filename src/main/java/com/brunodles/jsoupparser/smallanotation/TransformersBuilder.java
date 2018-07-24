@@ -6,7 +6,7 @@ import com.brunodles.jsoupparser.smallanotation.collectors.TextCollectorTransfor
 import com.brunodles.jsoupparser.smallanotation.navigate.NavigateTransformer;
 import com.brunodles.jsoupparser.smallanotation.nested.NestedTransformer;
 import com.brunodles.jsoupparser.smallanotation.selector.SelectorTransformer;
-import com.brunodles.jsoupparser.smallanotation.withtype.WihTypeTransformer;
+import com.brunodles.jsoupparser.smallanotation.withtype.WithTypeTransformer;
 
 import java.lang.annotation.Annotation;
 import java.util.Collections;
@@ -26,7 +26,7 @@ public final class TransformersBuilder {
         add(SelectorTransformer.class);
         add(TextCollectorTransformer.class);
         add(AttrCollectorTransformer.class);
-        add(WihTypeTransformer.class);
+        add(WithTypeTransformer.class);
         add(NestedTransformer.class);
         add(NavigateTransformer.class);
     }
