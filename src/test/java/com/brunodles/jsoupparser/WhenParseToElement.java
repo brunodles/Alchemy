@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class WhenParseToElement {
 
-    private final JsoupParser jsoupParser = new JsoupParser(new ResourceUriResolver(), new SmallAnnotationInvocationHandler());
+    private final JsoupParser jsoupParser = new JsoupParser(new ResourceUriResolver(), new AnnotationInvocationHandler());
 
     @Test
     public void shouldReturnElementDirectly() {

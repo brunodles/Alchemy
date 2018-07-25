@@ -33,7 +33,7 @@ public class SmallAnnotation {
         GAMES = Collections.unmodifiableMap(games);
     }
 
-    private final JsoupParser jsoupParser = new JsoupParser(new ResourceUriResolver(), new SmallAnnotationInvocationHandler());
+    private final JsoupParser jsoupParser = new JsoupParser(new ResourceUriResolver(), new AnnotationInvocationHandler());
 
     @Test
     public void shouldParseSimple() {

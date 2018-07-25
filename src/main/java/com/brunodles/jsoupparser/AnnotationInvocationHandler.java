@@ -1,9 +1,9 @@
 package com.brunodles.jsoupparser;
 
+import com.brunodles.jsoupparser.annotations.Mapping;
 import com.brunodles.jsoupparser.exceptions.InvalidResultException;
 import com.brunodles.jsoupparser.exceptions.MissingSelectorException;
 import com.brunodles.jsoupparser.exceptions.ResultException;
-import com.brunodles.jsoupparser.annotations.Mapping;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -11,18 +11,17 @@ import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-public class SmallAnnotationInvocationHandler implements MethodInvocationHandler {
+public class AnnotationInvocationHandler implements MethodInvocationHandler {
 
-    public final Map<Class<? extends Annotation>, Class<? extends Transformer>> transformerMap;
+    public final Transformers transformers;
 
-    public SmallAnnotationInvocationHandler() {
-        this(new TransformersBuilder());
+    public AnnotationInvocationHandler() {
+        this(new Transformers.Builder().build());
     }
 
-    public SmallAnnotationInvocationHandler(@NotNull TransformersBuilder transformersBuilder) {
-        this.transformerMap = transformersBuilder.build();
+    public AnnotationInvocationHandler(@NotNull Transformers transformers) {
+        this.transformers = transformers;
     }
 
     @Override
@@ -34,22 +33,14 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
             throw new InvalidResultException(invocation.methodName);
         List result = null;
         for (Annotation annotation : annotations) {
-            Class<? extends Transformer> transformerClass = null;
-            for (Map.Entry<Class<? extends Annotation>, Class<? extends Transformer>> entry : transformerMap.entrySet()) {
-                if (entry.getKey().isInstance(annotation)) {
-                    transformerClass = entry.getValue();
-                    break;
-                }
-            }
-            if (transformerClass != null) {
-                try {
-                    Transformer transformer = transformerClass.newInstance();
-                    if (shouldUseWrapper(transformerClass))
-                        transformer = new WrapperTransformer(transformer);
-                    result = (List) transformer.transform(new AnnotationInvocation(invocation, annotation, result));
-                } catch (InstantiationException | IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
+            Class<? extends Transformer> transformerClass = transformers.transformerFor(annotation);
+            try {
+                Transformer transformer = transformerClass.newInstance();
+                if (shouldUseWrapper(transformerClass))
+                    transformer = new WrapperTransformer(transformer);
+                result = (List) transformer.transform(new AnnotationInvocation(invocation, annotation, result));
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(e);
             }
         }
         return getResult(invocation, result);
@@ -57,7 +48,7 @@ public class SmallAnnotationInvocationHandler implements MethodInvocationHandler
 
     private boolean shouldUseWrapper(Class<? extends Transformer> transformerClass) {
         try {
-            Type[] genericInterfaces = transformerClass.getGenericInterfaces(); // List of interfaces for our transformer, expected: Transformer
+            Type[] genericInterfaces = transformerClass.getGenericInterfaces(); // List of interfaces for our transformers, expected: Transformer
             ParameterizedType type = (ParameterizedType) genericInterfaces[0]; // first generics should be: AnnotationInvocation
             Type[] actualTypeArguments = type.getActualTypeArguments(); // List of Generics of AnnotationInvocation
             Class<?> inputClass = (Class<?>) actualTypeArguments[1]; // second generics is the input

@@ -20,7 +20,7 @@ public class JsoupParser {
     }
 
     public JsoupParser(UriResolver uriResolver) {
-        this(uriResolver, new SmallAnnotationInvocationHandler());
+        this(uriResolver, new AnnotationInvocationHandler());
     }
 
     public JsoupParser(UriResolver uriResolver, MethodInvocationHandler invocationHandler) {
