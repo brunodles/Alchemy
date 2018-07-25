@@ -1,9 +1,7 @@
 package com.brunodles.jsoupparser.exceptions;
 
-import com.brunodles.jsoupparser.bigannotation.CssSelector;
-
 /**
- * This exception is thrown when field is not annotated with {@link CssSelector}
+ * This exception is thrown when field is not annotated
  */
 public class MissingSelectorException extends RuntimeException {
     public MissingSelectorException(String methodName) {
