@@ -2,6 +2,7 @@ package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.exceptions.ResolverException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,24 +14,30 @@ public class JsoupParser {
 
     final MethodInvocationHandler invocationHandler;
     private final UriResolver uriResolver;
-    private ClassLoader classLoader;
+    private final ClassLoader classLoader;
 
     public JsoupParser() {
-        this(null);
+        this(new AnnotationInvocationHandler(defaultTransformers()), defaultUriResolver(), null);
     }
 
-    public JsoupParser(UriResolver uriResolver) {
-        this(uriResolver, new AnnotationInvocationHandler());
-    }
-
-    public JsoupParser(UriResolver uriResolver, MethodInvocationHandler invocationHandler) {
-        this.uriResolver = uriResolver;
+    private JsoupParser(@NotNull MethodInvocationHandler invocationHandler, @NotNull UriResolver uriResolver, @Nullable ClassLoader classLoader) {
         this.invocationHandler = invocationHandler;
-        classLoader = this.getClass().getClassLoader();
+        this.uriResolver = uriResolver;
+
+        if (classLoader == null)
+            this.classLoader = this.getClass().getClassLoader();
+        else
+            this.classLoader = classLoader;
     }
 
-    public void setClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
+    @NotNull
+    private static HttpResolver defaultUriResolver() {
+        return new HttpResolver();
+    }
+
+    @NotNull
+    private static Transformers defaultTransformers() {
+        return new Transformers.Builder().build();
     }
 
     @NotNull
@@ -58,4 +65,32 @@ public class JsoupParser {
                 new ProxyHandler(this, element, interfaceClass));
     }
 
+    public static class Builder {
+        private Transformers transformers;
+        private ClassLoader classLoader;
+        private UriResolver uriResolver;
+
+        public Builder transformers(Transformers builder) {
+            this.transformers = builder;
+            return this;
+        }
+
+        public Builder classLoader(ClassLoader classLoader) {
+            this.classLoader = classLoader;
+            return this;
+        }
+
+        public Builder uriResolver(UriResolver uriResolver) {
+            this.uriResolver = uriResolver;
+            return this;
+        }
+
+        public JsoupParser build() {
+            if (uriResolver == null)
+                uriResolver = defaultUriResolver();
+            if (transformers == null)
+                transformers = defaultTransformers();
+            return new JsoupParser(new AnnotationInvocationHandler(transformers), uriResolver, classLoader);
+        }
+    }
 }

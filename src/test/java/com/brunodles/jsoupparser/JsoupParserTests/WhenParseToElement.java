@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class WhenParseToElement {
 
-    private final JsoupParser jsoupParser = new JsoupParser(new ResourceUriResolver(), new AnnotationInvocationHandler());
+    private final JsoupParser jsoupParser = new JsoupParser.Builder().uriResolver(new ResourceUriResolver()).build();
 
     @Test
     public void shouldReturnElementDirectly() {

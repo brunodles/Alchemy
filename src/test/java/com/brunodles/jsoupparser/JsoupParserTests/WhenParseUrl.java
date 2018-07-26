@@ -36,7 +36,7 @@ public class WhenParseUrl {
 
     @Before
     public void setUp() {
-        jsoupParser = new JsoupParser(uriResolver);
+        jsoupParser = new JsoupParser.Builder().uriResolver(uriResolver).build();
     }
 
     @Test

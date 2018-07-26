@@ -62,7 +62,7 @@ public final class Transformers {
         }
 
         @NotNull
-        Transformers build() {
+        public Transformers build() {
             return new Transformers(Collections.unmodifiableMap(transformerMap));
         }
     }

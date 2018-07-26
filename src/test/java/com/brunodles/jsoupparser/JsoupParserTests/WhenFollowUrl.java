@@ -21,7 +21,7 @@ public class WhenFollowUrl {
 
     @BeforeClass
     public static void setupParser() {
-        parser = new JsoupParser(new ResourceUriResolver());
+        parser = new JsoupParser.Builder().uriResolver(new ResourceUriResolver()).build();
     }
 
     @Before
