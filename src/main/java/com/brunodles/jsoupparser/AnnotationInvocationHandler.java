@@ -1,14 +1,13 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.annotations.Mapping;
 import com.brunodles.jsoupparser.exceptions.InvalidResultException;
-import com.brunodles.jsoupparser.selector.MissingSelectorException;
 import com.brunodles.jsoupparser.exceptions.ResultException;
+import com.brunodles.jsoupparser.selector.MissingSelectorException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
-import java.util.ArrayList;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class AnnotationInvocationHandler implements MethodInvocationHandler {
 
     @Override
     public Object invoke(MethodInvocation invocation) {
-        Annotation[] annotations = getAnnotations(invocation);
+        Annotation[] annotations = invocation.getMethodAnnotations();
         if (annotations.length == 0)
             throw new MissingSelectorException(invocation.methodName);
         if (invocation.getMethodRealReturnType() == Void.TYPE)
@@ -72,44 +71,5 @@ public class AnnotationInvocationHandler implements MethodInvocationHandler {
         if (result.size() > 0)
             return result.get(0);
         return null;
-    }
-
-    private Annotation[] getAnnotations(MethodInvocation invocation) {
-        Mapping mappingAnnotation = invocation.getMethodAnnotation(Mapping.class);
-        Annotation[] annotations;
-        if (mappingAnnotation == null) {
-            annotations = invocation.getMethodAnnotations();
-        } else {
-            String[] strings = mappingAnnotation.value();
-            ArrayList<Annotation> annotationList = new ArrayList<>();
-            for (String string : strings) {
-                final String annotationName;
-                final String annotationValue;
-                if (string.contains("(")) {
-                    int openBrackets = string.indexOf("(");
-                    int closeBrackets = string.lastIndexOf(")");
-                    annotationName = string.substring(0, openBrackets);
-                    annotationValue = string.substring(openBrackets + 1, closeBrackets);
-                } else {
-                    annotationName = string;
-                    annotationValue = null;
-                }
-                Class<? extends Annotation> annotationClass;
-                try {
-                    annotationClass = (Class<? extends Annotation>) Class.forName("com.brunodles.jsoupparser.annotations." + annotationName);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                Annotation annotation = (Annotation) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class[]{annotationClass}, new InvocationHandler() {
-                    @Override
-                    public Object invoke(Object proxy, Method method, Object[] args) {
-                        return annotationValue;
-                    }
-                });
-                annotationList.add(annotation);
-            }
-            annotations = annotationList.toArray(new Annotation[annotationList.size()]);
-        }
-        return annotations;
     }
 }
