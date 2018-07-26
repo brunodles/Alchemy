@@ -12,8 +12,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.Mockito.mock;
-import static org.powermock.api.mockito.PowerMockito.verifyNew;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({JsoupParser.Builder.class})
@@ -26,16 +25,22 @@ public class Builder {
     @Mock
     UriResolver uriResolver;
     @Mock
-    ClassLoader classLoader;
-    @Mock
-    JsoupParser mockJsoupParser;
-    @Mock
     AnnotationInvocationHandler invocationHandler;
+    ClassLoader classLoader = this.getClass().getClassLoader();
+    JsoupParser mockJsoupParser;
 
     @Before
     public void setup() throws Exception {
+        // Just for coverage purposes, since we can't call real constructor
+        mockJsoupParser = spy(new JsoupParser.Builder()
+                .transformers(transformers)
+                .classLoader(classLoader)
+                .uriResolver(uriResolver)
+                .build());
+
         whenNew(JsoupParser.class)
                 .withAnyArguments()
+//                .thenCallRealMethod() // this does not works
                 .thenReturn(mockJsoupParser);
         whenNew(AnnotationInvocationHandler.class)
                 .withAnyArguments()
