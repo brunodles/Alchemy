@@ -1,5 +1,6 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.JsoupParserTests;
 
+import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.collectors.AttrCollector;
 import com.brunodles.jsoupparser.navigate.Navigate;
 import com.brunodles.jsoupparser.selector.Selector;

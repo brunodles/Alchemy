@@ -1,5 +1,6 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.JsoupParserTests;
 
+import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.nested.Nested;
 import com.brunodles.jsoupparser.selector.Selector;

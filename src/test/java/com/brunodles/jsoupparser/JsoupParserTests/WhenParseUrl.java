@@ -1,5 +1,7 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.JsoupParserTests;
 
+import com.brunodles.jsoupparser.JsoupParser;
+import com.brunodles.jsoupparser.UriResolver;
 import com.brunodles.jsoupparser.doubles.UnknownException;
 import com.brunodles.jsoupparser.exceptions.ResolverException;
 import org.junit.Before;

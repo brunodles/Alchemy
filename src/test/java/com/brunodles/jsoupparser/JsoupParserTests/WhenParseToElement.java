@@ -1,5 +1,7 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.JsoupParserTests;
 
+import com.brunodles.jsoupparser.AnnotationInvocationHandler;
+import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.selector.Selector;
 import com.brunodles.test.ResourceUriResolver;
 import org.jsoup.nodes.Element;

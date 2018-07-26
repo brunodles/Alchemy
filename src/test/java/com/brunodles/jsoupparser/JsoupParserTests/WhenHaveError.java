@@ -1,5 +1,6 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.JsoupParserTests;
 
+import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.exceptions.InvalidResultException;
 import com.brunodles.jsoupparser.selector.InvalidSelectorException;
 import com.brunodles.jsoupparser.selector.MissingSelectorException;
