@@ -5,6 +5,6 @@ package com.brunodles.jsoupparser.selector;
  */
 public class MissingSelectorException extends RuntimeException {
     public MissingSelectorException(String methodName) {
-        super("Failed to get \"" + methodName + "\". Looks like it doesn't have CssSelector annotation.");
+        super("Failed to get \"" + methodName + "\". Looks like it doesn't have Selector annotation.");
     }
 }

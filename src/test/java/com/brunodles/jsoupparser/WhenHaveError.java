@@ -33,7 +33,7 @@ public class WhenHaveError {
     @Test
     public void withoutAnnotation_shouldThrowMissingSelectorException() {
         expectedException.expect(MissingSelectorException.class);
-        expectedException.expectMessage("Failed to get \"missingSelector\". Looks like it doesn't have CssSelector annotation.");
+        expectedException.expectMessage("Failed to get \"missingSelector\". Looks like it doesn't have Selector annotation.");
 
         String result = errorModel.missingSelector();
     }
