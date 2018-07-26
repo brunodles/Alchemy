@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.JsoupParserTests;
+package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.collectors.AttrCollector;

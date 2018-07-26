@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.JsoupParserTests;
+package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.transformers.TransformToFloat;
@@ -81,7 +81,7 @@ public class WhenParseSimpleHtml {
 
     @Test
     public void shouldReturnMessageForToString() {
-        assertEquals("Proxy for \"com.brunodles.jsoupparser.JsoupParserTests.WhenParseSimpleHtml$SimpleModel\".", simpleModel.toString());
+        assertEquals("Proxy for \"com.brunodles.jsoupparser.JsoupParserTest.WhenParseSimpleHtml$SimpleModel\".", simpleModel.toString());
     }
 
     public interface SimpleModel {
