@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.exceptions;
+package com.brunodles.jsoupparser.selector;
 
 /**
  * This exception is thrown when field is not annotated

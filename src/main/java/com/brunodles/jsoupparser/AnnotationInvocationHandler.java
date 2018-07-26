@@ -2,7 +2,7 @@ package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.annotations.Mapping;
 import com.brunodles.jsoupparser.exceptions.InvalidResultException;
-import com.brunodles.jsoupparser.exceptions.MissingSelectorException;
+import com.brunodles.jsoupparser.selector.MissingSelectorException;
 import com.brunodles.jsoupparser.exceptions.ResultException;
 import org.jetbrains.annotations.NotNull;
 

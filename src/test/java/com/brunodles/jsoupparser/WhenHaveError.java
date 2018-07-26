@@ -1,8 +1,8 @@
 package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.exceptions.InvalidResultException;
-import com.brunodles.jsoupparser.exceptions.InvalidSelectorException;
-import com.brunodles.jsoupparser.exceptions.MissingSelectorException;
+import com.brunodles.jsoupparser.selector.InvalidSelectorException;
+import com.brunodles.jsoupparser.selector.MissingSelectorException;
 import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.selector.Selector;
 import org.junit.Before;
