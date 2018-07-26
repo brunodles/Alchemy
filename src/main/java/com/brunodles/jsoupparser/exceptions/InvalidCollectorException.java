@@ -3,7 +3,7 @@ package com.brunodles.jsoupparser.exceptions;
 import com.brunodles.jsoupparser.ElementCollector;
 
 /**
- * This exception is thrown when JsoupParserTests can't create a instance of a {@link ElementCollector}.
+ * This exception is thrown when JsoupParser can't create a instance of a {@link ElementCollector}.
  * It may happen for few reasons, you collector may have: <i>private constructor</i> or <i>constructor parameter</i>.
  * <p>
  * Fixing: make sure your Collector is accessible outside it's package and does not need any parameter to be instantiated.
