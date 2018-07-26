@@ -9,6 +9,9 @@ import org.jsoup.nodes.Element;
 
 import java.lang.reflect.Proxy;
 
+import static com.brunodles.jsoupparser.JsoupParser.Builder.defaultTransformers;
+import static com.brunodles.jsoupparser.JsoupParser.Builder.defaultUriResolver;
+
 @SuppressWarnings("unchecked")
 public class JsoupParser {
 
@@ -28,16 +31,6 @@ public class JsoupParser {
             this.classLoader = this.getClass().getClassLoader();
         else
             this.classLoader = classLoader;
-    }
-
-    @NotNull
-    private static HttpResolver defaultUriResolver() {
-        return new HttpResolver();
-    }
-
-    @NotNull
-    private static Transformers defaultTransformers() {
-        return new Transformers.Builder().build();
     }
 
     @NotNull
@@ -91,6 +84,16 @@ public class JsoupParser {
             if (transformers == null)
                 transformers = defaultTransformers();
             return new JsoupParser(new AnnotationInvocationHandler(transformers), uriResolver, classLoader);
+        }
+
+        @NotNull
+        static HttpResolver defaultUriResolver() {
+            return new HttpResolver();
+        }
+
+        @NotNull
+        static Transformers defaultTransformers() {
+            return new Transformers.Builder().build();
         }
     }
 }

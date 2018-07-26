@@ -1,0 +1,23 @@
+task instrument(dependsOn: ['classes']) {
+    ext.outputDir = buildDir.path + '/reports/classes-instrumented'
+    doLast {
+        ant.taskdef(name: 'instrument',
+                classname: 'org.jacoco.ant.InstrumentTask',
+                classpath: configurations.jacocoAnt.asPath)
+        ant.instrument(destdir: outputDir) {
+            sourceSets.main.output.classesDirs.forEach { dir ->
+                fileset(dir: dir)
+            }
+        }
+    }
+}
+gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask(instrument)) {
+        tasks.withType(Test) {
+            doFirst {
+                classpath = files(tasks.instrument.outputDir) + classpath
+            }
+        }
+    }
+}
+test.dependsOn instrument

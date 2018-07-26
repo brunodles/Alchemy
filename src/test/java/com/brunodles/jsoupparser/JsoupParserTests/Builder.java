@@ -16,7 +16,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyNew;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({JsoupParser.class, JsoupParser.Builder.class})
+@PrepareForTest({JsoupParser.Builder.class})
 public class Builder {
 
     @Rule
