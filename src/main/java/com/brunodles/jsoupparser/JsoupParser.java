@@ -63,6 +63,16 @@ public class JsoupParser {
         private ClassLoader classLoader;
         private UriResolver uriResolver;
 
+        @NotNull
+        static HttpResolver defaultUriResolver() {
+            return new HttpResolver();
+        }
+
+        @NotNull
+        static Transformers defaultTransformers() {
+            return new Transformers.Builder().build();
+        }
+
         public Builder transformers(Transformers builder) {
             this.transformers = builder;
             return this;
@@ -84,16 +94,6 @@ public class JsoupParser {
             if (transformers == null)
                 transformers = defaultTransformers();
             return new JsoupParser(new AnnotationInvocationHandler(transformers), uriResolver, classLoader);
-        }
-
-        @NotNull
-        static HttpResolver defaultUriResolver() {
-            return new HttpResolver();
-        }
-
-        @NotNull
-        static Transformers defaultTransformers() {
-            return new Transformers.Builder().build();
         }
     }
 }

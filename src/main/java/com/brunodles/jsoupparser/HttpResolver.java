@@ -7,6 +7,8 @@ import java.net.URL;
 
 public final class HttpResolver implements UriResolver {
 
+    private static final int PKG_SIZE = 1024;
+
     @Override
     public String htmlGet(String uri) throws IOException {
         HttpURLConnection connect = (HttpURLConnection) new URL(uri).openConnection();
@@ -15,7 +17,6 @@ public final class HttpResolver implements UriResolver {
     }
 
     private static String inputStreamToString(InputStream is) throws IOException {
-        final int PKG_SIZE = 1024;
         byte[] data = new byte[PKG_SIZE];
         StringBuilder buffer = new StringBuilder(PKG_SIZE * 10);
         int size;
