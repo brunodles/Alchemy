@@ -1,8 +1,9 @@
 package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.doubles.FollowModel;
-import com.brunodles.jsoupparser.doubles.SimpleModel;
+import com.brunodles.jsoupparser.collectors.AttrCollector;
+import com.brunodles.jsoupparser.navigate.Navigate;
+import com.brunodles.jsoupparser.selector.Selector;
 import com.brunodles.test.ResourceUriResolver;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,7 +21,7 @@ public class WhenFollowUrl {
 
     @BeforeClass
     public static void setupParser() {
-        parser = new JsoupParser(new ResourceUriResolver());
+        parser = new JsoupParser.Builder().uriResolver(new ResourceUriResolver()).build();
     }
 
     @Before
@@ -30,7 +31,20 @@ public class WhenFollowUrl {
 
     @Test
     public void givenWhenThen() {
-        SimpleModel simple = follow.simple();
+        WhenParseSimpleHtml.SimpleModel simple = follow.simple();
         assertEquals("Jsoup Parser", simple.title());
+    }
+
+    public interface FollowModel {
+
+        @Selector(".something a#simple")
+        @AttrCollector("href")
+        @Navigate
+        WhenParseSimpleHtml.SimpleModel simple();
+
+        @Selector(".something a#collections")
+        @AttrCollector("href")
+        @Navigate
+        WhenParseCollections.CollectionsModel collections();
     }
 }

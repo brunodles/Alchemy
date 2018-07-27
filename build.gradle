@@ -11,7 +11,7 @@ repositories {
 }
 
 group 'com.brunodles'
-version '1.0.0'
+version '0.0.0'
 
 apply plugin: 'java'
 apply plugin: 'jacoco'
@@ -33,8 +33,13 @@ dependencies {
     compile 'org.jsoup:jsoup:1.11.3'
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.19.0'
+    testCompile 'org.mockito:mockito-core:2.8.9'
+    testCompile 'org.powermock:powermock-module-junit4:1.7.3'
+    testCompile 'org.powermock:powermock-api-mockito2:1.7.3'
     testCompile "com.github.tomakehurst:wiremock:2.18.0"
     testCompileOnly 'org.jetbrains:annotations:13.0'
 
 }
+
+apply from: rootProject.file("gradle/jacoco-offline.gradle")
+apply from: rootProject.file("gradle/checkstyle.gradle")

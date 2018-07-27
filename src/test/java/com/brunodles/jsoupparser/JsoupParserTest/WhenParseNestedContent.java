@@ -1,7 +1,9 @@
 package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.doubles.NestedRootModel;
+import com.brunodles.jsoupparser.collectors.TextCollector;
+import com.brunodles.jsoupparser.nested.Nested;
+import com.brunodles.jsoupparser.selector.Selector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,5 +36,23 @@ public class WhenParseNestedContent {
 
         String result = child.span123();
         assertEquals("look at this", result);
+    }
+
+
+    public interface NestedRootModel {
+
+        @Selector(".root")
+        @Nested
+        NestedChildModel child();
+
+        interface NestedChildModel {
+            @Selector("span.123")
+            @TextCollector
+            String span123();
+
+            @Selector("div.456")
+            @TextCollector
+            String div456();
+        }
     }
 }

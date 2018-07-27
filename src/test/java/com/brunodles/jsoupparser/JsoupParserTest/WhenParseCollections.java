@@ -1,7 +1,11 @@
 package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.doubles.CollectionsModel;
+import com.brunodles.jsoupparser.transformers.TransformToFloat;
+import com.brunodles.jsoupparser.collectors.TextCollector;
+import com.brunodles.jsoupparser.nested.Nested;
+import com.brunodles.jsoupparser.selector.Selector;
+import com.brunodles.jsoupparser.withtype.WithType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,6 +66,34 @@ public class WhenParseCollections {
         for (CollectionsModel.Games game : games) {
             Float expectedPrice = GAMES.get(game.name());
             assertEquals(expectedPrice, game.price());
+        }
+    }
+
+
+    public interface CollectionsModel {
+
+        @Selector("ol#jvm_languages li")
+        @TextCollector
+        ArrayList<String> jvmLanguagesArrayList();
+
+        @Selector("ol#jvm_languages li")
+        @TextCollector
+        HashSet<String> jvmLanguagesHashSet();
+
+        @Selector("#games tr:has(td)")
+        @Nested
+        LinkedList<Games> gamesArrayList();
+
+        interface Games {
+
+            @Selector("td:first-child")
+            @TextCollector
+            String name();
+
+            @Selector("td:nth-child(2)")
+            @TextCollector
+            @WithType(TransformToFloat.class)
+            Float price();
         }
     }
 
