@@ -6,7 +6,6 @@ jdk:
 branches:
   except:
     - gh-pages
-    - master
 
 env:
   global:
