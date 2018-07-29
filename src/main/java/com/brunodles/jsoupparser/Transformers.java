@@ -4,6 +4,7 @@ import com.brunodles.jsoupparser.collectors.AttrCollectorTransformer;
 import com.brunodles.jsoupparser.collectors.TextCollectorTransformer;
 import com.brunodles.jsoupparser.navigate.NavigateTransformer;
 import com.brunodles.jsoupparser.nested.NestedTransformer;
+import com.brunodles.jsoupparser.usevalueof.UseValueOfTransformer;
 import com.brunodles.jsoupparser.selector.SelectorTransformer;
 import com.brunodles.jsoupparser.withtype.WithTypeTransformer;
 import org.jetbrains.annotations.NotNull;
@@ -50,6 +51,7 @@ public final class Transformers {
             add(WithTypeTransformer.class);
             add(NestedTransformer.class);
             add(NavigateTransformer.class);
+            add(UseValueOfTransformer.class);
         }
 
         @NotNull

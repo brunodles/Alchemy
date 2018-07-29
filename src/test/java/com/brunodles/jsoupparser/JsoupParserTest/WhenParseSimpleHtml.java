@@ -1,10 +1,11 @@
 package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.transformers.TransformToFloat;
 import com.brunodles.jsoupparser.collectors.AttrCollector;
 import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.selector.Selector;
+import com.brunodles.jsoupparser.transformers.TransformToFloat;
+import com.brunodles.jsoupparser.usevalueof.UseValueOf;
 import com.brunodles.jsoupparser.withtype.WithType;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,6 +85,12 @@ public class WhenParseSimpleHtml {
         assertEquals("Proxy for \"com.brunodles.jsoupparser.JsoupParserTest.WhenParseSimpleHtml$SimpleModel\".", simpleModel.toString());
     }
 
+    @Test
+    public void shouldParseNumbers() {
+        assertEquals(0.13F, simpleModel.floatValue(), 0.01);
+        assertEquals(0.13D, simpleModel.doubleValue(), 0.01D);
+    }
+
     public interface SimpleModel {
 
         @Selector("#123")
@@ -106,5 +113,10 @@ public class WhenParseSimpleHtml {
         @AttrCollector("data-value")
         @WithType(TransformToFloat.class)
         Float floatValue();
+
+        @Selector("#float")
+        @AttrCollector("data-value")
+        @UseValueOf
+        Double doubleValue();
     }
 }

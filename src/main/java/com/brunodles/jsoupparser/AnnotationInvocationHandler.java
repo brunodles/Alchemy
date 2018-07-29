@@ -47,10 +47,11 @@ public class AnnotationInvocationHandler implements MethodInvocationHandler {
 
     private boolean shouldUseWrapper(Class<? extends Transformer> transformerClass) {
         try {
-            Type[] genericInterfaces = transformerClass.getGenericInterfaces(); // List of interfaces for our transformers, expected: Transformer
-            ParameterizedType type = (ParameterizedType) genericInterfaces[0]; // first generics should be: AnnotationInvocation
-            Type[] actualTypeArguments = type.getActualTypeArguments(); // List of Generics of AnnotationInvocation
-            Class<?> inputClass = (Class<?>) actualTypeArguments[1]; // second generics is the input
+            Type[] genericInterfaces = transformerClass.getGenericInterfaces(); // List of interfaces of our transformer
+            ParameterizedType type = (ParameterizedType) genericInterfaces[0]; // expected: Transformer
+            Type[] actualTypeArguments = type.getActualTypeArguments(); // Array of Transformer's Generics
+            Type annotationInvocationType = actualTypeArguments[0];
+            Class<?> inputClass = (Class<?>) actualTypeArguments[1]; // second argument is the result
             return !Collection.class.isAssignableFrom(inputClass); // is it a Collection?
         } catch (Exception e) {
             return false;
