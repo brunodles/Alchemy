@@ -66,7 +66,8 @@ public class AnnotationInvocationHandler implements MethodInvocationHandler {
                     collectionResult.add(object);
                 return collectionResult;
             } catch (InstantiationException | IllegalAccessException e) {
-                throw new ResultException(invocation.methodName, invocation.getMethodRawReturnType().getSimpleName(), e);
+                String returnClassName = invocation.getMethodRawReturnType().getSimpleName();
+                throw new ResultException(invocation.methodName, returnClassName, e);
             }
         }
         if (result.size() > 0)

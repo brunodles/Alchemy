@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TransformerFor(Navigate.class)
-public class NavigateTransformer<OUTPUT> implements Transformer<AnnotationInvocation<Navigate, List<String>>, List<OUTPUT>> {
+public class NavigateTransformer<OUTPUT> implements Transformer<AnnotationInvocation<Navigate, List<String>>,
+        List<OUTPUT>> {
 
     @Override
     public List<OUTPUT> transform(AnnotationInvocation<Navigate, List<String>> value) {

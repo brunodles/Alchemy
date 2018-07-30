@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TransformerFor(Nested.class)
-public class NestedTransformer<OUTPUT> implements Transformer<AnnotationInvocation<Nested, List<Element>>, List<OUTPUT>> {
+public class NestedTransformer<OUTPUT> implements Transformer<AnnotationInvocation<Nested, List<Element>>,
+        List<OUTPUT>> {
 
     @Override
     public List<OUTPUT> transform(AnnotationInvocation<Nested, List<Element>> value) {

@@ -14,10 +14,14 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
-import static org.mockito.Mockito.spy;
+import static junit.framework.TestCase.fail;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
@@ -45,49 +49,62 @@ public class UseValueOfTransformerTest {
 
     @Test
     public void whenParseToInteger_shouldParse() {
-        Integer result = transformUsing(Integer.class, "123");
+        AnnotationInvocation<UseValueOf, List<String>> invocation = buildInvocation(Integer.class, "123");
 
-        assertEquals(new Integer(123), result);
+        List<Integer> result = transform(invocation);
+
+        assertEquals(new Integer(123), result.get(0));
     }
 
     @Test
     public void whenParseToLong_shouldParse() {
-        Long result = transformUsing(Long.class, "2132312132331232121");
+        AnnotationInvocation<UseValueOf, List<String>> invocation = buildInvocation(Long.class,
+                "2132312132331232121");
 
-        assertEquals(new Long(2132312132331232121L), result);
+        List<Long> result = transform(invocation);
+
+        assertEquals(new Long(2132312132331232121L), result.get(0));
     }
 
     @Test
     public void whenParseToFloat_shouldParse() {
-        Float result = transformUsing(Float.class, "212121321321.3221332113321123213213");
+        AnnotationInvocation<UseValueOf, List<String>> invocation = buildInvocation(Float.class,
+                "212121321321.3221332113321123213213");
 
-        assertEquals(212121321321.3221332113321123213213F, result, 0.0000000000000000000001F);
+        List<Float> result = transform(invocation);
+
+        assertEquals(212121321321.3221332113321123213213F, result.get(0), 0.0000000000000000000001F);
     }
 
-    @Test
-    public void whenClassInputIsNotString_shouldReturnNull() {
-        Character result = transformUsing(Character.class, "1231323");
+    @Test(expected = RuntimeException.class)
+    public void whenClassDoesNotHaveValueOfMethod_shouldThrowException() {
+        AnnotationInvocation<UseValueOf, List<String>> invocation = buildInvocation(Character.TYPE, "1231323");
 
-        assertNull(result);
+        List<Character> result = transform(invocation);
+
+        fail();
     }
 
-    @Test
-    public void whenClassDoesNotHaveValueOfMethod_shouldReturnNull() {
-        Character result = transformUsing(Character.TYPE, "1231323");
-        assertNull(result);
+    @SuppressWarnings("unchecked")
+    @SafeVarargs
+    private final <INPUT, OUTPUT> AnnotationInvocation<UseValueOf, List<INPUT>> buildInvocation(
+            final Class<OUTPUT> returnClass, final INPUT... inputs) {
+        when(method.getReturnType()).thenReturn((Class) List.class);
+        ParameterizedType type = mock(ParameterizedType.class);
+        when(type.getActualTypeArguments()).thenReturn(new Type[]{returnClass});
+        when(method.getGenericReturnType()).thenReturn(type);
+        return buildAnnotationInvocation(inputs);
     }
 
-    private <T> T transformUsing(Class<T> returnClass, String input) {
-        when(method.getReturnType()).thenReturn((Class) returnClass);
-        AnnotationInvocation<UseValueOf, String> invocation = buildAnnotationInvocation(input);
-        return (T) transformer.transform(invocation);
+    @SuppressWarnings("unchecked")
+    private <INPUT, OUTPUT> List<OUTPUT> transform(AnnotationInvocation<UseValueOf, List<INPUT>> invocation) {
+        return (List<OUTPUT>) transformer.transform(invocation);
     }
 
-    private AnnotationInvocation<UseValueOf, String> buildAnnotationInvocation(String input) {
+    @SafeVarargs
+    private final <T> AnnotationInvocation<UseValueOf, List<T>> buildAnnotationInvocation(final T... input) {
         Object[] parameters = new Object[]{};
         MethodInvocation methodInvocation = new MethodInvocation(proxyHandler, method, parameters);
-        AnnotationInvocation<UseValueOf, String> invocation = new AnnotationInvocation<>(methodInvocation, annotation, input);
-        invocation = spy(invocation);
-        return invocation;
+        return new AnnotationInvocation<>(methodInvocation, annotation, Arrays.asList(input));
     }
 }

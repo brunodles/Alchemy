@@ -4,9 +4,9 @@ import com.brunodles.jsoupparser.collectors.AttrCollectorTransformer;
 import com.brunodles.jsoupparser.collectors.TextCollectorTransformer;
 import com.brunodles.jsoupparser.navigate.NavigateTransformer;
 import com.brunodles.jsoupparser.nested.NestedTransformer;
-import com.brunodles.jsoupparser.usevalueof.UseValueOfTransformer;
 import com.brunodles.jsoupparser.selector.SelectorTransformer;
-import com.brunodles.jsoupparser.withtype.WithTypeTransformer;
+import com.brunodles.jsoupparser.usevalueof.UseValueOfTransformer;
+import com.brunodles.jsoupparser.withtype.WithTransformerTransformer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -22,6 +22,13 @@ public final class Transformers {
         this.transformerMap = transformerMap;
     }
 
+    /**
+     * Returns a transformer for given annotation.<br>
+     * This method may throw a {@link RuntimeException} if the transformer class is null.
+     *
+     * @param annotation The annotation class, this is a key value for the transformer
+     * @return a transformer class
+     */
     @NotNull
     public Class<? extends Transformer> transformerFor(Annotation annotation) {
         Class<? extends Transformer> transformerClass = null;
@@ -48,12 +55,20 @@ public final class Transformers {
             add(SelectorTransformer.class);
             add(TextCollectorTransformer.class);
             add(AttrCollectorTransformer.class);
-            add(WithTypeTransformer.class);
+            add(WithTransformerTransformer.class);
             add(NestedTransformer.class);
             add(NavigateTransformer.class);
             add(UseValueOfTransformer.class);
         }
 
+        /**
+         * Add a transformer to a map of transformers.<br>
+         * This method will use the value of {@link TransformerFor} annotation as a key.
+         * With this you can override the default transformers.
+         *
+         * @param transformer A Transformer class annotated with {@link TransformerFor}
+         * @return The current builder instance
+         */
         @NotNull
         public Builder add(@NotNull Class<? extends Transformer> transformer) {
             if (transformer == null)

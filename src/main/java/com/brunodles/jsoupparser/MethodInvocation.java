@@ -5,12 +5,23 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 
+/**
+ * This class holds the data of a method invocation.<br>
+ * With this data the class can provide information about return.
+ */
 public class MethodInvocation {
     public final ProxyHandler proxyHandler;
     public final Method method;
     public final Object[] parameters;
     public final String methodName;
 
+    /**
+     * The constructor reflecting a method invocation.
+     *
+     * @param proxyHandler the handler that is calling
+     * @param method       the invoking method
+     * @param parameters   parameters passed to the method
+     */
     public MethodInvocation(ProxyHandler proxyHandler, Method method, Object[] parameters) {
         this.proxyHandler = proxyHandler;
         this.method = method;
@@ -19,7 +30,7 @@ public class MethodInvocation {
     }
 
     /**
-     * Get method annotations
+     * Get method annotations.
      *
      * @return an array
      */

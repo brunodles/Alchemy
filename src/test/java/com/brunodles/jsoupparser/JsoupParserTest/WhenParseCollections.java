@@ -5,7 +5,7 @@ import com.brunodles.jsoupparser.transformers.TransformToFloat;
 import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.nested.Nested;
 import com.brunodles.jsoupparser.selector.Selector;
-import com.brunodles.jsoupparser.withtype.WithType;
+import com.brunodles.jsoupparser.withtype.WithTransformer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -92,7 +92,7 @@ public class WhenParseCollections {
 
             @Selector("td:nth-child(2)")
             @TextCollector
-            @WithType(TransformToFloat.class)
+            @WithTransformer(TransformToFloat.class)
             Float price();
         }
     }

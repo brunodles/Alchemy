@@ -5,7 +5,7 @@ import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.navigate.Navigate;
 import com.brunodles.jsoupparser.nested.Nested;
 import com.brunodles.jsoupparser.selector.Selector;
-import com.brunodles.jsoupparser.withtype.WithType;
+import com.brunodles.jsoupparser.withtype.WithTransformer;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ public class TransformersTest {
             Navigate.class,
             Nested.class,
             Selector.class,
-            WithType.class
+            WithTransformer.class
     };
 
     @Test

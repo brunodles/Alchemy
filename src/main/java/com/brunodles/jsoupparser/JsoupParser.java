@@ -23,7 +23,8 @@ public class JsoupParser {
         this(new AnnotationInvocationHandler(defaultTransformers()), defaultUriResolver(), null);
     }
 
-    private JsoupParser(@NotNull MethodInvocationHandler invocationHandler, @NotNull UriResolver uriResolver, @Nullable ClassLoader classLoader) {
+    private JsoupParser(@NotNull MethodInvocationHandler invocationHandler,
+                        @NotNull UriResolver uriResolver, @Nullable ClassLoader classLoader) {
         this.invocationHandler = invocationHandler;
         this.uriResolver = uriResolver;
 
@@ -33,6 +34,14 @@ public class JsoupParser {
             this.classLoader = classLoader;
     }
 
+    /**
+     * Parses the content from {@param url} into the {@param interfaceClass}.
+     *
+     * @param url            a url for the page wanted
+     * @param interfaceClass an interface with method annotated with transformers
+     * @param <T>            Returning Type
+     * @return A proxy to read the page content.
+     */
     @NotNull
     public <T> T parseUrl(@NotNull String url, @NotNull Class<T> interfaceClass) {
         final String html;
@@ -44,6 +53,14 @@ public class JsoupParser {
         return parseHtml(html, interfaceClass);
     }
 
+    /**
+     * Parses an {@param html} into {@param interfaceClass}.
+     *
+     * @param html           a html page to be used
+     * @param interfaceClass an interface with method annotated with transformers
+     * @param <T>            Returning Type
+     * @return A proxy to read the {@param html} content
+     */
     public <T> T parseHtml(@NotNull String html, @NotNull Class<T> interfaceClass) {
         Document document = Jsoup.parse(html);
         if (Element.class.isAssignableFrom(interfaceClass))
@@ -51,6 +68,15 @@ public class JsoupParser {
         return parseElement(document, interfaceClass);
     }
 
+    /**
+     * Parses the {@param element} into {@param interfaceClass}.
+     * This method is used internally.
+     *
+     * @param element        a jSoup Element
+     * @param interfaceClass an interface with method annotated with transformers
+     * @param <T>            Returning Type
+     * @return A proxy to read the {@param element}
+     */
     public <T> T parseElement(@NotNull Element element, @NotNull Class<T> interfaceClass) {
         return (T) Proxy.newProxyInstance(
                 classLoader,
@@ -58,6 +84,16 @@ public class JsoupParser {
                 new ProxyHandler(this, element, interfaceClass));
     }
 
+    /**
+     * A builder for {@link JsoupParser}.<br>
+     * This builder will let change some configurations of JsoupParser:
+     * <ul>
+     * <li>{@link Transformer}s - this will allow you to add your custom annotations</li>
+     * <li>{@link ClassLoader} - in some environments JsoupParser can't find the interface class</li>
+     * <li>{@link UriResolver} - provide how to fetch URI. With this you can create caches,
+     * change how to follow redirects.</li>
+     * </ul>
+     */
     public static class Builder {
         private Transformers transformers;
         private ClassLoader classLoader;
@@ -88,6 +124,11 @@ public class JsoupParser {
             return this;
         }
 
+        /**
+         * Build the JsoupParser, using custom configurations.
+         *
+         * @return A JsoupParser that will use the parameters passed into this builder.
+         */
         public JsoupParser build() {
             if (uriResolver == null)
                 uriResolver = defaultUriResolver();

@@ -7,11 +7,12 @@ import com.brunodles.jsoupparser.TransformerFor;
 import java.util.ArrayList;
 import java.util.List;
 
-@TransformerFor(WithType.class)
-public class WithTypeTransformer<INPUT, OUTPUT> implements Transformer<AnnotationInvocation<WithType, List<INPUT>>, List<OUTPUT>> {
+@TransformerFor(WithTransformer.class)
+public class WithTransformerTransformer<INPUT, OUTPUT> implements
+        Transformer<AnnotationInvocation<WithTransformer, List<INPUT>>, List<OUTPUT>> {
 
     @Override
-    public List<OUTPUT> transform(AnnotationInvocation<WithType, List<INPUT>> value) {
+    public List<OUTPUT> transform(AnnotationInvocation<WithTransformer, List<INPUT>> value) {
         Transformer<INPUT, OUTPUT> transformer = null;
         try {
             Class<? extends Transformer> transformerClass = value.annotation.value();

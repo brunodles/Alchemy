@@ -1,15 +1,24 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.MethodInvocation;
 import org.jsoup.select.Elements;
 
 import java.lang.annotation.Annotation;
 
-public class AnnotationInvocation<ANNOTATION_TYPE extends Annotation, INPUT_TYPE> extends MethodInvocation {
-    public final ANNOTATION_TYPE annotation;
-    public final INPUT_TYPE result;
+/**
+ * This class holds the data of a annotation invocation.
+ */
+public class AnnotationInvocation<AnnotationT extends Annotation, InputT> extends MethodInvocation {
+    public final AnnotationT annotation;
+    public final InputT result;
 
-    public AnnotationInvocation(MethodInvocation invocation, ANNOTATION_TYPE annotation, INPUT_TYPE result) {
+    /**
+     * Creates a new instance of AnnotationInvocation.
+     *
+     * @param invocation the original invocation. The invoked method.
+     * @param annotation the annotation data
+     * @param result     the previous result
+     */
+    public AnnotationInvocation(MethodInvocation invocation, AnnotationT annotation, InputT result) {
         super(invocation.proxyHandler, invocation.method, invocation.parameters);
         this.annotation = annotation;
         this.result = result;
