@@ -9,13 +9,6 @@ public final class HttpResolver implements UriResolver {
 
     private static final int PKG_SIZE = 1024;
 
-    @Override
-    public String htmlGet(String uri) throws IOException {
-        HttpURLConnection connect = (HttpURLConnection) new URL(uri).openConnection();
-        InputStream inputStream = connect.getInputStream();
-        return inputStreamToString(inputStream);
-    }
-
     private static String inputStreamToString(InputStream is) throws IOException {
         byte[] data = new byte[PKG_SIZE];
         StringBuilder buffer = new StringBuilder(PKG_SIZE * 10);
@@ -28,5 +21,12 @@ public final class HttpResolver implements UriResolver {
             size = is.read(data, 0, data.length);
         }
         return buffer.toString();
+    }
+
+    @Override
+    public String htmlGet(String uri) throws IOException {
+        HttpURLConnection connect = (HttpURLConnection) new URL(uri).openConnection();
+        InputStream inputStream = connect.getInputStream();
+        return inputStreamToString(inputStream);
     }
 }
