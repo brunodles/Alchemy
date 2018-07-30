@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.transformers;
 
 import java.lang.annotation.*;
 

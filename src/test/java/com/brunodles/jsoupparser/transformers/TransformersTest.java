@@ -1,13 +1,20 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.transformers;
 
+import com.brunodles.jsoupparser.AnnotationInvocation;
+import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.collectors.AttrCollector;
 import com.brunodles.jsoupparser.collectors.TextCollector;
+import com.brunodles.jsoupparser.transformers.TransformerException;
 import com.brunodles.jsoupparser.navigate.Navigate;
 import com.brunodles.jsoupparser.nested.Nested;
 import com.brunodles.jsoupparser.selector.Selector;
+import com.brunodles.jsoupparser.transformers.TransformerFor;
+import com.brunodles.jsoupparser.transformers.Transformers;
 import com.brunodles.jsoupparser.withtype.WithTransformer;
 import org.jsoup.nodes.Document;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -21,6 +28,7 @@ import static org.mockito.Mockito.mock;
 @RunWith(JUnit4.class)
 public class TransformersTest {
 
+    @SuppressWarnings("unchecked")
     private static final Class<? extends Annotation>[] DEFAULT_ANNOTATIONS = new Class[]{
             TextCollector.class,
             AttrCollector.class,
@@ -29,6 +37,8 @@ public class TransformersTest {
             Selector.class,
             WithTransformer.class
     };
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
     public void whenBuild_shouldHaveDefaultAnnotations() {
@@ -45,15 +55,20 @@ public class TransformersTest {
         assertEquals(CustomTransformer.class, transformerClass);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void givenTransformersBuilder_whenAddNull_shouldThrow() {
-        new Transformers.Builder().add(null).build();
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("Null is not a valid transformer.");
+
+        new Transformers.Builder().add(null);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void whenTransformerForInvalidAnnotation_shouldThrowException() {
-        Transformers transformers = new Transformers.Builder().build();
-        Class<? extends Transformer> transformer = transformers.transformerFor(mock(UnknownAnnotation.class));
+        exceptionRule.expect(IllegalArgumentException.class);
+        exceptionRule.expectMessage("Transformer is not annotated with \"TransformerFor\" annotation.");
+
+        new Transformers.Builder().add(TransformerWithoutAnnotation.class);
     }
 
     @interface UnknownAnnotation {
@@ -61,6 +76,14 @@ public class TransformersTest {
 
     @TransformerFor(Selector.class)
     private static class CustomTransformer implements Transformer<AnnotationInvocation<Selector, Document>, Elements> {
+
+        @Override
+        public Elements transform(AnnotationInvocation<Selector, Document> value) {
+            return null;
+        }
+    }
+
+    private static class TransformerWithoutAnnotation implements Transformer<AnnotationInvocation<Selector, Document>, Elements> {
 
         @Override
         public Elements transform(AnnotationInvocation<Selector, Document> value) {

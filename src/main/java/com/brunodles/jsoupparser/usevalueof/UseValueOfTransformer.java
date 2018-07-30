@@ -2,7 +2,7 @@ package com.brunodles.jsoupparser.usevalueof;
 
 import com.brunodles.jsoupparser.AnnotationInvocation;
 import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.TransformerFor;
+import com.brunodles.jsoupparser.transformers.TransformerFor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

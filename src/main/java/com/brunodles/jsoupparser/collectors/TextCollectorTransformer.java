@@ -2,7 +2,7 @@ package com.brunodles.jsoupparser.collectors;
 
 import com.brunodles.jsoupparser.AnnotationInvocation;
 import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.TransformerFor;
+import com.brunodles.jsoupparser.transformers.TransformerFor;
 import org.jsoup.nodes.Element;
 
 @TransformerFor(TextCollector.class)

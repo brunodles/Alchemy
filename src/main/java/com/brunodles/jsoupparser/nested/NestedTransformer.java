@@ -2,7 +2,7 @@ package com.brunodles.jsoupparser.nested;
 
 import com.brunodles.jsoupparser.AnnotationInvocation;
 import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.TransformerFor;
+import com.brunodles.jsoupparser.transformers.TransformerFor;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;

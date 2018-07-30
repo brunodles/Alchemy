@@ -2,7 +2,7 @@ package com.brunodles.jsoupparser.selector;
 
 import com.brunodles.jsoupparser.AnnotationInvocation;
 import com.brunodles.jsoupparser.Transformer;
-import com.brunodles.jsoupparser.TransformerFor;
+import com.brunodles.jsoupparser.transformers.TransformerFor;
 import org.jsoup.select.Elements;
 
 @TransformerFor(Selector.class)

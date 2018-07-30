@@ -1,5 +1,6 @@
-package com.brunodles.jsoupparser;
+package com.brunodles.jsoupparser.transformers;
 
+import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.collectors.AttrCollectorTransformer;
 import com.brunodles.jsoupparser.collectors.TextCollectorTransformer;
 import com.brunodles.jsoupparser.navigate.NavigateTransformer;
@@ -39,7 +40,8 @@ public final class Transformers {
             }
         }
         if (transformerClass == null)
-            throw new RuntimeException("Missing transformers exception");
+            throw TransformerException.missingTransformer(annotation);
+        //new RuntimeException("Missing transformer exception");
         return transformerClass;
     }
 
@@ -70,11 +72,14 @@ public final class Transformers {
          * @return The current builder instance
          */
         @NotNull
-        public Builder add(@NotNull Class<? extends Transformer> transformer) {
+        public Builder add(Class<? extends Transformer> transformer) {
             if (transformer == null)
-                throw new RuntimeException("Null is not a valid transformer.");
-            Class<? extends Annotation> annotation = transformer.getAnnotation(TransformerFor.class).value();
-            transformerMap.put(annotation, transformer);
+                throw new IllegalArgumentException("Null is not a valid transformer.");
+            TransformerFor transformerFor = transformer.getAnnotation(TransformerFor.class);
+            if (transformerFor == null)
+                throw new IllegalArgumentException("Transformer is not annotated with \"TransformerFor\" annotation.");
+            Class<? extends Annotation> targetAnnotation = transformerFor.value();
+            transformerMap.put(targetAnnotation, transformer);
             return this;
         }
 

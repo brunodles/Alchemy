@@ -1,6 +1,7 @@
 package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.*;
+import com.brunodles.jsoupparser.transformers.Transformers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

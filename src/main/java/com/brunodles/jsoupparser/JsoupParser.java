@@ -1,6 +1,7 @@
 package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.exceptions.ResolverException;
+import com.brunodles.jsoupparser.transformers.Transformers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
