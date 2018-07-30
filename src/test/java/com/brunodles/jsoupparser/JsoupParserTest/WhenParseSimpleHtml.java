@@ -4,7 +4,7 @@ import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.collectors.AttrCollector;
 import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.selector.Selector;
-import com.brunodles.jsoupparser.transformers.TransformToFloat;
+import com.brunodles.jsoupparser.doubles.TransformToFloat;
 import com.brunodles.jsoupparser.usevalueof.UseValueOf;
 import com.brunodles.jsoupparser.withtype.WithTransformer;
 import org.junit.Before;
