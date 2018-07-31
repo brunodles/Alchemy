@@ -7,7 +7,7 @@ import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.navigate.Navigate;
 import com.brunodles.jsoupparser.nested.Nested;
 import com.brunodles.jsoupparser.selector.Selector;
-import com.brunodles.jsoupparser.withtype.WithTransformer;
+import com.brunodles.jsoupparser.withtransformer.WithTransformer;
 import org.jsoup.nodes.Document;
 import org.junit.Rule;
 import org.junit.Test;

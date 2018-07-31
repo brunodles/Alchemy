@@ -5,7 +5,7 @@ import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.doubles.TransformToFloat;
 import com.brunodles.jsoupparser.nested.Nested;
 import com.brunodles.jsoupparser.selector.Selector;
-import com.brunodles.jsoupparser.withtype.WithTransformer;
+import com.brunodles.jsoupparser.withtransformer.WithTransformer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

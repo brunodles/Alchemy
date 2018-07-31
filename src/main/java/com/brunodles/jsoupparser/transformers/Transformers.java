@@ -7,7 +7,7 @@ import com.brunodles.jsoupparser.navigate.NavigateTransformer;
 import com.brunodles.jsoupparser.nested.NestedTransformer;
 import com.brunodles.jsoupparser.selector.SelectorTransformer;
 import com.brunodles.jsoupparser.usevalueof.UseValueOfTransformer;
-import com.brunodles.jsoupparser.withtype.WithTransformerTransformer;
+import com.brunodles.jsoupparser.withtransformer.WithTransformerTransformer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;

@@ -1,4 +1,4 @@
-package com.brunodles.jsoupparser.withtype;
+package com.brunodles.jsoupparser.withtransformer;
 
 import com.brunodles.jsoupparser.Transformer;
 
