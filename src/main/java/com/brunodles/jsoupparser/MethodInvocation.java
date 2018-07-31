@@ -3,6 +3,7 @@ package com.brunodles.jsoupparser;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 
 /**
@@ -54,8 +55,11 @@ public class MethodInvocation {
     public Class<?> getMethodRealReturnType() {
         final Class<?> returnType = getMethodRawReturnType();
         if (isMethodReturnTypeCollection()) {
-            ParameterizedType genericReturnType = (ParameterizedType) method.getGenericReturnType();
-            return (Class<?>) genericReturnType.getActualTypeArguments()[0];
+            Type genericReturnType = method.getGenericReturnType();
+            if (genericReturnType instanceof ParameterizedType) {
+                ParameterizedType parameterizedType = (ParameterizedType) genericReturnType;
+                return (Class<?>) parameterizedType.getActualTypeArguments()[0];
+            }
         }
         return returnType;
     }

@@ -8,10 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@TransformerFor(TransformerWithConstructorParameters.Annotation.class)
-public class TransformerWithConstructorParameters implements Transformer {
+@TransformerFor(TransformerWithPrivateConstructor.Annotation.class)
+public class TransformerWithPrivateConstructor implements Transformer {
 
-    public TransformerWithConstructorParameters(String parameter) {
+    private TransformerWithPrivateConstructor() {
     }
 
     @Override
@@ -21,5 +21,7 @@ public class TransformerWithConstructorParameters implements Transformer {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface Annotation {}
+    public @interface Annotation {
+    }
+
 }

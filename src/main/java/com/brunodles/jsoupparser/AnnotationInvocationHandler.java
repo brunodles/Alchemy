@@ -1,8 +1,8 @@
 package com.brunodles.jsoupparser;
 
-import com.brunodles.jsoupparser.exceptions.InvalidResultException;
 import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.selector.MissingSelectorException;
+import com.brunodles.jsoupparser.transformers.TransformerException;
 import com.brunodles.jsoupparser.transformers.Transformers;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,17 +30,22 @@ public class AnnotationInvocationHandler implements MethodInvocationHandler {
         if (annotations.length == 0)
             throw new MissingSelectorException(invocation.methodName);
         if (invocation.getMethodRealReturnType() == Void.TYPE)
-            throw new InvalidResultException(invocation.methodName);
+            throw ResultException.voidReturn();
         List result = null;
         for (Annotation annotation : annotations) {
             Class<? extends Transformer> transformerClass = transformers.transformerFor(annotation);
+            Transformer transformer;
             try {
-                Transformer transformer = transformerClass.newInstance();
-                if (shouldUseWrapper(transformerClass))
-                    transformer = new WrapperTransformer(transformer);
-                result = (List) transformer.transform(new AnnotationInvocation(invocation, annotation, result));
+                transformer = transformerClass.newInstance();
             } catch (InstantiationException | IllegalAccessException e) {
-                throw new RuntimeException(e);
+                throw TransformerException.cantCreateTransformer(transformerClass, e);
+            }
+            if (shouldUseWrapper(transformerClass))
+                transformer = new WrapperTransformer(transformer);
+            try {
+                result = (List) transformer.transform(new AnnotationInvocation(invocation, annotation, result));
+            } catch (Exception e) {
+                throw TransformerException.cantTransform(result, transformerClass, e);
             }
         }
         return getResult(invocation, result);
@@ -68,7 +73,7 @@ public class AnnotationInvocationHandler implements MethodInvocationHandler {
                 return collectionResult;
             } catch (InstantiationException | IllegalAccessException e) {
                 String returnClassName = invocation.getMethodRawReturnType().getSimpleName();
-                throw new ResultException(invocation.methodName, returnClassName, e);
+                throw ResultException.cantCreate(returnClassName, e);
             }
         }
         if (result.size() > 0)

@@ -1,11 +1,16 @@
 package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.exceptions.InvalidResultException;
+import com.brunodles.jsoupparser.collectors.TextCollector;
+import com.brunodles.jsoupparser.doubles.*;
+import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.selector.InvalidSelectorException;
 import com.brunodles.jsoupparser.selector.MissingSelectorException;
-import com.brunodles.jsoupparser.collectors.TextCollector;
 import com.brunodles.jsoupparser.selector.Selector;
+import com.brunodles.jsoupparser.transformers.TransformerException;
+import com.brunodles.jsoupparser.transformers.Transformers;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.core.AllOf;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,11 +21,20 @@ import org.junit.runners.JUnit4;
 import java.io.IOException;
 
 import static com.brunodles.test.ResourceLoader.readResourceText;
+import static org.hamcrest.core.IsInstanceOf.any;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
 
 @RunWith(JUnit4.class)
 public class WhenHaveError {
 
-    private final JsoupParser jsoupParser = new JsoupParser();
+    private final JsoupParser jsoupParser = new JsoupParser.Builder()
+            .transformers(new Transformers.Builder()
+                    .add(TransformerWithPrivateConstructor.class)
+                    .add(TransformerWithConstructorParameters.class)
+                    .add(TransformerWithError.class)
+                    .build())
+            .build();
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
@@ -41,89 +55,67 @@ public class WhenHaveError {
 
     @Test
     public void withInvalidSelector_shouldThrowInvalidSelectorException() {
-        expectedException.expect(InvalidSelectorException.class);
-        expectedException.expectMessage("Failed to get \"invalidSelector\". Can't find the selector \"h1.classNotFound\".");
+        expectedException.expect(TransformerException.class);
+        expectedException.expectCause(AllOf.allOf(
+                hasMessage(CoreMatchers.containsString(
+                        "Failed to get \"invalidSelector\". Can't find the selector \"h1.classNotFound\".")),
+                instanceOf(InvalidSelectorException.class)
+        ));
 
         String result = errorModel.invalidSelector();
     }
 
-//    @Test
-//    public void withCollectorThatHavePrivateConstructor_shouldThrowInvalidCollectorException() {
-//        expectedException.expect(InvalidCollectorException.class);
-//        expectedException.expectMessage("Failed to get \"collectorWithPrivateConstructor\". Can't create an instance of \"CollectorWithPrivateConstructor\".");
-//        expectedException.expectCause(any(IllegalAccessException.class));
-//
-//        String result = errorModel.collectorWithPrivateConstructor();
-//    }
-
-//    @Test
-//    public void withCollectorThatConstructorHaveParameters_shouldThrowInvalidCollectorException() {
-//        expectedException.expect(InvalidCollectorException.class);
-//        expectedException.expectMessage("Failed to get \"collectorWithConstructorParameters\". Can't create an instance of \"CollectorWithConstructorParameters\".");
-//        expectedException.expectCause(any(InstantiationException.class));
-//
-//        String result = errorModel.collectorWithConstructorParameters();
-//    }
-
-//    @Test
-//    public void withErrorsOnCollector_shouldThrowCollectorException() {
-//        expectedException.expect(CollectorException.class);
-//        expectedException.expectMessage("Failed to get \"collectorWithError\" using collector \"CollectorWithError\".");
-//
-//        String result = errorModel.collectorWithError();
-//    }
-
     @Test
     public void withVoidReturn_shouldThrowInvalidResultException() {
-        expectedException.expect(InvalidResultException.class);
-        expectedException.expectMessage("Failed to get \"invalidResult\". The method have void return.");
+        expectedException.expect(ResultException.class);
+        expectedException.expectMessage("Called method should not have void as return.");
 
         errorModel.invalidResult();
     }
 
-//    @Test
-//    public void whenReturnConstructorIsPrivate_shouldThrowInvalidResultException() {
-//        expectedException.expect(ResultException.class);
-//        expectedException.expectMessage("Failed to get \"collectionWithPrivateConstructor\". Can't create an instance of \"CollectionWithPrivateConstructor\".");
-//        expectedException.expectCause(any(IllegalAccessException.class));
-//
-//        errorModel.collectionWithPrivateConstructor();
-//    }
+    @Test
+    public void whenReturnConstructorIsPrivate_shouldThrowInvalidResultException() {
+        expectedException.expect(ResultException.class);
+        expectedException.expectMessage("Can't create an instance of \"CollectionWithPrivateConstructor\".");
+        expectedException.expectCause(any(IllegalAccessException.class));
 
-//    @Test
-//    public void whenReturnConstructorHaveParameters_shouldThrowResultException() {
-//        expectedException.expect(ResultException.class);
-//        expectedException.expectMessage("Failed to get \"collectionWithConstructorParameters\". Can't create an instance of \"CollectionWithConstructorParameters\".");
-//        expectedException.expectCause(any(InstantiationException.class));
-//
-//        errorModel.collectionWithConstructorParameters();
-//    }
+        errorModel.collectionWithPrivateConstructor();
+    }
 
-//    @Test
-//    public void withTransformerThatHavePrivateConstructor_shouldThrowInvalidTransformerException() {
-//        expectedException.expect(InvalidTransformerException.class);
-//        expectedException.expectMessage("Failed to get \"transformerWithPrivateConstructor\". Can't create an instance of \"TransformerWithPrivateConstructor\".");
-//        expectedException.expectCause(any(IllegalAccessException.class));
-//
-//        String result = errorModel.transformerWithPrivateConstructor();
-//    }
+    @Test
+    public void whenReturnConstructorHaveParameters_shouldThrowResultException() {
+        expectedException.expect(ResultException.class);
+        expectedException.expectMessage("Can't create an instance of \"CollectionWithConstructorParameters\".");
+        expectedException.expectCause(any(InstantiationException.class));
 
-//    @Test
-//    public void withTransformerThatConstructorHaveParameters_shouldThrowInvalidTransformerException() {
-//        expectedException.expect(InvalidTransformerException.class);
-//        expectedException.expectMessage("Failed to get \"transformerWithConstructorParameters\". Can't create an instance of \"TransformerWithConstructorParameters\".");
-//        expectedException.expectCause(any(InstantiationException.class));
-//
-//        String result = errorModel.transformerWithConstructorParameters();
-//    }
+        errorModel.collectionWithConstructorParameters();
+    }
 
-//    @Test
-//    public void withErrorOnTransformer_shouldThrowInvalidTransformerException() {
-//        expectedException.expect(TransformerException.class);
-//        expectedException.expectMessage("Failed to get \"transformerWithError\" using \"TransformerWithError\".");
-//
-//        String result = errorModel.transformerWithError();
-//    }
+    @Test
+    public void withTransformerThatHavePrivateConstructor_shouldThrowInvalidTransformerException() {
+        expectedException.expect(TransformerException.class);
+        expectedException.expectMessage("Can't create \"TransformerWithPrivateConstructor\". Check if it have private constructor or if it's constructor have parameters.");
+        expectedException.expectCause(any(IllegalAccessException.class));
+
+        String result = errorModel.transformerWithPrivateConstructor();
+    }
+
+    @Test
+    public void withTransformerThatConstructorHaveParameters_shouldThrowInvalidTransformerException() {
+        expectedException.expect(TransformerException.class);
+        expectedException.expectMessage("Can't create \"TransformerWithConstructorParameters\". Check if it have private constructor or if it's constructor have parameters.");
+        expectedException.expectCause(any(InstantiationException.class));
+
+        String result = errorModel.transformerWithConstructorParameters();
+    }
+
+    @Test
+    public void withErrorOnTransformer_shouldThrowInvalidTransformerException() {
+        expectedException.expect(TransformerException.class);
+        expectedException.expectMessage("The transformer \"TransformerWithError\" can't transform \"[wow]\".");
+
+        String result = errorModel.transformerWithError();
+    }
 
 
     public interface ErrorModel {
@@ -134,43 +126,31 @@ public class WhenHaveError {
         @TextCollector
         String invalidSelector();
 
-//        @Selector("#123")
-//        @CollectorWithPrivateConstructor
-//        String collectorWithPrivateConstructor();
-
-//        @Selector("#123")
-//        @CollectorWithConstructorParameters
-//        String collectorWithConstructorParameters();
-
-//        @Selector("#123")
-//        @CollectorWithError
-//        String collectorWithError();
-
         @Selector("#123")
         @TextCollector
         void invalidResult();
 
-//        @Selector("#123")
-//        @TextCollector
-//        @TransformerWithPrivateConstructor
-//        String transformerWithPrivateConstructor();
+        @Selector("#123")
+        @TextCollector
+        @TransformerWithPrivateConstructor.Annotation
+        String transformerWithPrivateConstructor();
 
-//        @Selector("#123")
-//        @TextCollector
-//        @TransformerWithConstructorParameters
-//        String transformerWithConstructorParameters();
+        @Selector("#123")
+        @TextCollector
+        @TransformerWithConstructorParameters.Annotation
+        String transformerWithConstructorParameters();
 
-//        @Selector("#123")
-//        @TextCollector
-//        @TransformerWithError
-//        String transformerWithError();
+        @Selector("#123")
+        @TextCollector
+        @TransformerWithError.Annotation
+        String transformerWithError();
 
-//        @Selector("span")
-//        @TextCollector
-//        CollectionWithPrivateConstructor collectionWithPrivateConstructor();
+        @Selector("span")
+        @TextCollector
+        CollectionWithPrivateConstructor collectionWithPrivateConstructor();
 
-//        @Selector("span")
-//        @TextCollector
-//        CollectionWithConstructorParameters collectionWithConstructorParameters();
+        @Selector("span")
+        @TextCollector
+        CollectionWithConstructorParameters collectionWithConstructorParameters();
     }
 }
