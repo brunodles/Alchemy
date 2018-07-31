@@ -1,6 +1,9 @@
 package com.brunodles.jsoupparser.JsoupParserTest;
 
-import com.brunodles.jsoupparser.*;
+import com.brunodles.jsoupparser.AnnotationInvocationHandler;
+import com.brunodles.jsoupparser.HttpResolver;
+import com.brunodles.jsoupparser.JsoupParser;
+import com.brunodles.jsoupparser.UriResolver;
 import com.brunodles.jsoupparser.transformers.Transformers;
 import org.junit.Before;
 import org.junit.Rule;

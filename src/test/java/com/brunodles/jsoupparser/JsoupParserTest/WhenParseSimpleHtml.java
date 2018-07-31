@@ -3,8 +3,8 @@ package com.brunodles.jsoupparser.JsoupParserTest;
 import com.brunodles.jsoupparser.JsoupParser;
 import com.brunodles.jsoupparser.collectors.AttrCollector;
 import com.brunodles.jsoupparser.collectors.TextCollector;
-import com.brunodles.jsoupparser.selector.Selector;
 import com.brunodles.jsoupparser.doubles.TransformToFloat;
+import com.brunodles.jsoupparser.selector.Selector;
 import com.brunodles.jsoupparser.usevalueof.UseValueOf;
 import com.brunodles.jsoupparser.withtype.WithTransformer;
 import org.junit.Before;
@@ -52,7 +52,8 @@ public class WhenParseSimpleHtml {
 
     @Test
     public void shouldReturnDifferentHashCodeForEachInstance() throws IOException {
-        SimpleModel otherObjectFromSameClass = jsoupParser.parseHtml(readResourceText("simple.html"), SimpleModel.class);
+        SimpleModel otherObjectFromSameClass = jsoupParser
+                .parseHtml(readResourceText("simple.html"), SimpleModel.class);
         assertNotEquals(simpleModel.hashCode(), otherObjectFromSameClass.hashCode());
     }
 
@@ -64,7 +65,8 @@ public class WhenParseSimpleHtml {
 
     @Test
     public void shouldNotBeEqualsToOtherInstance() throws IOException {
-        SimpleModel otherObjectFromSameClass = jsoupParser.parseHtml(readResourceText("simple.html"), SimpleModel.class);
+        SimpleModel otherObjectFromSameClass = jsoupParser
+                .parseHtml(readResourceText("simple.html"), SimpleModel.class);
         assertFalse(simpleModel.equals(otherObjectFromSameClass));
     }
 
@@ -82,7 +84,8 @@ public class WhenParseSimpleHtml {
 
     @Test
     public void shouldReturnMessageForToString() {
-        assertEquals("Proxy for \"com.brunodles.jsoupparser.JsoupParserTest.WhenParseSimpleHtml$SimpleModel\".", simpleModel.toString());
+        assertEquals("Proxy for \"com.brunodles.jsoupparser.JsoupParserTest.WhenParseSimpleHtml$SimpleModel\".",
+                simpleModel.toString());
     }
 
     @Test

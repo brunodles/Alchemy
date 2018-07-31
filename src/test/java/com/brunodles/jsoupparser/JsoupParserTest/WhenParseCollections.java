@@ -1,8 +1,8 @@
 package com.brunodles.jsoupparser.JsoupParserTest;
 
 import com.brunodles.jsoupparser.JsoupParser;
-import com.brunodles.jsoupparser.doubles.TransformToFloat;
 import com.brunodles.jsoupparser.collectors.TextCollector;
+import com.brunodles.jsoupparser.doubles.TransformToFloat;
 import com.brunodles.jsoupparser.nested.Nested;
 import com.brunodles.jsoupparser.selector.Selector;
 import com.brunodles.jsoupparser.withtype.WithTransformer;

@@ -4,12 +4,9 @@ import com.brunodles.jsoupparser.AnnotationInvocation;
 import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.collectors.AttrCollector;
 import com.brunodles.jsoupparser.collectors.TextCollector;
-import com.brunodles.jsoupparser.transformers.TransformerException;
 import com.brunodles.jsoupparser.navigate.Navigate;
 import com.brunodles.jsoupparser.nested.Nested;
 import com.brunodles.jsoupparser.selector.Selector;
-import com.brunodles.jsoupparser.transformers.TransformerFor;
-import com.brunodles.jsoupparser.transformers.Transformers;
 import com.brunodles.jsoupparser.withtype.WithTransformer;
 import org.jsoup.nodes.Document;
 import org.junit.Rule;
@@ -83,7 +80,8 @@ public class TransformersTest {
         }
     }
 
-    private static class TransformerWithoutAnnotation implements Transformer<AnnotationInvocation<Selector, Document>, Elements> {
+    private static class TransformerWithoutAnnotation
+            implements Transformer<AnnotationInvocation<Selector, Document>, Elements> {
 
         @Override
         public Elements transform(AnnotationInvocation<Selector, Document> value) {

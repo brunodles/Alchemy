@@ -21,5 +21,6 @@ public class TransformerWithConstructorParameters implements Transformer {
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    public @interface Annotation {}
+    public @interface Annotation {
+    }
 }

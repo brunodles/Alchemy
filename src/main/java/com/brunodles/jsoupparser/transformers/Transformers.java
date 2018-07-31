@@ -24,8 +24,8 @@ public final class Transformers {
     }
 
     /**
-     * Returns a transformer for given annotation.<br>
-     * This method may throw a {@link RuntimeException} if the transformer class is null.
+     * Returns a transformer for given annotation.<br> This method may throw a {@link RuntimeException} if the
+     * transformer class is null.
      *
      * @param annotation The annotation class, this is a key value for the transformer
      * @return a transformer class
@@ -64,9 +64,8 @@ public final class Transformers {
         }
 
         /**
-         * Add a transformer to a map of transformers.<br>
-         * This method will use the value of {@link TransformerFor} annotation as a key.
-         * With this you can override the default transformers.
+         * Add a transformer to a map of transformers.<br> This method will use the value of {@link TransformerFor}
+         * annotation as a key. With this you can override the default transformers.
          *
          * @param transformer A Transformer class annotated with {@link TransformerFor}
          * @return The current builder instance

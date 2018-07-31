@@ -25,7 +25,7 @@ public class JsoupParser {
     }
 
     private JsoupParser(@NotNull MethodInvocationHandler invocationHandler,
-                        @NotNull UriResolver uriResolver, @Nullable ClassLoader classLoader) {
+            @NotNull UriResolver uriResolver, @Nullable ClassLoader classLoader) {
         this.invocationHandler = invocationHandler;
         this.uriResolver = uriResolver;
 
@@ -70,8 +70,7 @@ public class JsoupParser {
     }
 
     /**
-     * Parses the {@param element} into {@param interfaceClass}.
-     * This method is used internally.
+     * Parses the {@param element} into {@param interfaceClass}. This method is used internally.
      *
      * @param element        a jSoup Element
      * @param interfaceClass an interface with method annotated with transformers
@@ -86,14 +85,10 @@ public class JsoupParser {
     }
 
     /**
-     * A builder for {@link JsoupParser}.<br>
-     * This builder will let change some configurations of JsoupParser:
-     * <ul>
-     * <li>{@link Transformer}s - this will allow you to add your custom annotations</li>
-     * <li>{@link ClassLoader} - in some environments JsoupParser can't find the interface class</li>
-     * <li>{@link UriResolver} - provide how to fetch URI. With this you can create caches,
-     * change how to follow redirects.</li>
-     * </ul>
+     * A builder for {@link JsoupParser}.<br> This builder will let change some configurations of JsoupParser: <ul>
+     * <li>{@link Transformer}s - this will allow you to add your custom annotations</li> <li>{@link ClassLoader} - in
+     * some environments JsoupParser can't find the interface class</li> <li>{@link UriResolver} - provide how to fetch
+     * URI. With this you can create caches, change how to follow redirects.</li> </ul>
      */
     public static class Builder {
         private Transformers transformers;

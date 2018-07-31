@@ -66,7 +66,7 @@ public class SelectorTransformerTest {
         doReturn(value).when(input).select(anyString());
 
         transformer.transform(invocation);
-        
+
         verify(input).select(anyString());
     }
 
@@ -99,7 +99,8 @@ public class SelectorTransformerTest {
     private AnnotationInvocation<Selector, Elements> buildAnnotationInvocation(Elements input) {
         Object[] parameters = new Object[]{};
         MethodInvocation methodInvocation = new MethodInvocation(proxyHandler, method, parameters);
-        AnnotationInvocation<Selector, Elements> invocation = new AnnotationInvocation<>(methodInvocation, annotation, input);
+        AnnotationInvocation<Selector, Elements> invocation = new AnnotationInvocation<>(methodInvocation, annotation,
+                input);
         invocation = spy(invocation);
         return invocation;
     }

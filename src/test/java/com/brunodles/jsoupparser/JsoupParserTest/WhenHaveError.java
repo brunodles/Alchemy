@@ -48,7 +48,8 @@ public class WhenHaveError {
     @Test
     public void withoutAnnotation_shouldThrowMissingSelectorException() {
         expectedException.expect(MissingSelectorException.class);
-        expectedException.expectMessage("Failed to get \"missingSelector\". Looks like it doesn't have Selector annotation.");
+        expectedException
+                .expectMessage("Failed to get \"missingSelector\". Looks like it doesn't have Selector annotation.");
 
         String result = errorModel.missingSelector();
     }
@@ -94,7 +95,9 @@ public class WhenHaveError {
     @Test
     public void withTransformerThatHavePrivateConstructor_shouldThrowInvalidTransformerException() {
         expectedException.expect(TransformerException.class);
-        expectedException.expectMessage("Can't create \"TransformerWithPrivateConstructor\". Check if it have private constructor or if it's constructor have parameters.");
+        expectedException.expectMessage(
+                "Can't create \"TransformerWithPrivateConstructor\". Check if it have private constructor or if it's " +
+                        "constructor have parameters.");
         expectedException.expectCause(any(IllegalAccessException.class));
 
         String result = errorModel.transformerWithPrivateConstructor();
@@ -103,7 +106,9 @@ public class WhenHaveError {
     @Test
     public void withTransformerThatConstructorHaveParameters_shouldThrowInvalidTransformerException() {
         expectedException.expect(TransformerException.class);
-        expectedException.expectMessage("Can't create \"TransformerWithConstructorParameters\". Check if it have private constructor or if it's constructor have parameters.");
+        expectedException.expectMessage(
+                "Can't create \"TransformerWithConstructorParameters\". Check if it have private constructor or if " +
+                        "it's constructor have parameters.");
         expectedException.expectCause(any(InstantiationException.class));
 
         String result = errorModel.transformerWithConstructorParameters();
