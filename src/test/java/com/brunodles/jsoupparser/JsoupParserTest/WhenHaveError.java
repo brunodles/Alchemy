@@ -7,7 +7,7 @@ import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.selector.InvalidSelectorException;
 import com.brunodles.jsoupparser.selector.MissingSelectorException;
 import com.brunodles.jsoupparser.selector.Selector;
-import com.brunodles.jsoupparser.transformers.TransformerException;
+import com.brunodles.jsoupparser.exceptions.TransformerException;
 import com.brunodles.jsoupparser.transformers.Transformers;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.core.AllOf;

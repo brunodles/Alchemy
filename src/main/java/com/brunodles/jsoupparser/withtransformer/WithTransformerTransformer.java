@@ -2,6 +2,7 @@ package com.brunodles.jsoupparser.withtransformer;
 
 import com.brunodles.jsoupparser.AnnotationInvocation;
 import com.brunodles.jsoupparser.Transformer;
+import com.brunodles.jsoupparser.exceptions.TransformerException;
 import com.brunodles.jsoupparser.transformers.TransformerFor;
 
 import java.util.ArrayList;
@@ -14,13 +15,11 @@ public class WithTransformerTransformer<INPUT, OUTPUT> implements
     @Override
     public List<OUTPUT> transform(AnnotationInvocation<WithTransformer, List<INPUT>> value) {
         Transformer<INPUT, OUTPUT> transformer = null;
+        Class<? extends Transformer> transformerClass = value.annotation.value();
         try {
-            Class<? extends Transformer> transformerClass = value.annotation.value();
             transformer = transformerClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw TransformerException.cantCreateTransformer(transformerClass, e);
         }
         ArrayList<OUTPUT> result = new ArrayList<>();
         for (INPUT input : value.result)

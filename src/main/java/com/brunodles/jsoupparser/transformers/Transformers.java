@@ -3,6 +3,7 @@ package com.brunodles.jsoupparser.transformers;
 import com.brunodles.jsoupparser.Transformer;
 import com.brunodles.jsoupparser.collectors.AttrCollectorTransformer;
 import com.brunodles.jsoupparser.collectors.TextCollectorTransformer;
+import com.brunodles.jsoupparser.exceptions.TransformerException;
 import com.brunodles.jsoupparser.navigate.NavigateTransformer;
 import com.brunodles.jsoupparser.nested.NestedTransformer;
 import com.brunodles.jsoupparser.selector.SelectorTransformer;

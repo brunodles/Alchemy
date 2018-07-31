@@ -2,7 +2,7 @@ package com.brunodles.jsoupparser;
 
 import com.brunodles.jsoupparser.exceptions.ResultException;
 import com.brunodles.jsoupparser.selector.MissingSelectorException;
-import com.brunodles.jsoupparser.transformers.TransformerException;
+import com.brunodles.jsoupparser.exceptions.TransformerException;
 import com.brunodles.jsoupparser.transformers.Transformers;
 import org.jetbrains.annotations.NotNull;
 
