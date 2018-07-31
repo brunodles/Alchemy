@@ -16,10 +16,6 @@ public class AnnotationInvocationHandler implements MethodInvocationHandler {
 
     public final Transformers transformers;
 
-    public AnnotationInvocationHandler() {
-        this(new Transformers.Builder().build());
-    }
-
     public AnnotationInvocationHandler(@NotNull Transformers transformers) {
         this.transformers = transformers;
     }
