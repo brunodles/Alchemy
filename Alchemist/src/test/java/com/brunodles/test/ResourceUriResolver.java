@@ -1,6 +1,6 @@
 package com.brunodles.test;
 
-import com.brunodles.jsoupparser.UriResolver;
+import com.brunodles.alchemist.UriResolver;
 
 import java.io.IOException;
 
