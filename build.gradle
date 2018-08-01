@@ -16,7 +16,7 @@ allprojects {
 def gitPath = "github.com/brunodles/Alchemy"
 ext.publishingRoot = [
         group          : "com.brunodles",
-        version        : '1.0.0',
+        version        : '2.0.0',
         repo           : "TempRepo",
         name           : "Alchemy",
         artifact       : "alchemy",
@@ -24,7 +24,7 @@ ext.publishingRoot = [
         site           : "https://$gitPath",
         issueTrackerUrl: "https://$gitPath/issues",
         tag            : 'git rev-parse --abbrev-ref HEAD'.execute().text.trim(),
-        override       : true,
+        override       : false,
         desc           : "A wrapper to access pages as an api.",
         license        : [
                 short: "mit",
