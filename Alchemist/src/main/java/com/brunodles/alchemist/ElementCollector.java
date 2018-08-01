@@ -10,5 +10,5 @@ import java.lang.reflect.Method;
 public interface ElementCollector<T> {
 
     @Nullable
-    T collect(@NotNull JsoupParser jsoupParser, @NotNull Element element, @NotNull Method method);
+    T collect(@NotNull Alchemist alchemist, @NotNull Element element, @NotNull Method method);
 }

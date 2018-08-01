@@ -1,6 +1,6 @@
 package com.brunodles.alchemist.exceptions;
 
-import com.brunodles.alchemist.Transformer;
+import com.brunodles.alchemist.Transmuter;
 
 import java.lang.annotation.Annotation;
 
@@ -17,7 +17,7 @@ public class TransformerException extends RuntimeException {
         super(message, cause);
     }
 
-    public static TransformerException cantCreateTransformer(Class<? extends Transformer> transformerClass,
+    public static TransformerException cantCreateTransformer(Class<? extends Transmuter> transformerClass,
             Exception cause) {
         return new TransformerException(format(MESSAGE_CANT_CREATE, transformerClass.getSimpleName()), cause);
     }
@@ -27,7 +27,7 @@ public class TransformerException extends RuntimeException {
                 annotation.getClass().getSimpleName()), null);
     }
 
-    public static TransformerException cantTransform(Object input, Class<? extends Transformer> transformerClass,
+    public static TransformerException cantTransform(Object input, Class<? extends Transmuter> transformerClass,
             Exception cause) {
         return new TransformerException(format(MESSAGE_CANT_TRANSFORM, transformerClass.getSimpleName(), input),
                 cause);

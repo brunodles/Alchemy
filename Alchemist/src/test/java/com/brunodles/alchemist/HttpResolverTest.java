@@ -18,7 +18,7 @@ public class HttpResolverTest {
     @Rule
     public WireMockRule wireMock = new WireMockRule(8089);
 
-    private HttpResolver resolver = new HttpResolver();
+    private HttpFetcher resolver = new HttpFetcher();
     private String url;
 
     @Before

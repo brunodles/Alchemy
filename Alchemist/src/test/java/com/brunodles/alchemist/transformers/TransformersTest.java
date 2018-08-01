@@ -1,7 +1,7 @@
 package com.brunodles.alchemist.transformers;
 
 import com.brunodles.alchemist.AnnotationInvocation;
-import com.brunodles.alchemist.Transformer;
+import com.brunodles.alchemist.Transmuter;
 import com.brunodles.alchemist.collectors.AttrCollector;
 import com.brunodles.alchemist.collectors.TextCollector;
 import com.brunodles.alchemist.navigate.Navigate;
@@ -47,9 +47,9 @@ public class TransformersTest {
 
     @Test
     public void whenCustomTransformer_whenBuild_shouldOverrideDefaultOne() {
-        Transformers transformers = new Transformers.Builder().add(CustomTransformer.class).build();
-        Class<? extends Transformer> transformerClass = transformers.transformerFor(mock(Selector.class));
-        assertEquals(CustomTransformer.class, transformerClass);
+        Transformers transformers = new Transformers.Builder().add(CustomTransmuter.class).build();
+        Class<? extends Transmuter> transformerClass = transformers.transformerFor(mock(Selector.class));
+        assertEquals(CustomTransmuter.class, transformerClass);
     }
 
     @Test
@@ -63,16 +63,16 @@ public class TransformersTest {
     @Test
     public void whenTransformerForInvalidAnnotation_shouldThrowException() {
         exceptionRule.expect(IllegalArgumentException.class);
-        exceptionRule.expectMessage("Transformer is not annotated with \"TransformerFor\" annotation.");
+        exceptionRule.expectMessage("Transmuter is not annotated with \"TransformerFor\" annotation.");
 
-        new Transformers.Builder().add(TransformerWithoutAnnotation.class);
+        new Transformers.Builder().add(TransmuterWithoutAnnotation.class);
     }
 
     @interface UnknownAnnotation {
     }
 
     @TransformerFor(Selector.class)
-    private static class CustomTransformer implements Transformer<AnnotationInvocation<Selector, Document>, Elements> {
+    private static class CustomTransmuter implements Transmuter<AnnotationInvocation<Selector, Document>, Elements> {
 
         @Override
         public Elements transform(AnnotationInvocation<Selector, Document> value) {
@@ -80,8 +80,8 @@ public class TransformersTest {
         }
     }
 
-    private static class TransformerWithoutAnnotation
-            implements Transformer<AnnotationInvocation<Selector, Document>, Elements> {
+    private static class TransmuterWithoutAnnotation
+            implements Transmuter<AnnotationInvocation<Selector, Document>, Elements> {
 
         @Override
         public Elements transform(AnnotationInvocation<Selector, Document> value) {

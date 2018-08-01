@@ -1,6 +1,6 @@
 package com.brunodles.alchemist.withtransformer;
 
-import com.brunodles.alchemist.Transformer;
+import com.brunodles.alchemist.Transmuter;
 
 import java.lang.annotation.*;
 
@@ -17,5 +17,5 @@ public @interface WithTransformer {
      *
      * @return transformer class
      */
-    Class<? extends Transformer<String, ?>> value();
+    Class<? extends Transmuter<String, ?>> value();
 }

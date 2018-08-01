@@ -1,7 +1,7 @@
 package com.brunodles.alchemist.selector;
 
 /**
- * This exception is thrown when JsoupParser can't find the element on the page.
+ * This exception is thrown when Alchemist can't find the element on the page.
  */
 public class InvalidSelectorException extends RuntimeException {
     public InvalidSelectorException(String methodName, String selector) {

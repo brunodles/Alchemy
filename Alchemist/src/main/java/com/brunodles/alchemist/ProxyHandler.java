@@ -13,13 +13,13 @@ public class ProxyHandler implements InvocationHandler {
     private static final String METHOD_TO_STRING = "toString";
     private static final String METHOD_EQUALS = "equals";
 
-    public final JsoupParser jsoupParser;
+    public final Alchemist alchemist;
     public final Element document;
     public final Class interfaceClass;
     private final HashMap<Method, Object> resultCache = new HashMap<>();
 
-    ProxyHandler(JsoupParser jsoupParser, Element document, Class interfaceClass) {
-        this.jsoupParser = jsoupParser;
+    ProxyHandler(Alchemist alchemist, Element document, Class interfaceClass) {
+        this.alchemist = alchemist;
         this.document = document;
         this.interfaceClass = interfaceClass;
     }
@@ -37,7 +37,7 @@ public class ProxyHandler implements InvocationHandler {
         if (METHOD_EQUALS.equalsIgnoreCase(methodName))
             return proxyEquals(parameters[0]);
 
-        final Object result = jsoupParser.invocationHandler.invoke(new MethodInvocation(this, method, parameters));
+        final Object result = alchemist.invocationHandler.invoke(new MethodInvocation(this, method, parameters));
         resultCache.put(method, result);
         return result;
     }

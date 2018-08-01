@@ -23,4 +23,4 @@ Transmutation | What does it do?
 --------------|-------------------
 Selector      | Find elements on html page, which is a element too.
 Collector     | Collects data from the element. Content, attribute and html are possible data from an element.
-Transformer   | Transmute into an _Object Type_. It's a complex transmutation that may receive a transformer. This can also be used to restart the process  
+Transformer   | Transmute into an _Object Type_. It's a complex transmutation that may receive a transmuter. This can also be used to restart the process  
