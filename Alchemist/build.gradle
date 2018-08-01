@@ -29,7 +29,7 @@ dependencies {
 apply from: rootProject.file("gradle/jacoco-offline.gradle")
 apply from: rootProject.file("gradle/checkstyle.gradle")
 
-ext.publishingModule = [
+ext.publishing = rootProject.publishingRoot.clone() + [
         artifact: "${publishingRoot.artifact}-alchemist",
         name    : "${publishingRoot.name} Alchemist"
 ]
