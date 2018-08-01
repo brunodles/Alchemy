@@ -1,6 +1,3 @@
-group 'com.brunodles'
-version '0.0.0'
-
 apply plugin: 'java'
 apply plugin: 'jacoco'
 
@@ -31,3 +28,9 @@ dependencies {
 
 apply from: rootProject.file("gradle/jacoco-offline.gradle")
 apply from: rootProject.file("gradle/checkstyle.gradle")
+
+ext.publishingModule = [
+        artifact: "${publishingRoot.artifact}-alchemist",
+        name    : "${publishingRoot.name} Alchemist"
+]
+apply from: rootProject.file('gradle/publish.gradle')
