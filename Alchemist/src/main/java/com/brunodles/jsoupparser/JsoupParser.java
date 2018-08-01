@@ -36,7 +36,7 @@ public class JsoupParser {
     }
 
     /**
-     * Parses the content from {@param url} into the {@param interfaceClass}.
+     * Parses the content from {@code url} into the {@code interfaceClass}.
      *
      * @param url            a url for the page wanted
      * @param interfaceClass an interface with method annotated with transformers
@@ -55,12 +55,12 @@ public class JsoupParser {
     }
 
     /**
-     * Parses an {@param html} into {@param interfaceClass}.
+     * Parses an {@code html} into {@code interfaceClass}.
      *
      * @param html           a html page to be used
      * @param interfaceClass an interface with method annotated with transformers
      * @param <T>            Returning Type
-     * @return A proxy to read the {@param html} content
+     * @return A proxy to read the {@code html} content
      */
     public <T> T parseHtml(@NotNull String html, @NotNull Class<T> interfaceClass) {
         Document document = Jsoup.parse(html);
@@ -70,12 +70,12 @@ public class JsoupParser {
     }
 
     /**
-     * Parses the {@param element} into {@param interfaceClass}. This method is used internally.
+     * Parses the {@code element} into {@code interfaceClass}. This method is used internally.
      *
      * @param element        a jSoup Element
      * @param interfaceClass an interface with method annotated with transformers
      * @param <T>            Returning Type
-     * @return A proxy to read the {@param element}
+     * @return A proxy to read the {@code element}
      */
     public <T> T parseElement(@NotNull Element element, @NotNull Class<T> interfaceClass) {
         return (T) Proxy.newProxyInstance(

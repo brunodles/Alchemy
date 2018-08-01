@@ -50,6 +50,8 @@ public class MethodInvocation {
 
     /**
      * Get the type to use, this will not return the raw type, it can extract the type from a collection.
+     *
+     * @return the class for return type
      */
     public Class<?> getMethodRealReturnType() {
         final Class<?> returnType = getMethodRawReturnType();
