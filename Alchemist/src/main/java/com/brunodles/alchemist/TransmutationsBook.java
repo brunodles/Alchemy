@@ -6,6 +6,7 @@ import com.brunodles.alchemist.exceptions.TransformerException;
 import com.brunodles.alchemist.navigate.NavigateTransmutation;
 import com.brunodles.alchemist.nested.NestedTransmutation;
 import com.brunodles.alchemist.selector.SelectorTransmutation;
+import com.brunodles.alchemist.stringformat.StringFormatTransmutation;
 import com.brunodles.alchemist.usevalueof.UseValueOfTransmutation;
 import com.brunodles.alchemist.withtransformer.WithTransformerTransmutation;
 import org.jetbrains.annotations.NotNull;
@@ -73,6 +74,7 @@ public final class TransmutationsBook {
             add(NestedTransmutation.class);
             add(NavigateTransmutation.class);
             add(UseValueOfTransmutation.class);
+            add(StringFormatTransmutation.class);
         }
 
         /**
