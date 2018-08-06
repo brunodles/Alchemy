@@ -1,8 +1,9 @@
-package com.brunodles.alchemist.transformers;
+package com.brunodles.alchemist.transmutationsbook;
 
 import com.brunodles.alchemist.AnnotationInvocation;
 import com.brunodles.alchemist.AnnotationTransmutation;
 import com.brunodles.alchemist.Transmutation;
+import com.brunodles.alchemist.TransmutationsBook;
 import com.brunodles.alchemist.collectors.AttrCollector;
 import com.brunodles.alchemist.collectors.TextCollector;
 import com.brunodles.alchemist.navigate.Navigate;

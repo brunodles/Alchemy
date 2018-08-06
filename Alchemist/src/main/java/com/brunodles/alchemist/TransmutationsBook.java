@@ -1,6 +1,5 @@
-package com.brunodles.alchemist.transformers;
+package com.brunodles.alchemist;
 
-import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.collectors.AttrCollectorTransmutation;
 import com.brunodles.alchemist.collectors.TextCollectorTransmutation;
 import com.brunodles.alchemist.exceptions.TransformerException;

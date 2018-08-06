@@ -8,7 +8,7 @@ import com.brunodles.alchemist.selector.InvalidSelectorException;
 import com.brunodles.alchemist.selector.MissingSelectorException;
 import com.brunodles.alchemist.selector.Selector;
 import com.brunodles.alchemist.exceptions.TransformerException;
-import com.brunodles.alchemist.transformers.TransmutationsBook;
+import com.brunodles.alchemist.TransmutationsBook;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.core.AllOf;
 import org.junit.Before;

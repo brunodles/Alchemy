@@ -4,7 +4,7 @@ import com.brunodles.alchemist.Alchemist;
 import com.brunodles.alchemist.MethodToAnnotationInvocationHandler;
 import com.brunodles.alchemist.HttpFetcher;
 import com.brunodles.alchemist.UriFetcher;
-import com.brunodles.alchemist.transformers.TransmutationsBook;
+import com.brunodles.alchemist.TransmutationsBook;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

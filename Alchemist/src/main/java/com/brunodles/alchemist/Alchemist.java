@@ -1,7 +1,6 @@
 package com.brunodles.alchemist;
 
 import com.brunodles.alchemist.exceptions.ResolverException;
-import com.brunodles.alchemist.transformers.TransmutationsBook;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
