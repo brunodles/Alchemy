@@ -5,11 +5,8 @@ import com.brunodles.alchemist.TransmutationRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class UseValueOfTransmutationTest {
     @Test
     public void whenParseToInteger_shouldParse() {
         AnnotationInvocation<UseValueOf, List<String>> invocation = transmutationRule
-                .buildInvocation(Integer.class, "123");
+                .buildInvocationWithList(Integer.class, "123");
 
         List<Integer> result = transmutationRule.transform(invocation);
 
@@ -39,7 +36,7 @@ public class UseValueOfTransmutationTest {
 
     @Test
     public void whenParseToLong_shouldParse() {
-        AnnotationInvocation<UseValueOf, List<String>> invocation = transmutationRule.buildInvocation(Long.class,
+        AnnotationInvocation<UseValueOf, List<String>> invocation = transmutationRule.buildInvocationWithList(Long.class,
                 "2132312132331232121");
 
         List<Long> result = transmutationRule.transform(invocation);
@@ -49,7 +46,7 @@ public class UseValueOfTransmutationTest {
 
     @Test
     public void whenParseToFloat_shouldParse() {
-        AnnotationInvocation<UseValueOf, List<String>> invocation = transmutationRule.buildInvocation(Float.class,
+        AnnotationInvocation<UseValueOf, List<String>> invocation = transmutationRule.buildInvocationWithList(Float.class,
                 "212121321321.3221332113321123213213");
 
         List<Float> result = transmutationRule.transform(invocation);
@@ -60,7 +57,7 @@ public class UseValueOfTransmutationTest {
     @Test(expected = RuntimeException.class)
     public void whenClassDoesNotHaveValueOfMethod_shouldThrowException() {
         AnnotationInvocation<UseValueOf, List<String>> invocation = transmutationRule
-                .buildInvocation(Character.TYPE, "1231323");
+                .buildInvocationWithList(Character.TYPE, "1231323");
 
         List<Character> result = transmutationRule.transform(invocation);
 
