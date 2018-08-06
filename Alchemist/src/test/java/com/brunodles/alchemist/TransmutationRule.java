@@ -1,6 +1,6 @@
 package com.brunodles.alchemist;
 
-import com.brunodles.alchemist.usevalueof.UseValueOf;
+import com.brunodles.testhelpers.AnnotationMockBuilder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -48,25 +48,22 @@ public class TransmutationRule<AnnotationT extends Annotation> implements TestRu
 
     @SuppressWarnings("unchecked")
     @SafeVarargs
-    public final <INPUT, OUTPUT> AnnotationInvocation<AnnotationT, List<INPUT>> buildInvocation(
+    public final <INPUT, OUTPUT> AnnotationInvocation<AnnotationT, List<INPUT>> buildInvocationWithList(
             final Class<OUTPUT> returnClass, final INPUT... inputs) {
         when(method.getReturnType()).thenReturn((Class) List.class);
         ParameterizedType type = mock(ParameterizedType.class);
         when(type.getActualTypeArguments()).thenReturn(new Type[]{returnClass});
         when(method.getGenericReturnType()).thenReturn(type);
-        return buildAnnotationInvocation(inputs);
-    }
-
-    @SuppressWarnings("unchecked")
-    @SafeVarargs
-    public final <T> AnnotationInvocation<AnnotationT, List<T>> buildAnnotationInvocation(final T... input) {
-        Object[] parameters = new Object[]{};
-        MethodInvocation methodInvocation = new MethodInvocation(proxyHandler, method, parameters);
-        return new AnnotationInvocation(methodInvocation, annotation, Arrays.asList(input));
+        MethodInvocation methodInvocation = new MethodInvocation(proxyHandler, method, new Object[]{});
+        return new AnnotationInvocation(methodInvocation, annotation, Arrays.asList(inputs));
     }
 
     @SuppressWarnings("unchecked")
     public <INPUT, OUTPUT> List<OUTPUT> transform(AnnotationInvocation<AnnotationT, INPUT> invocation) {
         return (List<OUTPUT>) transmutation.transform((AnnotationInvocation<AnnotationT, Object>) invocation);
+    }
+
+    public void withAnnotation(Class<AnnotationT> annotationClass, final String methodName, final Object result) {
+        annotation = new AnnotationMockBuilder<>(annotationClass).withResultFor(methodName, result).build();
     }
 }
