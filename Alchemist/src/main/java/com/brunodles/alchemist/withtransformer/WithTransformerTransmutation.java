@@ -1,14 +1,15 @@
 package com.brunodles.alchemist.withtransformer;
 
 import com.brunodles.alchemist.AnnotationInvocation;
+import com.brunodles.alchemist.AnnotationTransmutation;
 import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.exceptions.TransformerException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WithTransformerTransmutation<INPUT, OUTPUT> implements
-        Transmutation<AnnotationInvocation<WithTransformer, List<INPUT>>, List<OUTPUT>> {
+public class WithTransformerTransmutation<INPUT, OUTPUT>
+        implements AnnotationTransmutation<WithTransformer, List<INPUT>, List<OUTPUT>> {
 
     @Override
     public List<OUTPUT> transform(AnnotationInvocation<WithTransformer, List<INPUT>> value) {

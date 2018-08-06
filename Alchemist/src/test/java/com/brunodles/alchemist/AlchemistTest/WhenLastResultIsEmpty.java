@@ -2,6 +2,7 @@ package com.brunodles.alchemist.AlchemistTest;
 
 import com.brunodles.alchemist.Alchemist;
 import com.brunodles.alchemist.AnnotationInvocation;
+import com.brunodles.alchemist.AnnotationTransmutation;
 import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.transformers.TransmutationsBook;
 import org.junit.Assert;
@@ -42,7 +43,7 @@ public class WhenLastResultIsEmpty {
     }
 
     public static class EmptyTransmutation
-            implements Transmutation<AnnotationInvocation<EmptyList, List<Object>>, List<Object>> {
+            implements AnnotationTransmutation<EmptyList, List<Object>, List<Object>> {
 
         @Override
         public List<Object> transform(AnnotationInvocation<EmptyList, List<Object>> value) {

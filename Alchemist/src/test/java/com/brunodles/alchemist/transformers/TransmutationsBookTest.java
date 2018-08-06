@@ -1,6 +1,7 @@
 package com.brunodles.alchemist.transformers;
 
 import com.brunodles.alchemist.AnnotationInvocation;
+import com.brunodles.alchemist.AnnotationTransmutation;
 import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.collectors.AttrCollector;
 import com.brunodles.alchemist.collectors.TextCollector;
@@ -73,7 +74,7 @@ public class TransmutationsBookTest {
     }
 
     private static class CustomTransmutation
-            implements Transmutation<AnnotationInvocation<Selector, Document>, Elements> {
+            implements AnnotationTransmutation<Selector, Document, Elements> {
 
         @Override
         public Elements transform(AnnotationInvocation<Selector, Document> value) {

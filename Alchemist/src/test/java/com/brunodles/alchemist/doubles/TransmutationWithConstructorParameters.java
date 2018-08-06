@@ -1,7 +1,7 @@
 package com.brunodles.alchemist.doubles;
 
 import com.brunodles.alchemist.AnnotationInvocation;
-import com.brunodles.alchemist.Transmutation;
+import com.brunodles.alchemist.AnnotationTransmutation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 public class TransmutationWithConstructorParameters implements
-        Transmutation<AnnotationInvocation<TransmutationWithConstructorParameters.Annotation, Object>, Object> {
+        AnnotationTransmutation<TransmutationWithConstructorParameters.Annotation, Object, Object> {
 
     public TransmutationWithConstructorParameters(String parameter) {
     }

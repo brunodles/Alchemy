@@ -1,14 +1,13 @@
 package com.brunodles.alchemist.nested;
 
 import com.brunodles.alchemist.AnnotationInvocation;
-import com.brunodles.alchemist.Transmutation;
+import com.brunodles.alchemist.AnnotationTransmutation;
 import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NestedTransmutation<OUTPUT> implements Transmutation<AnnotationInvocation<Nested, List<Element>>,
-        List<OUTPUT>> {
+public class NestedTransmutation<OUTPUT> implements AnnotationTransmutation<Nested, List<Element>, List<OUTPUT>> {
 
     @Override
     public List<OUTPUT> transform(AnnotationInvocation<Nested, List<Element>> value) {

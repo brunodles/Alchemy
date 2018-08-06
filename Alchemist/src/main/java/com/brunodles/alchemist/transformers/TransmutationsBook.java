@@ -60,9 +60,7 @@ public final class TransmutationsBook {
             try {
                 Type[] genericInterfaces = targetClass.getGenericInterfaces();
                 ParameterizedType type = (ParameterizedType) genericInterfaces[0];
-                Type[] actualTypeArguments = type.getActualTypeArguments();
-                ParameterizedType annotationInvocationType = (ParameterizedType) actualTypeArguments[0];
-                return (Class) annotationInvocationType.getActualTypeArguments()[0];
+                return (Class) type.getActualTypeArguments()[0];
             } catch (Exception e) {
                 return null;
             }
@@ -82,8 +80,7 @@ public final class TransmutationsBook {
          * Add a Transmutation to a map of Transmutations.<br> This method will figure out the annotation to use it as a
          * key. With this you can override the default Transmutations.
          *
-         * <p>The transmutation should implement this {@code Transmutation<AnnotationInvocation<Annotation, Input>,
-         * Output>}.
+         * <p>The transmutation should implement this {@code AnnotationTransmutation<Annotation, Input ,Output>}.
          *
          * @param transformer A Transmutation class implementing the pattern annotation invocation
          * @return The current builder instance
