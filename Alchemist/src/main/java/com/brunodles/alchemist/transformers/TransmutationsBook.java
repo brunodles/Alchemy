@@ -65,8 +65,8 @@ public final class TransmutationsBook {
         }
 
         /**
-         * Add a transformer to a map of transmutationsBook.<br> This method will use the value of {@link TransformerFor}
-         * annotation as a key. With this you can override the default transmutationsBook.
+         * Add a transformer to a map of transmutationsBook.<br> This method will use the value of
+         * {@link TransformerFor} annotation as a key. With this you can override the default transmutationsBook.
          *
          * @param transformer A Transmutation class annotated with {@link TransformerFor}
          * @return The current builder instance
@@ -77,7 +77,8 @@ public final class TransmutationsBook {
                 throw new IllegalArgumentException("Null is not a valid transformer.");
             TransformerFor transformerFor = transformer.getAnnotation(TransformerFor.class);
             if (transformerFor == null)
-                throw new IllegalArgumentException("Transmutation is not annotated with \"TransformerFor\" annotation.");
+                throw new IllegalArgumentException(
+                        "Transmutation is not annotated with \"TransformerFor\" annotation.");
             Class<? extends Annotation> targetAnnotation = transformerFor.value();
             transformerMap.put(targetAnnotation, transformer);
             return this;
