@@ -1,7 +1,7 @@
 package com.brunodles.alchemist.transformers;
 
 import com.brunodles.alchemist.AnnotationInvocation;
-import com.brunodles.alchemist.Transmuter;
+import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.collectors.AttrCollector;
 import com.brunodles.alchemist.collectors.TextCollector;
 import com.brunodles.alchemist.navigate.Navigate;
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 
 @RunWith(JUnit4.class)
-public class TransformersTest {
+public class TransmutationsBookTest {
 
     @SuppressWarnings("unchecked")
     private static final Class<? extends Annotation>[] DEFAULT_ANNOTATIONS = new Class[]{
@@ -39,17 +39,17 @@ public class TransformersTest {
 
     @Test
     public void whenBuild_shouldHaveDefaultAnnotations() {
-        Transformers transformers = new Transformers.Builder().build();
+        TransmutationsBook transmutationsBook = new TransmutationsBook.Builder().build();
 
         for (Class<? extends Annotation> annotation : DEFAULT_ANNOTATIONS)
-            assertNotNull(transformers.transformerFor(mock(annotation)));
+            assertNotNull(transmutationsBook.transmutationFor(mock(annotation)));
     }
 
     @Test
     public void whenCustomTransformer_whenBuild_shouldOverrideDefaultOne() {
-        Transformers transformers = new Transformers.Builder().add(CustomTransmuter.class).build();
-        Class<? extends Transmuter> transformerClass = transformers.transformerFor(mock(Selector.class));
-        assertEquals(CustomTransmuter.class, transformerClass);
+        TransmutationsBook transmutationsBook = new TransmutationsBook.Builder().add(CustomTransmutation.class).build();
+        Class<? extends Transmutation> transformerClass = transmutationsBook.transmutationFor(mock(Selector.class));
+        assertEquals(CustomTransmutation.class, transformerClass);
     }
 
     @Test
@@ -57,22 +57,23 @@ public class TransformersTest {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("Null is not a valid transformer.");
 
-        new Transformers.Builder().add(null);
+        new TransmutationsBook.Builder().add(null);
     }
 
     @Test
     public void whenTransformerForInvalidAnnotation_shouldThrowException() {
         exceptionRule.expect(IllegalArgumentException.class);
-        exceptionRule.expectMessage("Transmuter is not annotated with \"TransformerFor\" annotation.");
+        exceptionRule.expectMessage("Transmutation is not annotated with \"TransformerFor\" annotation.");
 
-        new Transformers.Builder().add(TransmuterWithoutAnnotation.class);
+        new TransmutationsBook.Builder().add(TransmutationWithoutAnnotation.class);
     }
 
     @interface UnknownAnnotation {
     }
 
     @TransformerFor(Selector.class)
-    private static class CustomTransmuter implements Transmuter<AnnotationInvocation<Selector, Document>, Elements> {
+    private static class CustomTransmutation
+            implements Transmutation<AnnotationInvocation<Selector, Document>, Elements> {
 
         @Override
         public Elements transform(AnnotationInvocation<Selector, Document> value) {
@@ -80,8 +81,8 @@ public class TransformersTest {
         }
     }
 
-    private static class TransmuterWithoutAnnotation
-            implements Transmuter<AnnotationInvocation<Selector, Document>, Elements> {
+    private static class TransmutationWithoutAnnotation
+            implements Transmutation<AnnotationInvocation<Selector, Document>, Elements> {
 
         @Override
         public Elements transform(AnnotationInvocation<Selector, Document> value) {

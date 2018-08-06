@@ -25,9 +25,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
-public class UseValueOfTransmuterTest {
+public class UseValueOfTransmutationTest {
 
-    private final UseValueOfTransmuter transformer = new UseValueOfTransmuter();
+    private final UseValueOfTransmutation transformer = new UseValueOfTransmutation();
 
     @Rule
     public MockitoRule mockito = MockitoJUnit.rule();

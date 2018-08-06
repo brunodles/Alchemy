@@ -1,6 +1,6 @@
 package com.brunodles.alchemist;
 
 @FunctionalInterface
-public interface Transmuter<INPUT, OUTPUT> {
+public interface Transmutation<INPUT, OUTPUT> {
     OUTPUT transform(INPUT value);
 }

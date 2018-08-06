@@ -1,9 +1,9 @@
 package com.brunodles.alchemist.AlchemistTest;
 
 import com.brunodles.alchemist.Alchemist;
-import com.brunodles.alchemist.Transmuter;
+import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.transformers.TransformerFor;
-import com.brunodles.alchemist.transformers.Transformers;
+import com.brunodles.alchemist.transformers.TransmutationsBook;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class WhenLastResultIsEmpty {
 
     Alchemist alchemist = new Alchemist.Builder()
-            .transformers(new Transformers.Builder()
-                    .add(EmptyTransmuter.class)
+            .transformers(new TransmutationsBook.Builder()
+                    .add(EmptyTransmutation.class)
                     .build())
             .build();
 
@@ -41,7 +41,7 @@ public class WhenLastResultIsEmpty {
     }
 
     @TransformerFor(EmptyList.class)
-    public static class EmptyTransmuter implements Transmuter {
+    public static class EmptyTransmutation implements Transmutation {
 
         @Override
         public Object transform(Object value) {

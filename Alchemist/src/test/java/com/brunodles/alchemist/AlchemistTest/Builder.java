@@ -4,7 +4,7 @@ import com.brunodles.alchemist.Alchemist;
 import com.brunodles.alchemist.MethodToAnnotationInvocationHandler;
 import com.brunodles.alchemist.HttpFetcher;
 import com.brunodles.alchemist.UriFetcher;
-import com.brunodles.alchemist.transformers.Transformers;
+import com.brunodles.alchemist.transformers.TransmutationsBook;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class Builder {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
     @Mock
-    Transformers transformers;
+    TransmutationsBook transmutationsBook;
     @Mock
     UriFetcher uriFetcher;
     @Mock
@@ -37,7 +37,7 @@ public class Builder {
     public void setup() throws Exception {
         // Just for coverage purposes, since we can't call real constructor
         mockAlchemist = spy(new Alchemist.Builder()
-                .transformers(transformers)
+                .transformers(transmutationsBook)
                 .classLoader(classLoader)
                 .uriResolver(uriFetcher)
                 .build());
@@ -54,7 +54,7 @@ public class Builder {
     @Test
     public void whenBuild_withAllParameters_shouldPassTheyToConstructor() throws Exception {
         new Alchemist.Builder()
-                .transformers(transformers)
+                .transformers(transmutationsBook)
                 .classLoader(classLoader)
                 .uriResolver(uriFetcher)
                 .build();
@@ -65,7 +65,7 @@ public class Builder {
     @Test
     public void whenBuild_withoutClassLoader_shouldPassNull() throws Exception {
         new Alchemist.Builder()
-                .transformers(transformers)
+                .transformers(transmutationsBook)
                 .uriResolver(uriFetcher)
                 .build();
 

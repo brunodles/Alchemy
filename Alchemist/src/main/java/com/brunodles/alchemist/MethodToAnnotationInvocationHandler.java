@@ -3,7 +3,7 @@ package com.brunodles.alchemist;
 import com.brunodles.alchemist.exceptions.ResultException;
 import com.brunodles.alchemist.selector.MissingSelectorException;
 import com.brunodles.alchemist.exceptions.TransformerException;
-import com.brunodles.alchemist.transformers.Transformers;
+import com.brunodles.alchemist.transformers.TransmutationsBook;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -14,10 +14,10 @@ import java.util.List;
 
 public class MethodToAnnotationInvocationHandler implements MethodInvocationHandler {
 
-    public final Transformers transformers;
+    public final TransmutationsBook transmutationsBook;
 
-    MethodToAnnotationInvocationHandler(@NotNull Transformers transformers) {
-        this.transformers = transformers;
+    MethodToAnnotationInvocationHandler(@NotNull TransmutationsBook transmutationsBook) {
+        this.transmutationsBook = transmutationsBook;
     }
 
     @Override
@@ -29,17 +29,17 @@ public class MethodToAnnotationInvocationHandler implements MethodInvocationHand
             throw ResultException.voidReturn();
         List result = null;
         for (Annotation annotation : annotations) {
-            Class<? extends Transmuter> transformerClass = transformers.transformerFor(annotation);
-            Transmuter transmuter;
+            Class<? extends Transmutation> transformerClass = transmutationsBook.transmutationFor(annotation);
+            Transmutation transmutation;
             try {
-                transmuter = transformerClass.newInstance();
+                transmutation = transformerClass.newInstance();
             } catch (InstantiationException | IllegalAccessException e) {
                 throw TransformerException.cantCreateTransformer(transformerClass, e);
             }
             if (shouldUseWrapper(transformerClass))
-                transmuter = new WrapperTransmuter(transmuter);
+                transmutation = new WrapperTransmutation(transmutation);
             try {
-                result = (List) transmuter.transform(new AnnotationInvocation(invocation, annotation, result));
+                result = (List) transmutation.transform(new AnnotationInvocation(invocation, annotation, result));
             } catch (Exception e) {
                 throw TransformerException.cantTransform(result, transformerClass, e);
             }
@@ -47,11 +47,11 @@ public class MethodToAnnotationInvocationHandler implements MethodInvocationHand
         return getResult(invocation, result);
     }
 
-    private boolean shouldUseWrapper(Class<? extends Transmuter> transformerClass) {
+    private boolean shouldUseWrapper(Class<? extends Transmutation> transformerClass) {
         try {
             Type[] genericInterfaces = transformerClass.getGenericInterfaces(); // List of interfaces of our transformer
-            ParameterizedType type = (ParameterizedType) genericInterfaces[0]; // expected: Transmuter
-            Type[] actualTypeArguments = type.getActualTypeArguments(); // Array of Transmuter's Generics
+            ParameterizedType type = (ParameterizedType) genericInterfaces[0]; // expected: Transmutation
+            Type[] actualTypeArguments = type.getActualTypeArguments(); // Array of Transmutation's Generics
             Type annotationInvocationType = actualTypeArguments[0];
             Class<?> inputClass = (Class<?>) actualTypeArguments[1]; // second argument is the result
             return !Collection.class.isAssignableFrom(inputClass); // is it a Collection?

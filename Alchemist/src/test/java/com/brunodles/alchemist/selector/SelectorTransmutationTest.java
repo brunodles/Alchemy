@@ -21,9 +21,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @RunWith(JUnit4.class)
-public class SelectorTransmuterTest {
+public class SelectorTransmutationTest {
 
-    private final SelectorTransmuter transformer = new SelectorTransmuter();
+    private final SelectorTransmutation transformer = new SelectorTransmutation();
 
     @Rule
     public MockitoRule mockito = MockitoJUnit.rule();

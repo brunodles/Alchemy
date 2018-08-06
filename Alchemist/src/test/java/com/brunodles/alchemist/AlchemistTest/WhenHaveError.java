@@ -8,7 +8,7 @@ import com.brunodles.alchemist.selector.InvalidSelectorException;
 import com.brunodles.alchemist.selector.MissingSelectorException;
 import com.brunodles.alchemist.selector.Selector;
 import com.brunodles.alchemist.exceptions.TransformerException;
-import com.brunodles.alchemist.transformers.Transformers;
+import com.brunodles.alchemist.transformers.TransmutationsBook;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.core.AllOf;
 import org.junit.Before;
@@ -29,10 +29,10 @@ import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
 public class WhenHaveError {
 
     private final Alchemist alchemist = new Alchemist.Builder()
-            .transformers(new Transformers.Builder()
-                    .add(TransmuterWithPrivateConstructor.class)
-                    .add(TransmuterWithConstructorParameters.class)
-                    .add(TransmuterWithError.class)
+            .transformers(new TransmutationsBook.Builder()
+                    .add(TransmutationWithPrivateConstructor.class)
+                    .add(TransmutationWithConstructorParameters.class)
+                    .add(TransmutationWithError.class)
                     .build())
             .build();
 
@@ -96,7 +96,7 @@ public class WhenHaveError {
     public void withTransformerThatHavePrivateConstructor_shouldThrowInvalidTransformerException() {
         expectedException.expect(TransformerException.class);
         expectedException.expectMessage(
-                "Can't create \"TransmuterWithPrivateConstructor\". Check if it have private constructor or if it's " +
+                "Can't create \"TransmutationWithPrivateConstructor\". Check if it have private constructor or if it's " +
                         "constructor have parameters.");
         expectedException.expectCause(any(IllegalAccessException.class));
 
@@ -107,7 +107,7 @@ public class WhenHaveError {
     public void withTransformerThatConstructorHaveParameters_shouldThrowInvalidTransformerException() {
         expectedException.expect(TransformerException.class);
         expectedException.expectMessage(
-                "Can't create \"TransmuterWithConstructorParameters\". Check if it have private constructor or if " +
+                "Can't create \"TransmutationWithConstructorParameters\". Check if it have private constructor or if " +
                         "it's constructor have parameters.");
         expectedException.expectCause(any(InstantiationException.class));
 
@@ -117,7 +117,7 @@ public class WhenHaveError {
     @Test
     public void withErrorOnTransformer_shouldThrowInvalidTransformerException() {
         expectedException.expect(TransformerException.class);
-        expectedException.expectMessage("The transformer \"TransmuterWithError\" can't transform \"[wow]\".");
+        expectedException.expectMessage("The transformer \"TransmutationWithError\" can't transform \"[wow]\".");
 
         String result = errorModel.transformerWithError();
     }
@@ -137,17 +137,17 @@ public class WhenHaveError {
 
         @Selector("#123")
         @TextCollector
-        @TransmuterWithPrivateConstructor.Annotation
+        @TransmutationWithPrivateConstructor.Annotation
         String transformerWithPrivateConstructor();
 
         @Selector("#123")
         @TextCollector
-        @TransmuterWithConstructorParameters.Annotation
+        @TransmutationWithConstructorParameters.Annotation
         String transformerWithConstructorParameters();
 
         @Selector("#123")
         @TextCollector
-        @TransmuterWithError.Annotation
+        @TransmutationWithError.Annotation
         String transformerWithError();
 
         @Selector("span")

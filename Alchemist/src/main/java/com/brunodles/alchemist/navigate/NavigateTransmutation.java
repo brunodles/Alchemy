@@ -1,14 +1,14 @@
 package com.brunodles.alchemist.navigate;
 
 import com.brunodles.alchemist.AnnotationInvocation;
-import com.brunodles.alchemist.Transmuter;
+import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.transformers.TransformerFor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @TransformerFor(Navigate.class)
-public class NavigateTransmuter<OUTPUT> implements Transmuter<AnnotationInvocation<Navigate, List<String>>,
+public class NavigateTransmutation<OUTPUT> implements Transmutation<AnnotationInvocation<Navigate, List<String>>,
         List<OUTPUT>> {
 
     @Override
