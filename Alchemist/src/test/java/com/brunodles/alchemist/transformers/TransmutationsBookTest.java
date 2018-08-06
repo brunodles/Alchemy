@@ -61,17 +61,17 @@ public class TransmutationsBookTest {
     }
 
     @Test
-    public void whenTransformerForInvalidAnnotation_shouldThrowException() {
+    public void whenAddInvalidTransmutation_shouldThrowException() {
         exceptionRule.expect(IllegalArgumentException.class);
-        exceptionRule.expectMessage("Transmutation is not annotated with \"TransformerFor\" annotation.");
+        exceptionRule.expectMessage("Transmutation should follow these parameters: " +
+                "\"Transmutation<AnnotationInvocation<Annotation, Input>, Output>\"");
 
-        new TransmutationsBook.Builder().add(TransmutationWithoutAnnotation.class);
+        new TransmutationsBook.Builder().add(InvalidTransmutation.class);
     }
 
     @interface UnknownAnnotation {
     }
 
-    @TransformerFor(Selector.class)
     private static class CustomTransmutation
             implements Transmutation<AnnotationInvocation<Selector, Document>, Elements> {
 
@@ -81,11 +81,10 @@ public class TransmutationsBookTest {
         }
     }
 
-    private static class TransmutationWithoutAnnotation
-            implements Transmutation<AnnotationInvocation<Selector, Document>, Elements> {
+    private static class InvalidTransmutation implements Transmutation {
 
         @Override
-        public Elements transform(AnnotationInvocation<Selector, Document> value) {
+        public Object transform(Object value) {
             return null;
         }
     }

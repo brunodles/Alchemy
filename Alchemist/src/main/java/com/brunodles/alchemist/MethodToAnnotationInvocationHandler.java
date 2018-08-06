@@ -1,9 +1,12 @@
 package com.brunodles.alchemist;
 
+import com.brunodles.glimmer.ClassGlimmer;
 import com.brunodles.alchemist.exceptions.ResultException;
 import com.brunodles.alchemist.selector.MissingSelectorException;
 import com.brunodles.alchemist.exceptions.TransformerException;
 import com.brunodles.alchemist.transformers.TransmutationsBook;
+import com.brunodles.glimmer.Glimmer;
+import com.brunodles.glimmer.TypeGlimmer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;

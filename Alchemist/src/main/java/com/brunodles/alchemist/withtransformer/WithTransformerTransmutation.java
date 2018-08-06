@@ -3,12 +3,10 @@ package com.brunodles.alchemist.withtransformer;
 import com.brunodles.alchemist.AnnotationInvocation;
 import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.exceptions.TransformerException;
-import com.brunodles.alchemist.transformers.TransformerFor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@TransformerFor(WithTransformer.class)
 public class WithTransformerTransmutation<INPUT, OUTPUT> implements
         Transmutation<AnnotationInvocation<WithTransformer, List<INPUT>>, List<OUTPUT>> {
 

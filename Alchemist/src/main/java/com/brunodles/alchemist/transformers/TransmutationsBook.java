@@ -12,6 +12,8 @@ import com.brunodles.alchemist.withtransformer.WithTransformerTransmutation;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +56,18 @@ public final class TransmutationsBook {
             defaultTransformers();
         }
 
+        private static Class getAnnotationClass(Class targetClass) {
+            try {
+                Type[] genericInterfaces = targetClass.getGenericInterfaces();
+                ParameterizedType type = (ParameterizedType) genericInterfaces[0];
+                Type[] actualTypeArguments = type.getActualTypeArguments();
+                ParameterizedType annotationInvocationType = (ParameterizedType) actualTypeArguments[0];
+                return (Class) annotationInvocationType.getActualTypeArguments()[0];
+            } catch (Exception e) {
+                return null;
+            }
+        }
+
         private void defaultTransformers() {
             add(SelectorTransmutation.class);
             add(TextCollectorTransmutation.class);
@@ -65,21 +79,24 @@ public final class TransmutationsBook {
         }
 
         /**
-         * Add a transformer to a map of transmutationsBook.<br> This method will use the value of
-         * {@link TransformerFor} annotation as a key. With this you can override the default transmutationsBook.
+         * Add a Transmutation to a map of Transmutations.<br> This method will figure out the annotation to use it as a
+         * key. With this you can override the default Transmutations.
          *
-         * @param transformer A Transmutation class annotated with {@link TransformerFor}
+         * <p>The transmutation should implement this {@code Transmutation<AnnotationInvocation<Annotation, Input>,
+         * Output>}.
+         *
+         * @param transformer A Transmutation class implementing the pattern annotation invocation
          * @return The current builder instance
          */
         @NotNull
         public Builder add(Class<? extends Transmutation> transformer) {
             if (transformer == null)
                 throw new IllegalArgumentException("Null is not a valid transformer.");
-            TransformerFor transformerFor = transformer.getAnnotation(TransformerFor.class);
-            if (transformerFor == null)
-                throw new IllegalArgumentException(
-                        "Transmutation is not annotated with \"TransformerFor\" annotation.");
-            Class<? extends Annotation> targetAnnotation = transformerFor.value();
+            Class<? extends Annotation> targetAnnotation = getAnnotationClass(transformer);
+            if (targetAnnotation == null)
+                throw new IllegalArgumentException("Transmutation should follow these parameters: " +
+                        "\"Transmutation<AnnotationInvocation<Annotation, Input>, Output>\"");
+
             transformerMap.put(targetAnnotation, transformer);
             return this;
         }

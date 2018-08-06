@@ -2,10 +2,8 @@ package com.brunodles.alchemist.collectors;
 
 import com.brunodles.alchemist.AnnotationInvocation;
 import com.brunodles.alchemist.Transmutation;
-import com.brunodles.alchemist.transformers.TransformerFor;
 import org.jsoup.nodes.Element;
 
-@TransformerFor(AttrCollector.class)
 public class AttrCollectorTransmutation implements Transmutation<AnnotationInvocation<AttrCollector, Element>, String> {
 
     @Override

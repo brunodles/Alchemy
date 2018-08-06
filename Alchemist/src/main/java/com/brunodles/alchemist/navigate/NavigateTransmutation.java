@@ -2,12 +2,10 @@ package com.brunodles.alchemist.navigate;
 
 import com.brunodles.alchemist.AnnotationInvocation;
 import com.brunodles.alchemist.Transmutation;
-import com.brunodles.alchemist.transformers.TransformerFor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@TransformerFor(Navigate.class)
 public class NavigateTransmutation<OUTPUT> implements Transmutation<AnnotationInvocation<Navigate, List<String>>,
         List<OUTPUT>> {
 
