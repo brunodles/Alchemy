@@ -91,8 +91,8 @@ public final class TransmutationsBook {
                 throw new IllegalArgumentException("Null is not a valid transformer.");
             Class<? extends Annotation> targetAnnotation = getAnnotationClass(transformer);
             if (targetAnnotation == null)
-                throw new IllegalArgumentException("Transmutation should follow these parameters: " +
-                        "\"Transmutation<AnnotationInvocation<Annotation, Input>, Output>\"");
+                throw new IllegalArgumentException("Transmutation should follow these parameters: "
+                        + "\"Transmutation<AnnotationInvocation<Annotation, Input>, Output>\"");
 
             transformerMap.put(targetAnnotation, transformer);
             return this;
