@@ -66,7 +66,7 @@ public class TransmutationsBookTest {
     public void whenAddInvalidTransmutation_shouldThrowException() {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("Transmutation should follow these parameters: " +
-                "\"Transmutation<AnnotationInvocation<Annotation, Input>, Output>\"");
+                "\"AnnotationTransmutation<Annotation, Input, Output>\"");
 
         new TransmutationsBook.Builder().add(InvalidTransmutation.class);
     }
@@ -83,7 +83,7 @@ public class TransmutationsBookTest {
         }
     }
 
-    private static class InvalidTransmutation implements Transmutation {
+    private static class InvalidTransmutation implements AnnotationTransmutation {
 
         @Override
         public Object transform(Object value) {

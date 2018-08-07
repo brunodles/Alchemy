@@ -9,11 +9,10 @@ import com.brunodles.alchemist.selector.SelectorTransmutation;
 import com.brunodles.alchemist.stringformat.StringFormatTransmutation;
 import com.brunodles.alchemist.usevalueof.UseValueOfTransmutation;
 import com.brunodles.alchemist.withtransformer.WithTransformerTransmutation;
+import com.brunodles.glimmer.Glimmer;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,18 +48,20 @@ public final class TransmutationsBook {
     }
 
     public static class Builder {
-        private final Map<Class<? extends Annotation>, Class<? extends Transmutation>> transformerMap;
+        private final Map<Class<? extends Annotation>, Class<? extends AnnotationTransmutation>> transformerMap;
 
         public Builder() {
             transformerMap = new HashMap<>();
             defaultTransformers();
         }
 
-        private static Class getAnnotationClass(Class targetClass) {
+        private static Class getAnnotationClass(Class<? extends AnnotationTransmutation> targetClass) {
             try {
-                Type[] genericInterfaces = targetClass.getGenericInterfaces();
-                ParameterizedType type = (ParameterizedType) genericInterfaces[0];
-                return (Class) type.getActualTypeArguments()[0];
+                return Glimmer.forClass(targetClass)
+                        .getTypeForGenericInterface(AnnotationTransmutation.class)
+                        .asParameterizedType()
+                        .arguments()[0]
+                        .asClass();
             } catch (Exception e) {
                 return null;
             }
@@ -87,13 +88,13 @@ public final class TransmutationsBook {
          * @return The current builder instance
          */
         @NotNull
-        public Builder add(Class<? extends Transmutation> transformer) {
+        public Builder add(Class<? extends AnnotationTransmutation> transformer) {
             if (transformer == null)
                 throw new IllegalArgumentException("Null is not a valid transformer.");
             Class<? extends Annotation> targetAnnotation = getAnnotationClass(transformer);
             if (targetAnnotation == null)
                 throw new IllegalArgumentException("Transmutation should follow these parameters: "
-                        + "\"Transmutation<AnnotationInvocation<Annotation, Input>, Output>\"");
+                        + "\"AnnotationTransmutation<Annotation, Input, Output>\"");
 
             transformerMap.put(targetAnnotation, transformer);
             return this;
