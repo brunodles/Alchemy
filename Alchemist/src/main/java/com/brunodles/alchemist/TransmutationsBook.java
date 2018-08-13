@@ -19,9 +19,9 @@ import java.util.Map;
 
 public final class TransmutationsBook {
 
-    private final Map<Class<? extends Annotation>, Class<? extends Transmutation>> transformerMap;
+    private final Map<Class<? extends Annotation>, AnnotationTransmutation> transformerMap;
 
-    private TransmutationsBook(Map<Class<? extends Annotation>, Class<? extends Transmutation>> transmutationMap) {
+    private TransmutationsBook(Map<Class<? extends Annotation>, AnnotationTransmutation> transmutationMap) {
         this.transformerMap = transmutationMap;
     }
 
@@ -33,9 +33,9 @@ public final class TransmutationsBook {
      * @return a transformer class
      */
     @NotNull
-    public Class<? extends Transmutation> transmutationFor(Annotation annotation) {
-        Class<? extends Transmutation> transformerClass = null;
-        for (Map.Entry<Class<? extends Annotation>, Class<? extends Transmutation>> entry : transformerMap.entrySet()) {
+    public AnnotationTransmutation transmutationFor(Annotation annotation) {
+        AnnotationTransmutation transformerClass = null;
+        for (Map.Entry<Class<? extends Annotation>, AnnotationTransmutation> entry : transformerMap.entrySet()) {
             if (entry.getKey().isInstance(annotation)) {
                 transformerClass = entry.getValue();
                 break;
@@ -48,7 +48,7 @@ public final class TransmutationsBook {
     }
 
     public static class Builder {
-        private final Map<Class<? extends Annotation>, Class<? extends AnnotationTransmutation>> transformerMap;
+        private final Map<Class<? extends Annotation>, AnnotationTransmutation> transformerMap;
 
         public Builder() {
             transformerMap = new HashMap<>();
@@ -68,14 +68,14 @@ public final class TransmutationsBook {
         }
 
         private void defaultTransformers() {
-            add(SelectorTransmutation.class);
-            add(TextCollectorTransmutation.class);
-            add(AttrCollectorTransmutation.class);
-            add(WithTransformerTransmutation.class);
-            add(NestedTransmutation.class);
-            add(NavigateTransmutation.class);
-            add(UseValueOfTransmutation.class);
-            add(StringFormatTransmutation.class);
+            add(new SelectorTransmutation());
+            add(new TextCollectorTransmutation());
+            add(new AttrCollectorTransmutation());
+            add(new WithTransformerTransmutation());
+            add(new NestedTransmutation());
+            add(new NavigateTransmutation());
+            add(new UseValueOfTransmutation());
+            add(new StringFormatTransmutation());
         }
 
         /**
@@ -88,10 +88,10 @@ public final class TransmutationsBook {
          * @return The current builder instance
          */
         @NotNull
-        public Builder add(Class<? extends AnnotationTransmutation> transformer) {
+        public Builder add(AnnotationTransmutation transformer) {
             if (transformer == null)
                 throw new IllegalArgumentException("Null is not a valid transformer.");
-            Class<? extends Annotation> targetAnnotation = getAnnotationClass(transformer);
+            Class<? extends Annotation> targetAnnotation = getAnnotationClass(transformer.getClass());
             if (targetAnnotation == null)
                 throw new IllegalArgumentException("Transmutation should follow these parameters: "
                         + "\"AnnotationTransmutation<Annotation, Input, Output>\"");

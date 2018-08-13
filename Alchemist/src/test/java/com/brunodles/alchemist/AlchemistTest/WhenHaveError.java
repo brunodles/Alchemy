@@ -30,9 +30,7 @@ public class WhenHaveError {
 
     private final Alchemist alchemist = new Alchemist.Builder()
             .transformers(new TransmutationsBook.Builder()
-                    .add(TransmutationWithPrivateConstructor.class)
-                    .add(TransmutationWithConstructorParameters.class)
-                    .add(TransmutationWithError.class)
+                    .add(new TransmutationWithError())
                     .build())
             .build();
 
@@ -93,28 +91,6 @@ public class WhenHaveError {
     }
 
     @Test
-    public void withTransformerThatHavePrivateConstructor_shouldThrowInvalidTransformerException() {
-        expectedException.expect(TransformerException.class);
-        expectedException.expectMessage(
-                "Can't create \"TransmutationWithPrivateConstructor\". Check if it have private constructor or if it's " +
-                        "constructor have parameters.");
-        expectedException.expectCause(any(IllegalAccessException.class));
-
-        String result = errorModel.transformerWithPrivateConstructor();
-    }
-
-    @Test
-    public void withTransformerThatConstructorHaveParameters_shouldThrowInvalidTransformerException() {
-        expectedException.expect(TransformerException.class);
-        expectedException.expectMessage(
-                "Can't create \"TransmutationWithConstructorParameters\". Check if it have private constructor or if " +
-                        "it's constructor have parameters.");
-        expectedException.expectCause(any(InstantiationException.class));
-
-        String result = errorModel.transformerWithConstructorParameters();
-    }
-
-    @Test
     public void withErrorOnTransformer_shouldThrowInvalidTransformerException() {
         expectedException.expect(TransformerException.class);
         expectedException.expectMessage("The transformer \"TransmutationWithError\" can't transform \"[wow]\".");
@@ -134,16 +110,6 @@ public class WhenHaveError {
         @Selector("#123")
         @TextCollector
         void invalidResult();
-
-        @Selector("#123")
-        @TextCollector
-        @TransmutationWithPrivateConstructor.Annotation
-        String transformerWithPrivateConstructor();
-
-        @Selector("#123")
-        @TextCollector
-        @TransmutationWithConstructorParameters.Annotation
-        String transformerWithConstructorParameters();
 
         @Selector("#123")
         @TextCollector

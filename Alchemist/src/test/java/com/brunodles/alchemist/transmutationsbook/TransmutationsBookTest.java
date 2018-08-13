@@ -2,7 +2,6 @@ package com.brunodles.alchemist.transmutationsbook;
 
 import com.brunodles.alchemist.AnnotationInvocation;
 import com.brunodles.alchemist.AnnotationTransmutation;
-import com.brunodles.alchemist.Transmutation;
 import com.brunodles.alchemist.TransmutationsBook;
 import com.brunodles.alchemist.collectors.AttrCollector;
 import com.brunodles.alchemist.collectors.TextCollector;
@@ -20,8 +19,8 @@ import org.junit.runners.JUnit4;
 import javax.lang.model.util.Elements;
 import java.lang.annotation.Annotation;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
 @RunWith(JUnit4.class)
@@ -49,9 +48,12 @@ public class TransmutationsBookTest {
 
     @Test
     public void whenCustomTransformer_whenBuild_shouldOverrideDefaultOne() {
-        TransmutationsBook transmutationsBook = new TransmutationsBook.Builder().add(CustomTransmutation.class).build();
-        Class<? extends Transmutation> transformerClass = transmutationsBook.transmutationFor(mock(Selector.class));
-        assertEquals(CustomTransmutation.class, transformerClass);
+        CustomTransmutation transmutation = new CustomTransmutation();
+        TransmutationsBook transmutationsBook = new TransmutationsBook.Builder().add(transmutation).build();
+
+        AnnotationTransmutation result = transmutationsBook.transmutationFor(mock(Selector.class));
+
+        assertSame(transmutation, result);
     }
 
     @Test
@@ -68,7 +70,7 @@ public class TransmutationsBookTest {
         exceptionRule.expectMessage("Transmutation should follow these parameters: " +
                 "\"AnnotationTransmutation<Annotation, Input, Output>\"");
 
-        new TransmutationsBook.Builder().add(InvalidTransmutation.class);
+        new TransmutationsBook.Builder().add(new InvalidTransmutation());
     }
 
     @interface UnknownAnnotation {

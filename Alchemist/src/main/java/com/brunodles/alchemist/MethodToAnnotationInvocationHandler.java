@@ -29,19 +29,14 @@ public class MethodToAnnotationInvocationHandler implements MethodInvocationHand
             throw ResultException.voidReturn();
         List result = null;
         for (Annotation annotation : annotations) {
-            Class<? extends Transmutation> transformerClass = transmutationsBook.transmutationFor(annotation);
-            Transmutation transmutation;
-            try {
-                transmutation = transformerClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw TransformerException.cantCreateTransformer(transformerClass, e);
-            }
-            if (shouldUseWrapper(transformerClass))
+            Transmutation transmutation = transmutationsBook.transmutationFor(annotation);
+            Class<? extends Transmutation> transmutationClass = transmutation.getClass();
+            if (shouldUseWrapper(transmutationClass))
                 transmutation = new WrapperTransmutation(transmutation);
             try {
                 result = (List) transmutation.transform(new AnnotationInvocation(invocation, annotation, result));
             } catch (Exception e) {
-                throw TransformerException.cantTransform(result, transformerClass, e);
+                throw TransformerException.cantTransform(result, transmutationClass, e);
             }
         }
         return getResult(invocation, result);

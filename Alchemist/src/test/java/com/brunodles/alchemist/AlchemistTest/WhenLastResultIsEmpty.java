@@ -21,7 +21,7 @@ public class WhenLastResultIsEmpty {
 
     Alchemist alchemist = new Alchemist.Builder()
             .transformers(new TransmutationsBook.Builder()
-                    .add(EmptyTransmutation.class)
+                    .add(new EmptyTransmutation())
                     .build())
             .build();
 
