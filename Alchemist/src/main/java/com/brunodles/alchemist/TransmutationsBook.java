@@ -5,6 +5,7 @@ import com.brunodles.alchemist.collectors.TextCollectorTransmutation;
 import com.brunodles.alchemist.exceptions.TransformerException;
 import com.brunodles.alchemist.navigate.NavigateTransmutation;
 import com.brunodles.alchemist.nested.NestedTransmutation;
+import com.brunodles.alchemist.regex.RegexTransmutation;
 import com.brunodles.alchemist.selector.SelectorTransmutation;
 import com.brunodles.alchemist.stringformat.StringFormatTransmutation;
 import com.brunodles.alchemist.usevalueof.UseValueOfTransmutation;
@@ -76,6 +77,7 @@ public final class TransmutationsBook {
             add(new NavigateTransmutation());
             add(new UseValueOfTransmutation());
             add(new StringFormatTransmutation());
+            add(new RegexTransmutation());
         }
 
         /**
