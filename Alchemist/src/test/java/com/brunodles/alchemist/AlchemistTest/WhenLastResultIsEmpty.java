@@ -1,9 +1,9 @@
 package com.brunodles.alchemist.AlchemistTest;
 
 import com.brunodles.alchemist.Alchemist;
-import com.brunodles.alchemist.Transmuter;
-import com.brunodles.alchemist.transformers.TransformerFor;
-import com.brunodles.alchemist.transformers.Transformers;
+import com.brunodles.alchemist.AnnotationInvocation;
+import com.brunodles.alchemist.AnnotationTransmutation;
+import com.brunodles.alchemist.TransmutationsBook;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,13 +14,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(JUnit4.class)
 public class WhenLastResultIsEmpty {
 
     Alchemist alchemist = new Alchemist.Builder()
-            .transformers(new Transformers.Builder()
-                    .add(EmptyTransmuter.class)
+            .transformers(new TransmutationsBook.Builder()
+                    .add(new EmptyTransmutation())
                     .build())
             .build();
 
@@ -40,11 +41,11 @@ public class WhenLastResultIsEmpty {
         String empty();
     }
 
-    @TransformerFor(EmptyList.class)
-    public static class EmptyTransmuter implements Transmuter {
+    public static class EmptyTransmutation
+            implements AnnotationTransmutation<EmptyList, List<Object>, List<Object>> {
 
         @Override
-        public Object transform(Object value) {
+        public List<Object> transform(AnnotationInvocation<EmptyList, List<Object>> value) {
             return new ArrayList<>();
         }
     }

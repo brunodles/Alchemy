@@ -1,7 +1,6 @@
 package com.brunodles.alchemist;
 
 import com.brunodles.alchemist.exceptions.ResolverException;
-import com.brunodles.alchemist.transformers.Transformers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
@@ -39,7 +38,7 @@ public class Alchemist {
      * Parses the content from {@code url} into the {@code interfaceClass}.
      *
      * @param url            a url for the page wanted
-     * @param interfaceClass an interface with method annotated with transformers
+     * @param interfaceClass an interface with method annotated with transmutationsBook
      * @param <T>            Returning Type
      * @return A proxy to read the page content.
      */
@@ -58,7 +57,7 @@ public class Alchemist {
      * Parses an {@code html} into {@code interfaceClass}.
      *
      * @param html           a html page to be used
-     * @param interfaceClass an interface with method annotated with transformers
+     * @param interfaceClass an interface with method annotated with transmutationsBook
      * @param <T>            Returning Type
      * @return A proxy to read the {@code html} content
      */
@@ -73,7 +72,7 @@ public class Alchemist {
      * Parses the {@code element} into {@code interfaceClass}. This method is used internally.
      *
      * @param element        a jSoup Element
-     * @param interfaceClass an interface with method annotated with transformers
+     * @param interfaceClass an interface with method annotated with transmutationsBook
      * @param <T>            Returning Type
      * @return A proxy to read the {@code element}
      */
@@ -86,12 +85,12 @@ public class Alchemist {
 
     /**
      * A builder for {@link Alchemist}.<br> This builder will let change some configurations of Alchemist: <ul>
-     * <li>{@link Transmuter}s - this will allow you to add your custom annotations</li> <li>{@link ClassLoader} - in
+     * <li>{@link Transmutation}s - this will allow you to add your custom annotations</li> <li>{@link ClassLoader} - in
      * some environments Alchemist can't find the interface class</li> <li>{@link UriFetcher} - provide how to fetch
      * URI. With this you can create caches, change how to follow redirects.</li> </ul>
      */
     public static class Builder {
-        private Transformers transformers;
+        private TransmutationsBook transmutationsBook;
         private ClassLoader classLoader;
         private UriFetcher uriFetcher;
 
@@ -101,12 +100,12 @@ public class Alchemist {
         }
 
         @NotNull
-        static Transformers defaultTransformers() {
-            return new Transformers.Builder().build();
+        static TransmutationsBook defaultTransformers() {
+            return new TransmutationsBook.Builder().build();
         }
 
-        public Builder transformers(Transformers builder) {
-            this.transformers = builder;
+        public Builder transformers(TransmutationsBook builder) {
+            this.transmutationsBook = builder;
             return this;
         }
 
@@ -128,9 +127,9 @@ public class Alchemist {
         public Alchemist build() {
             if (uriFetcher == null)
                 uriFetcher = defaultUriResolver();
-            if (transformers == null)
-                transformers = defaultTransformers();
-            return new Alchemist(new MethodToAnnotationInvocationHandler(transformers), uriFetcher, classLoader);
+            if (transmutationsBook == null)
+                transmutationsBook = defaultTransformers();
+            return new Alchemist(new MethodToAnnotationInvocationHandler(transmutationsBook), uriFetcher, classLoader);
         }
     }
 }

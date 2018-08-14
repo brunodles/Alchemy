@@ -1,8 +1,7 @@
 package com.brunodles.alchemist.usevalueof;
 
 import com.brunodles.alchemist.AnnotationInvocation;
-import com.brunodles.alchemist.Transmuter;
-import com.brunodles.alchemist.transformers.TransformerFor;
+import com.brunodles.alchemist.AnnotationTransmutation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,9 +9,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-@TransformerFor(UseValueOf.class)
-public class UseValueOfTransmuter<OUTPUT> implements Transmuter<AnnotationInvocation<UseValueOf, List<String>>,
-        List<OUTPUT>> {
+public class UseValueOfTransmutation<OUTPUT>
+        implements AnnotationTransmutation<UseValueOf, List<String>, List<OUTPUT>> {
 
     private static final String METHOD_NAME = "valueOf";
 

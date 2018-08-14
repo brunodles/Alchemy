@@ -1,7 +1,8 @@
-package com.brunodles.alchemist.transformers;
+package com.brunodles.alchemist.transmutationsbook;
 
 import com.brunodles.alchemist.AnnotationInvocation;
-import com.brunodles.alchemist.Transmuter;
+import com.brunodles.alchemist.AnnotationTransmutation;
+import com.brunodles.alchemist.TransmutationsBook;
 import com.brunodles.alchemist.collectors.AttrCollector;
 import com.brunodles.alchemist.collectors.TextCollector;
 import com.brunodles.alchemist.navigate.Navigate;
@@ -18,12 +19,12 @@ import org.junit.runners.JUnit4;
 import javax.lang.model.util.Elements;
 import java.lang.annotation.Annotation;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
 @RunWith(JUnit4.class)
-public class TransformersTest {
+public class TransmutationsBookTest {
 
     @SuppressWarnings("unchecked")
     private static final Class<? extends Annotation>[] DEFAULT_ANNOTATIONS = new Class[]{
@@ -39,17 +40,20 @@ public class TransformersTest {
 
     @Test
     public void whenBuild_shouldHaveDefaultAnnotations() {
-        Transformers transformers = new Transformers.Builder().build();
+        TransmutationsBook transmutationsBook = new TransmutationsBook.Builder().build();
 
         for (Class<? extends Annotation> annotation : DEFAULT_ANNOTATIONS)
-            assertNotNull(transformers.transformerFor(mock(annotation)));
+            assertNotNull(transmutationsBook.transmutationFor(mock(annotation)));
     }
 
     @Test
     public void whenCustomTransformer_whenBuild_shouldOverrideDefaultOne() {
-        Transformers transformers = new Transformers.Builder().add(CustomTransmuter.class).build();
-        Class<? extends Transmuter> transformerClass = transformers.transformerFor(mock(Selector.class));
-        assertEquals(CustomTransmuter.class, transformerClass);
+        CustomTransmutation transmutation = new CustomTransmutation();
+        TransmutationsBook transmutationsBook = new TransmutationsBook.Builder().add(transmutation).build();
+
+        AnnotationTransmutation result = transmutationsBook.transmutationFor(mock(Selector.class));
+
+        assertSame(transmutation, result);
     }
 
     @Test
@@ -57,22 +61,23 @@ public class TransformersTest {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("Null is not a valid transformer.");
 
-        new Transformers.Builder().add(null);
+        new TransmutationsBook.Builder().add(null);
     }
 
     @Test
-    public void whenTransformerForInvalidAnnotation_shouldThrowException() {
+    public void whenAddInvalidTransmutation_shouldThrowException() {
         exceptionRule.expect(IllegalArgumentException.class);
-        exceptionRule.expectMessage("Transmuter is not annotated with \"TransformerFor\" annotation.");
+        exceptionRule.expectMessage("Transmutation should follow these parameters: " +
+                "\"AnnotationTransmutation<Annotation, Input, Output>\"");
 
-        new Transformers.Builder().add(TransmuterWithoutAnnotation.class);
+        new TransmutationsBook.Builder().add(new InvalidTransmutation());
     }
 
     @interface UnknownAnnotation {
     }
 
-    @TransformerFor(Selector.class)
-    private static class CustomTransmuter implements Transmuter<AnnotationInvocation<Selector, Document>, Elements> {
+    private static class CustomTransmutation
+            implements AnnotationTransmutation<Selector, Document, Elements> {
 
         @Override
         public Elements transform(AnnotationInvocation<Selector, Document> value) {
@@ -80,11 +85,10 @@ public class TransformersTest {
         }
     }
 
-    private static class TransmuterWithoutAnnotation
-            implements Transmuter<AnnotationInvocation<Selector, Document>, Elements> {
+    private static class InvalidTransmutation implements AnnotationTransmutation {
 
         @Override
-        public Elements transform(AnnotationInvocation<Selector, Document> value) {
+        public Object transform(Object value) {
             return null;
         }
     }

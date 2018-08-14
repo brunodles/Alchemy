@@ -1,12 +1,10 @@
 package com.brunodles.alchemist.selector;
 
 import com.brunodles.alchemist.AnnotationInvocation;
-import com.brunodles.alchemist.Transmuter;
-import com.brunodles.alchemist.transformers.TransformerFor;
+import com.brunodles.alchemist.AnnotationTransmutation;
 import org.jsoup.select.Elements;
 
-@TransformerFor(Selector.class)
-public class SelectorTransmuter implements Transmuter<AnnotationInvocation<Selector, Elements>, Elements> {
+public class SelectorTransmutation implements AnnotationTransmutation<Selector, Elements, Elements> {
 
     @Override
     public Elements transform(AnnotationInvocation<Selector, Elements> value) {

@@ -4,6 +4,7 @@ import com.brunodles.alchemist.Alchemist;
 import com.brunodles.alchemist.collectors.AttrCollector;
 import com.brunodles.alchemist.collectors.TextCollector;
 import com.brunodles.alchemist.doubles.TransformToFloat;
+import com.brunodles.alchemist.regex.Regex;
 import com.brunodles.alchemist.selector.Selector;
 import com.brunodles.alchemist.usevalueof.UseValueOf;
 import com.brunodles.alchemist.withtransformer.WithTransformer;
@@ -94,6 +95,11 @@ public class WhenParseSimpleHtml {
         assertEquals(0.13D, simpleModel.doubleValue(), 0.01D);
     }
 
+    @Test
+    public void shouldBeAbleToExtractContentFromAString() {
+        assertEquals("Parser", simpleModel.titleRegex());
+    }
+
     public interface SimpleModel {
 
         @Selector("#123")
@@ -121,5 +127,10 @@ public class WhenParseSimpleHtml {
         @AttrCollector("data-value")
         @UseValueOf
         Double doubleValue();
+
+        @Selector("head title")
+        @TextCollector
+        @Regex("\\s(\\w+)")
+        String titleRegex();
     }
 }
