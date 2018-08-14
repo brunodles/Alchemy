@@ -16,8 +16,8 @@ allprojects {
 def gitPath = "github.com/brunodles/Alchemy"
 ext.publishingRoot = [
         group          : "com.brunodles",
-        version        : '2.0.0',
-        repo           : "TempRepo",
+        version        : '2.1.0',
+        repo           : "releases",
         name           : "Alchemy",
         artifact       : "alchemy",
         gitPath        : gitPath,
