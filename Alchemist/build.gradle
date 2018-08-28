@@ -34,3 +34,4 @@ ext.publishing = rootProject.publishingRoot.clone() + [
         name    : "${publishingRoot.name} Alchemist"
 ]
 apply from: rootProject.file('gradle/publish.gradle')
+apply from: "${rootDir}/gradle/resource_helper.gradle"
